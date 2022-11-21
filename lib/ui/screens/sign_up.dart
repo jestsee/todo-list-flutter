@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:todo_list/ui/validator/validator.dart';
+import 'package:todo_list/utils.dart';
 
 class SignUp extends HookWidget {
   const SignUp({super.key});
@@ -35,12 +36,15 @@ class SignUp extends HookWidget {
               'Sign Up',
               style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             const Text('Please fill the details to create account'),
+            const SizedBox(height: 32),
             Form(
                 key: formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Column(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  runSpacing: 12,
                   children: <Widget>[
                     TextFormField(
                       controller: nameController,
@@ -72,11 +76,12 @@ class SignUp extends HookWidget {
                     ),
                     TextFormField(
                       controller: passwordConfirmController,
-                      validator: (((value) => value != passwordController.text ? 'ga match' : null)),
+                      validator: (((value) => validator.passwordNotMatch(
+                          value!, passwordController.text))),
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
-                              onPressed: (() =>
-                                  hideConfirmPassword.value = !hideConfirmPassword.value),
+                              onPressed: (() => hideConfirmPassword.value =
+                                  !hideConfirmPassword.value),
                               icon: const Icon(Icons.remove_red_eye)),
                           icon: const Icon(Icons.lock_outline),
                           labelText: 'Confirm Password *'),
@@ -84,9 +89,13 @@ class SignUp extends HookWidget {
                     ),
                   ],
                 )),
+            const SizedBox(height: 28),
             ElevatedButton(
-              onPressed: () {},
-              child: const Text('Submit'),
+              onPressed: () {
+                if (!formKey.currentState!.validate()) return;
+                context.showSnackBar(message: 'cihuy');
+              },
+              child: const Text('Sign Up'),
             )
           ],
         ),
