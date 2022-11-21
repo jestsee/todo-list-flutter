@@ -13,6 +13,10 @@ class AuthRepository implements AuthBaseRepository {
   const AuthRepository(this._ref);
 
   @override
+  Stream<AuthState> get authStateChanges =>
+      _ref.read(supabaseClientProvider).auth.onAuthStateChange;
+
+  @override
   Future<void> signUpUser(String email, String password) async {
     try {
       await _ref
