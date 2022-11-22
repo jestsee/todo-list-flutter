@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:string_validator/string_validator.dart';
 import 'package:todo_list/ui/validator/validation_message.dart';
 
