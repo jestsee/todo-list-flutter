@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:todo_list/hooks/use_sign_up.dart';
-import 'package:todo_list/ui/validator/validator.dart';
+import 'package:reactive_forms/reactive_forms.dart';
+import 'package:todo_list/ui/validator/validation_message.dart' as v;
 import 'package:todo_list/utils.dart';
 
 class SignUp extends HookWidget {
@@ -11,9 +11,16 @@ class SignUp extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fields = useSignUp();
-    final formKey = useMemoized(GlobalKey<FormState>.new, const []);
-    final validator = useMemoized(() => Validator());
+    final msg = useMemoized(() => const v.ValidationMessage());
+    final hidePassword = useState(true);
+    final hidePasswordConfirm = useState(true);
+    final form = FormGroup({
+      'name': FormControl<String>(validators: [Validators.required]),
+      'email': FormControl<String>(
+          validators: [Validators.required, Validators.email]),
+      'password': FormControl<String>(
+          validators: [Validators.required, Validators.minLength(6)])
+    });
 
     return Scaffold(
       appBar: AppBar(title: const Text('Sign Up')),
@@ -30,67 +37,52 @@ class SignUp extends HookWidget {
             // const SizedBox(height: 16),
             const Text('Please fill the details to create account'),
             // const SizedBox(height: 32),
-            Form(
-                key: formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Wrap(
-                  alignment: WrapAlignment.center,
+            ReactiveForm(
+                formGroup: form,
+                child: Column(
                   children: <Widget>[
-                    TextFormField(
-                      controller: fields.name.controller,
-                      focusNode: fields.name.focus,
-                      validator: ((value) => fields.name.touched.value
-                          ? validator.name(value!)
-                          : null),
+                    ReactiveTextField(
+                      formControlName: 'name',
+                      validationMessages: {
+                        'required': (_) => msg.required('Name')
+                      },
                       decoration: const InputDecoration(
                           icon: Icon(Icons.person),
                           hintText: 'John Doe',
                           labelText: 'Name *'),
                     ),
-                    TextFormField(
-                      controller: fields.email.controller,
-                      focusNode: fields.email.focus,
-                      validator: ((value) => fields.email.touched.value
-                          ? validator.email(value!)
-                          : null),
+                    ReactiveTextField(
+                      formControlName: 'email',
+                      validationMessages: {
+                        'required': (_) => msg.required('Email'),
+                        'email': (_) => msg.email()
+                      },
                       decoration: const InputDecoration(
                           icon: Icon(Icons.email),
                           hintText: 'example@mail.com',
                           labelText: 'Email *'),
                     ),
-                    TextFormField(
-                      controller: fields.password.controller,
-                      focusNode: fields.password.focus,
-                      validator: (((value) => fields.password.touched.value
-                          ? validator.password(value!)
-                          : null)),
+                    ReactiveTextField(
+                      formControlName: 'password',
+                      obscureText: hidePassword.value,
+                      validationMessages: {
+                        'required': (_) => msg.required('Password'),
+                        'minLength': (error) => msg.minLength(
+                            'Password', (error as Map)['requiredLength'])
+                      },
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
-                              onPressed: () => fields.togglePassword(),
+                              onPressed: (() =>
+                                  hidePassword.value = !hidePassword.value),
                               icon: const Icon(Icons.remove_red_eye)),
                           icon: const Icon(Icons.lock),
                           labelText: 'Password *'),
-                      obscureText: fields.hidePassword,
-                    ),
-                    TextFormField(
-                      controller: fields.passwordConfirm.controller,
-                      focusNode: fields.passwordConfirm.focus,
-                      validator: (((value) => validator.passwordNotMatch(
-                          value!, fields.password.controller.text))),
-                      decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                              onPressed: (() => fields.toggleConfirmPassword()),
-                              icon: const Icon(Icons.remove_red_eye)),
-                          icon: const Icon(Icons.lock_outline),
-                          labelText: 'Confirm Password *'),
-                      obscureText: fields.hideConfirmPassword,
                     ),
                   ],
                 )),
-            // const SizedBox(height: 28),
             ElevatedButton(
               onPressed: () {
-                if (!formKey.currentState!.validate()) return;
+                print(form.value);
                 context.showSnackBar(message: 'cihuy');
               },
               child: const Text('Sign Up'),
@@ -104,3 +96,4 @@ class SignUp extends HookWidget {
 
 // TODO uninstall string validator?
 // TODO kalo udah install riverpod_hooks yg flutter_hooks di-uninstall aja?
+// TODO refactor pisahin widget untuk form sendiri
