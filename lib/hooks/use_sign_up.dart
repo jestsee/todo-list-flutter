@@ -6,7 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 // controller - name, email, password, password confirm
 // focus - name, email, password, password confirm
 // password sama password confirm ada state buat hide/show
-
+// TODO kayaknya bisa dihapus aja
 class BaseField {
   final TextEditingController controller;
   final focus = useMemoized(() => FocusNode());
