@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:todo_list/ui/screens/home/home.dart';
+import 'package:todo_list/routes/routes.dart';
 
 Future main() async {
   await dotenv.load(fileName: '.env');
@@ -17,10 +17,11 @@ class MyApp extends StatelessWidget {
     return ProviderScope(
       child: MaterialApp(
         title: 'Todo List Flutter',
+        initialRoute: '/',
+        routes: customRoutes,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const Home(),
       ),
     );
   }
