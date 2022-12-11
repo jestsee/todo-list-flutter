@@ -36,10 +36,12 @@ class AuthRepository implements AuthBaseRepository {
   @override
   Future<void> signInUser(String email, String password) async {
     try {
-      await _ref
+      var resp = await _ref
           .read(supabaseClientProvider)
           .auth
           .signInWithPassword(email: email, password: password);
+          log(resp.session!.accessToken);
+          log(resp.user!.userMetadata.toString());
     } on Exception catch (e) {
       throw CustomException(message: e.toString());
     }

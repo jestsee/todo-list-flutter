@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/ui/screens/sign_up/sign_up_form.dart';
+import 'package:todo_list/ui/widgets/connect_with.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -22,7 +23,7 @@ class SignUp extends StatelessWidget {
             const Text('Please fill the details to create account'),
             const SizedBox(height: 32),
             SignUpForm(),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             RichText(
                 text: TextSpan(
                     style: const TextStyle(color: Colors.black, fontSize: 14.0),
@@ -35,7 +36,9 @@ class SignUp extends StatelessWidget {
                       recognizer: TapGestureRecognizer()
                         ..onTap =
                             () => Navigator.pushNamed(context, '/sign-in'))
-                ]))
+                ])),
+                const SizedBox(height: 40,),
+                const ConnectWith()
           ],
         ),
       ),

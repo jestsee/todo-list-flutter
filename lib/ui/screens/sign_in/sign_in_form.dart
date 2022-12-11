@@ -6,17 +6,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:todo_list/controllers/auth_controller.dart';
 import 'package:todo_list/ui/validator/validation_message.dart' as v;
-import 'package:todo_list/ui/widgets/custom_form.dart';
 import 'package:todo_list/utils.dart';
+import '../../widgets/custom_form.dart';
 
-class SignUpForm extends HookConsumerWidget {
-  SignUpForm({
+class SignInForm extends HookConsumerWidget {
+  SignInForm({
     Key? key,
   }) : super(key: key);
 
   final form = FormGroup({
-    // TODO alpha numeric only
-    'name': FormControl<String>(validators: [Validators.required]),
     'email': FormControl<String>(
         validators: [Validators.required, Validators.email]),
     'password': FormControl<String>(
@@ -24,7 +22,6 @@ class SignUpForm extends HookConsumerWidget {
   });
 
 // getters
-  String get name => form.control('name').value;
   String get email => form.control('email').value;
   String get password => form.control('password').value;
 
@@ -40,14 +37,6 @@ class SignUpForm extends HookConsumerWidget {
             child: Wrap(
               runSpacing: 18,
               children: <Widget>[
-                CustomForm(
-                    name: 'name',
-                    label: 'Name *',
-                    // leading: const Icon(Icons.person),
-                    placeholder: 'John Doe',
-                    validator: {
-                      'required': (_) => msg.required('Name'),
-                    }),
                 CustomForm(
                     name: 'email',
                     label: 'Email *',
@@ -83,10 +72,11 @@ class SignUpForm extends HookConsumerWidget {
             }
             ref
                 .read(authControllerProvider.notifier)
-                .signUp(email, password, name);
+                .signIn(email, password);
             context.showSnackBar(message: 'cihuy');
+            Navigator.pushNamed(context, '/');
           },
-          child: const Text('Getting Started', style: TextStyle(fontSize: 18),),
+          child: const Text('Sign in', style: TextStyle(fontSize: 18),),
         )
       ],
     );
