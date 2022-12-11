@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/provider/supabase_provider.dart';
 import 'package:todo_list/repositories/auth/auth_base_repository.dart';
@@ -17,12 +19,15 @@ class AuthRepository implements AuthBaseRepository {
       _ref.read(supabaseClientProvider).auth.onAuthStateChange;
 
   @override
-  Future<void> signUpUser(String email, String password) async {
+  Future<void> signUpUser(String email, String password, String name) async {
+    log('$email $password $name');
     try {
-      await _ref
-          .read(supabaseClientProvider)
-          .auth
-          .signUp(email: email, password: password);
+      var temp = await _ref.read(supabaseClientProvider).auth.signUp(
+          email: email,
+          password: password,
+          data: {"name": name, "avatar_url": 'asd'});
+      log(temp.session.toString());
+      log(temp.user.toString());
     } on Exception catch (e) {
       throw CustomException(message: e.toString());
     }

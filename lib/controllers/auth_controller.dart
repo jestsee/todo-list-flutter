@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
 
-final authControllerProvider = StateNotifierProvider<AuthController, User?>(
-    (ref) => AuthController(ref)..appStarted());
+final authControllerProvider =
+    StateNotifierProvider<AuthController, User?>((ref) => AuthController(ref));
 
 class AuthController extends StateNotifier<User?> {
   final Ref _ref;
@@ -32,6 +32,14 @@ class AuthController extends StateNotifier<User?> {
     if (user == null) {
       log('Belum sign in');
     }
+  }
+
+  void signUp(String email, String password, String name) async {
+    await _ref.read(authRepositoryProvider).signUpUser(email, password, name);
+  }
+
+  void signIn(String email, String password) async {
+    await _ref.read(authRepositoryProvider).signInUser(email, password);
   }
 
   void signOut() async {

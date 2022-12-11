@@ -24,6 +24,7 @@ class CustomForm extends HookWidget {
       validationMessages: validator,
       obscureText: name == 'password' ? hidePassword.value : false,
       decoration: InputDecoration(
+        border: const OutlineInputBorder(),
         icon: leading,
         hintText: placeholder,
         labelText: label,

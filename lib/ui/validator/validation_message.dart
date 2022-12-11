@@ -6,7 +6,7 @@ class ValidationMessage {
   String required(String field) => '$field is required';
 
   String minLength(String field, int length) =>
-      '$field should be more than $length characters';
+      '$field must be at least $length characters';
 
   String maxLength(String field, int length) =>
       '$field can be max $length characters long';
