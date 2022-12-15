@@ -74,7 +74,7 @@ class SignInForm extends HookConsumerWidget {
                 .read(authControllerProvider.notifier)
                 .signIn(email, password);
             context.showSnackBar(message: 'cihuy');
-            Navigator.pushNamed(context, '/');
+            // Navigator.pushNamed(context, '/');
           },
           child: const Text('Sign in', style: TextStyle(fontSize: 18),),
         )

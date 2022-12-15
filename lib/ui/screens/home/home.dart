@@ -15,14 +15,17 @@ class Home extends HookConsumerWidget {
         child: Column(
           children: [
             const Text('Ini home🏠'),
-            ref.read(authControllerProvider) != null
-                ? ElevatedButton(
-                    onPressed: () {
-                      ref.read(authControllerProvider.notifier).signOut();
-                      Navigator.pushNamed(context, '/');
-                    },
-                    child: const Text('Sign out'))
-                : const Text('Belum sign in')
+            ElevatedButton(
+                onPressed: () {
+                  ref.read(authControllerProvider.notifier).signOut();
+                  // Navigator.pushNamed(context, '/');
+                },
+                child: const Text('Sign out')),
+                 ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/sign-up');
+                },
+                child: const Text('Sign Up'))
           ],
         ),
       )),

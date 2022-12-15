@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
 
 final authControllerProvider =
-    StateNotifierProvider<AuthController, User?>((ref) => AuthController(ref));
+    StateNotifierProvider<AuthController, User?>((ref) => AuthController(ref)..appStarted());
 
 class AuthController extends StateNotifier<User?> {
   final Ref _ref;
@@ -15,10 +15,11 @@ class AuthController extends StateNotifier<User?> {
 
   AuthController(this._ref) : super(null) {
     _authStateChangesSubscription?.cancel();
-    _authStateChangesSubscription = _ref
-        .read(authRepositoryProvider)
-        .authStateChanges
-        .listen((event) => state = event.session?.user);
+    _authStateChangesSubscription =
+        _ref.read(authRepositoryProvider).authStateChanges.listen((event) {
+      log('[auth state] ${event.event.toString()} ${event.session?.user}');
+      state = event.session?.user;
+    });
   }
 
   @override
@@ -28,10 +29,8 @@ class AuthController extends StateNotifier<User?> {
   }
 
   void appStarted() async {
-    final user = _ref.read(authRepositoryProvider).getCurrentUser();
-    if (user == null) {
-      log('Belum sign in');
-    }
+    final user = _ref.read(authRepositoryProvider).currentUser;
+    log('app started $user');
   }
 
   void signUp(String email, String password, String name) async {

@@ -40,7 +40,6 @@ class AuthRepository implements AuthBaseRepository {
           .read(supabaseClientProvider)
           .auth
           .signInWithPassword(email: email, password: password);
-          log(resp.session!.accessToken);
           log(resp.user!.userMetadata.toString());
     } on Exception catch (e) {
       throw CustomException(message: e.toString());
@@ -55,13 +54,16 @@ class AuthRepository implements AuthBaseRepository {
       throw CustomException(message: e.toString());
     }
   }
-
+  
   @override
-  User? getCurrentUser() {
+  Session? get currentSession {
     try {
-      return _ref.read(supabaseClientProvider).auth.currentUser;
+      return _ref.read(supabaseClientProvider).auth.currentSession;
     } on Exception catch (e) {
       throw CustomException(message: e.toString());
     }
   }
+  
+  @override
+  User? get currentUser => currentSession?.user;
 }
