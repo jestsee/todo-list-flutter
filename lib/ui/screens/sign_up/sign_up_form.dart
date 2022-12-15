@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:todo_list/controllers/auth_controller.dart';
+import 'package:todo_list/provider/provider.dart';
 import 'package:todo_list/ui/validator/validation_message.dart' as v;
 import 'package:todo_list/ui/widgets/custom_form.dart';
 import 'package:todo_list/utils.dart';

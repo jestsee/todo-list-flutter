@@ -1,13 +1,10 @@
 import 'dart:developer';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:todo_list/provider/supabase_provider.dart';
+import 'package:todo_list/provider/provider.dart';
 import 'package:todo_list/repositories/auth/auth_base_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as r;
 import 'package:todo_list/repositories/custom_exception.dart';
-
-final authRepositoryProvider =
-    r.Provider<AuthRepository>((ref) => AuthRepository(ref));
 
 class AuthRepository implements AuthBaseRepository {
   final r.Ref _ref;
@@ -22,7 +19,7 @@ class AuthRepository implements AuthBaseRepository {
   Future<void> signUpUser(String email, String password, String name) async {
     log('$email $password $name');
     try {
-      var temp = await _ref.read(supabaseClientProvider).auth.signUp(
+      final temp = await _ref.read(supabaseClientProvider).auth.signUp(
           email: email,
           password: password,
           data: {"name": name, "avatar_url": 'asd'});
@@ -36,11 +33,10 @@ class AuthRepository implements AuthBaseRepository {
   @override
   Future<void> signInUser(String email, String password) async {
     try {
-      var resp = await _ref
+      final resp = await _ref
           .read(supabaseClientProvider)
           .auth
           .signInWithPassword(email: email, password: password);
-          log(resp.session!.accessToken);
           log(resp.user!.userMetadata.toString());
     } on Exception catch (e) {
       throw CustomException(message: e.toString());
