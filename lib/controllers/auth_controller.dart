@@ -3,8 +3,10 @@ import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:todo_list/globals.dart';
 import 'package:todo_list/model/user_state.dart';
-import 'package:todo_list/provider/provider.dart';
+import 'package:todo_list/provider.dart';
+import 'package:todo_list/utils.dart';
 
 class AuthController extends StateNotifier<UserState> {
   final Ref _ref;
@@ -27,6 +29,10 @@ class AuthController extends StateNotifier<UserState> {
     super.dispose();
   }
 
+  void setLoading() {
+    state = const UserState.loading();
+  }
+
   void appStarted() async {
     log('app started called');
     state = const UserState.initial();
@@ -40,14 +46,31 @@ class AuthController extends StateNotifier<UserState> {
   }
 
   void signUp(String email, String password, String name) async {
-    await _ref.read(authRepositoryProvider).signUpUser(email, password, name);
+    setLoading();
+    try {
+      await _ref.read(authRepositoryProvider).signUpUser(email, password, name);
+    } catch (e) {
+      state = UserState.event(AuthState(AuthChangeEvent.signedOut, null));
+    }
   }
 
   void signIn(String email, String password) async {
-    await _ref.read(authRepositoryProvider).signInUser(email, password);
+    setLoading();
+    try {
+      await _ref.read(authRepositoryProvider).signInUser(email, password);
+    } catch (e) {
+      snackbarKey.showError(message: e.toString());
+      state = UserState.event(AuthState(AuthChangeEvent.signedOut, null));
+    }
   }
 
   void signOut() async {
-    await _ref.read(authRepositoryProvider).signOutUser();
+    setLoading();
+    try {
+      await _ref.read(authRepositoryProvider).signOutUser();
+    } catch (e) {
+      state = UserState.event(AuthState(AuthChangeEvent.signedIn,
+          _ref.read(authRepositoryProvider).getCurrentSession));
+    }
   }
 }

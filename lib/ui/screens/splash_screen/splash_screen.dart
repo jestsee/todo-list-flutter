@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/model/user_state.dart';
-import 'package:todo_list/provider/provider.dart';
+import 'package:todo_list/provider.dart';
 
 class SplashScreen extends HookConsumerWidget {
   const SplashScreen({super.key});
@@ -13,12 +13,12 @@ class SplashScreen extends HookConsumerWidget {
     ref.listen<UserState>(
       authControllerProvider,
       (_, next) {
-        Timer(const Duration(seconds: 3), () {
+        Timer(const Duration(seconds: 0), () {
           next.maybeWhen(
               event: ((event) => Navigator.of(context).pushNamedAndRemoveUntil(
                   '/', (Route<dynamic> route) => false)),
               orElse: () => Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/sign-up', (Route<dynamic> route) => false));
+                  '/sign-in', (Route<dynamic> route) => false));
         });
       },
     );

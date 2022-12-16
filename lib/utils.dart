@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
-extension ShowSnackBar on BuildContext {
-  void showSnackBar({
+extension ShowSnackBar on GlobalKey<ScaffoldMessengerState> {
+  void show({
     required String message,
-    Color backgroundColor = Colors.green,
+    Color bg = Colors.green,
   }) {
-    ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+    final SnackBar snackBar = SnackBar(
       content: Text(message),
-      backgroundColor: backgroundColor,
-    ));
+      backgroundColor: bg,
+    );
+    currentState?.showSnackBar(snackBar);
   }
 
-  void showErrorSnackBar({required String message}) {
-    showSnackBar(message: message, backgroundColor: Colors.red);
+  void showError({required String message}) {
+    show(message: message, bg: Colors.red);
   }
 }

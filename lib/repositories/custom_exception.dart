@@ -5,4 +5,6 @@ class CustomException implements Exception {
 
   @override
   String toString() => "Custom exception {message: $message}";
+
+  // TODO custom message 400 - unauthenticated
 }

@@ -17,5 +17,5 @@ final authStateChangesProvider = r.StreamProvider<AuthState>(
     ((ref) => ref.watch(authRepositoryProvider).authStateChanges));
 
 final authControllerProvider =
-    r.StateNotifierProvider<AuthController, UserState>((ref) =>
-        AuthController(ref)..appStarted());
+    r.StateNotifierProvider<AuthController, UserState>(
+        (ref) => AuthController(ref)..appStarted());
