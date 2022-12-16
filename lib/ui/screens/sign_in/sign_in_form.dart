@@ -6,8 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:todo_list/provider/provider.dart';
 import 'package:todo_list/ui/validator/validation_message.dart' as v;
+import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/utils.dart';
-import '../../widgets/custom_form.dart';
+import 'package:todo_list/ui/widgets/custom_form.dart';
 
 class SignInForm extends HookConsumerWidget {
   SignInForm({
@@ -27,6 +28,8 @@ class SignInForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final loading = useState(false);
+
     final msg = useMemoized(() => const v.ValidationMessage());
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -61,22 +64,23 @@ class SignInForm extends HookConsumerWidget {
         const SizedBox(
           height: 36,
         ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(56),
+        CustomButton(
+          full: true,
+          loading: loading.value,
+          child: const Text(
+            'Sign in',
+            style: TextStyle(fontSize: 18),
           ),
           onPressed: () {
             log(form.value.toString());
             if (!form.valid) {
               return context.showErrorSnackBar(message: 'blm valid oi');
             }
-            ref
-                .read(authControllerProvider.notifier)
-                .signIn(email, password);
+            ref.read(authControllerProvider.notifier).signIn(email, password);
+            loading.value = true;
             context.showSnackBar(message: 'cihuy');
             // Navigator.pushNamed(context, '/');
           },
-          child: const Text('Sign in', style: TextStyle(fontSize: 18),),
         )
       ],
     );

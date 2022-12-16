@@ -30,7 +30,6 @@ class AuthController extends StateNotifier<UserState> {
   void appStarted() async {
     log('app started called');
     state = const UserState.initial();
-    log('state initial');
     final session = await _ref.read(authRepositoryProvider).initialSession;
 
     if (session != null) {
@@ -38,7 +37,6 @@ class AuthController extends StateNotifier<UserState> {
       return;
     }
     state = UserState.event(AuthState(AuthChangeEvent.signedOut, session));
-    log('state terisi');
   }
 
   void signUp(String email, String password, String name) async {

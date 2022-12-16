@@ -57,7 +57,6 @@ class AuthRepository implements AuthBaseRepository {
   
   @override
   Future<Session?> get initialSession async {
-    log('initial session called');
     try {
       return await SupabaseAuth.instance.initialSession;
     } catch (e) {
