@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return ProviderScope(
       child: MaterialApp(
         title: 'Todo List Flutter',
-        initialRoute: '/',
+        initialRoute: '/splash-screen',
         routes: customRoutes,
         theme: ThemeData(
           primarySwatch: Colors.blue,

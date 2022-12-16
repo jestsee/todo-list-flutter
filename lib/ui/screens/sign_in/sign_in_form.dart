@@ -71,8 +71,8 @@ class SignInForm extends HookConsumerWidget {
               return context.showErrorSnackBar(message: 'blm valid oi');
             }
             ref
-                .read(authRepositoryProvider)
-                .signInUser(email, password);
+                .read(authControllerProvider.notifier)
+                .signIn(email, password);
             context.showSnackBar(message: 'cihuy');
             // Navigator.pushNamed(context, '/');
           },

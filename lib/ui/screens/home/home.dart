@@ -17,7 +17,7 @@ class Home extends HookConsumerWidget {
             const Text('Ini home🏠'),
             ElevatedButton(
                     onPressed: () {
-                      ref.read(authRepositoryProvider).signOutUser();
+                      ref.read(authControllerProvider.notifier).signOut();
                       // Navigator.pushNamed(context, '/');
                     },
                     child: const Text('Sign out'))

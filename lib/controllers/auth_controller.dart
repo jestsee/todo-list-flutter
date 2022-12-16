@@ -8,15 +8,15 @@ import 'package:todo_list/provider/provider.dart';
 
 class AuthController extends StateNotifier<UserState> {
   final Ref _ref;
-
   StreamSubscription<AuthState>? _authStateChangesSubscription;
 
-  AuthController(this._ref) : super(const UserState.initial()) {
+  AuthController(this._ref)
+      : super(UserState.event(AuthState(AuthChangeEvent.signedOut, null))) {
     _authStateChangesSubscription?.cancel();
     _authStateChangesSubscription =
         _ref.read(authRepositoryProvider).authStateChanges.listen((event) {
       log('[authState changes] ${event.event.toString()}');
-      state = UserState.event(event: event.event);
+      state = UserState.event(event);
     });
   }
 
@@ -28,28 +28,28 @@ class AuthController extends StateNotifier<UserState> {
   }
 
   void appStarted() async {
+    log('app started called');
+    state = const UserState.initial();
+    log('state initial');
+    final session = await _ref.read(authRepositoryProvider).initialSession;
+
+    if (session != null) {
+      state = UserState.event(AuthState(AuthChangeEvent.signedIn, session));
+      return;
+    }
+    state = UserState.event(AuthState(AuthChangeEvent.signedOut, session));
+    log('state terisi');
   }
 
   void signUp(String email, String password, String name) async {
-    try {
-      state = const UserState.loading();
-      await _ref.read(authRepositoryProvider).signUpUser(email, password, name);
-    } catch (e) {
-      state = UserState.error(e.toString());
-    }
+    await _ref.read(authRepositoryProvider).signUpUser(email, password, name);
   }
 
   void signIn(String email, String password) async {
-    try {
-      state = const UserState.loading();
-      await _ref.read(authRepositoryProvider).signInUser(email, password);
-    } catch (e) {
-      state = UserState.error(e.toString());
-    }
+    await _ref.read(authRepositoryProvider).signInUser(email, password);
   }
 
   void signOut() async {
-    state = const UserState.loading();
     await _ref.read(authRepositoryProvider).signOutUser();
   }
 }

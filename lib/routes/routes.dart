@@ -6,9 +6,8 @@ import 'package:todo_list/ui/screens/sign_up/sign_up.dart';
 import 'package:todo_list/ui/screens/splash_screen/splash_screen.dart';
 
 final customRoutes = <String, WidgetBuilder>{
-  '/': (context) => const SplashScreen(),
-  '/home': (context) => const AuthNavigator(child: Home()),
-  '/home-initial': (context) => const AuthNavigator(first: true, child: Home()),
+  '/': (context) => const AuthNavigator(child: Home()),
   '/sign-up': (context) => const SignUp(),
   '/sign-in': (context) => const SignIn(),
+  '/splash-screen':(context) => const SplashScreen(),
 };
