@@ -15,11 +15,11 @@ class AuthNavigator extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentState = ref.watch(authStateChangesProvider);
-    final _first = useState(first);
+    final isFirst = useState(first);
     
-    if (_first.value) {
-      _first.value = false;
-      log('first value: ${_first.value}');
+    if (isFirst.value) {
+      isFirst.value = false;
+      log('first value: ${isFirst.value}');
       return child;
     }
     
