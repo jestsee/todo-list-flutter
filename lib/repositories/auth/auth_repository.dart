@@ -37,7 +37,7 @@ class AuthRepository implements AuthBaseRepository {
           .read(supabaseClientProvider)
           .auth
           .signInWithPassword(email: email, password: password);
-          log(resp.user!.userMetadata.toString());
+      log(resp.user!.userMetadata.toString());
     } on Exception catch (e) {
       throw CustomException(message: e.toString());
     }
@@ -51,12 +51,16 @@ class AuthRepository implements AuthBaseRepository {
       throw CustomException(message: e.toString());
     }
   }
-
+  
   @override
-  User? getCurrentUser() {
+  User? get getCurrentUser => _ref.read(supabaseClientProvider).auth.currentUser;
+  
+  @override
+  Future<Session?> get initialSession async {
+    log('initial session called');
     try {
-      return _ref.read(supabaseClientProvider).auth.currentUser;
-    } on Exception catch (e) {
+      return await SupabaseAuth.instance.initialSession;
+    } catch (e) {
       throw CustomException(message: e.toString());
     }
   }

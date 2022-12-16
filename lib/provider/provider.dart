@@ -7,8 +7,8 @@ import 'package:todo_list/model/user_state.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
 
 // supabase
-final supabaseClientProvider = r.Provider<SupabaseClient>((_) => SupabaseClient(
-    dotenv.env['SUPABASE_URL']!, dotenv.env['SUPABASE_SECRET']!));
+final supabaseClientProvider = r.Provider<SupabaseClient>(
+    ((_) => Supabase.instance.client));
 
 // authentication
 final authRepositoryProvider =

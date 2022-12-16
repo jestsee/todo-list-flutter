@@ -5,5 +5,6 @@ abstract class AuthBaseRepository {
   Future<void> signUpUser(String email, String password, String name);
   Future<void> signInUser(String email, String password);
   Future<void> signOutUser();
-  User? getCurrentUser();
+  Future<Session?> get initialSession;
+  User? get getCurrentUser;
 }

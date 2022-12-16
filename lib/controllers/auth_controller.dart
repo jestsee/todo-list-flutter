@@ -28,8 +28,8 @@ class AuthController extends StateNotifier<UserState> {
   }
 
   void appStarted() async {
-    final user = _ref.read(authRepositoryProvider).getCurrentUser();
-      log('Belum sign in');
+    final user = _ref.read(authRepositoryProvider).getCurrentUser;
+    log('Belum sign in');
   }
 
   void signUp(String email, String password, String name) async {
