@@ -13,30 +13,28 @@ import 'package:todo_list/utils.dart';
 import 'package:todo_list/ui/widgets/custom_form.dart';
 
 class SignInForm extends HookConsumerWidget {
-  SignInForm({
+  const SignInForm({
     Key? key,
   }) : super(key: key);
-
-  final form = FormGroup({
-    'email': FormControl<String>(
-        validators: [Validators.required, Validators.email]),
-    'password': FormControl<String>(
-        validators: [Validators.required, Validators.minLength(6)])
-  });
-
-// getters
-  String get email => form.control('email').value;
-  String get password => form.control('password').value;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final msg = useMemoized(() => const v.ValidationMessage());
+    final form = useState(FormGroup({
+      'email': FormControl<String>(
+          validators: [Validators.required, Validators.email]),
+      'password': FormControl<String>(
+          validators: [Validators.required, Validators.minLength(6)])
+    }));
+
+    String getEmail() => form.value.control('email').value;
+    String getPassword() => form.value.control('password').value;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         ReactiveForm(
-            formGroup: form,
+            formGroup: form.value,
             child: Wrap(
               runSpacing: 18,
               children: <Widget>[
@@ -70,11 +68,11 @@ class SignInForm extends HookConsumerWidget {
             style: TextStyle(fontSize: 18),
           ),
           onPressed: () {
-            log(form.value.toString());
-            if (!form.valid) {
+            log(form.value.value.toString());
+            if (!form.value.valid) {
               return snackbarKey.showError(message: 'belom oi');
             }
-            ref.read(authControllerProvider.notifier).signIn(email, password);
+            ref.read(authControllerProvider.notifier).signIn(getEmail(), getPassword());
           },
         )
       ],

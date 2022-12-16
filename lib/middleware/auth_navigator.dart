@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,10 +14,10 @@ class AuthNavigator extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(authControllerProvider, (previous, next) {
-      log('masuk listen $previous $next');
       if (previous is! Loading || next is! Event) return;
-      if (next.event.event != AuthChangeEvent.signedIn) return;
-      snackbarKey.show(message: 'Signed in!');
+      if (next.event.event == AuthChangeEvent.signedIn) {
+        snackbarKey.show(message: 'Successfully signed in');
+      }
     });
     return ref.watch(authControllerProvider).maybeWhen(
           event: (event) => event.session != null ? child : const SignIn(),

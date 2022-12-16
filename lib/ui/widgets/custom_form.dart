@@ -31,7 +31,9 @@ class CustomForm extends HookWidget {
         suffixIcon: name == 'password'
             ? IconButton(
                 onPressed: (() => hidePassword.value = !hidePassword.value),
-                icon: const Icon(Icons.remove_red_eye))
+                icon: hidePassword.value
+                    ? const Icon(Icons.visibility)
+                    : const Icon(Icons.visibility_off))
             : null,
       ),
     );
