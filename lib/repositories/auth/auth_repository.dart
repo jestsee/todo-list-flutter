@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:todo_list/provider/provider.dart';
+import 'package:todo_list/provider.dart';
 import 'package:todo_list/repositories/auth/auth_base_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as r;
 import 'package:todo_list/repositories/custom_exception.dart';
@@ -17,15 +17,12 @@ class AuthRepository implements AuthBaseRepository {
 
   @override
   Future<void> signUpUser(String email, String password, String name) async {
-    log('$email $password $name');
     try {
-      final temp = await _ref.read(supabaseClientProvider).auth.signUp(
+      await _ref.read(supabaseClientProvider).auth.signUp(
           email: email,
           password: password,
           data: {"name": name, "avatar_url": 'asd'});
-      log(temp.session.toString());
-      log(temp.user.toString());
-    } on Exception catch (e) {
+    } catch (e) {
       throw CustomException(message: e.toString());
     }
   }
@@ -33,12 +30,11 @@ class AuthRepository implements AuthBaseRepository {
   @override
   Future<void> signInUser(String email, String password) async {
     try {
-      final resp = await _ref
+      await _ref
           .read(supabaseClientProvider)
           .auth
           .signInWithPassword(email: email, password: password);
-      log(resp.user!.userMetadata.toString());
-    } on Exception catch (e) {
+    } catch (e) {
       throw CustomException(message: e.toString());
     }
   }
@@ -47,14 +43,11 @@ class AuthRepository implements AuthBaseRepository {
   Future<void> signOutUser() async {
     try {
       await _ref.read(supabaseClientProvider).auth.signOut();
-    } on Exception catch (e) {
+    } catch (e) {
       throw CustomException(message: e.toString());
     }
   }
-  
-  @override
-  User? get getCurrentUser => _ref.read(supabaseClientProvider).auth.currentUser;
-  
+
   @override
   Future<Session?> get initialSession async {
     try {
@@ -63,4 +56,11 @@ class AuthRepository implements AuthBaseRepository {
       throw CustomException(message: e.toString());
     }
   }
+
+  @override
+  Session? get getCurrentSession =>
+      _ref.read(supabaseClientProvider).auth.currentSession;
+
+  @override
+  User? get getCurrentUser => getCurrentSession?.user;
 }

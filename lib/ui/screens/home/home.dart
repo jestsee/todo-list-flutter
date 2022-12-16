@@ -1,6 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:todo_list/provider/provider.dart';
+import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
 
 class Home extends HookConsumerWidget {
@@ -17,11 +18,11 @@ class Home extends HookConsumerWidget {
           children: [
             const Text('Ini home🏠'),
             CustomButton(
-                    onPressed: () {
-                      ref.read(authControllerProvider.notifier).signOut();
-                      // Navigator.pushNamed(context, '/');
-                    },
-                    child: const Text('Sign out'))
+                onPressed: () {
+                  ref.read(authControllerProvider.notifier).signOut();
+                  // snackbarKey.show(message: 'Signed in!');
+                },
+                child: const Text('Sign out'))
           ],
         ),
       )),

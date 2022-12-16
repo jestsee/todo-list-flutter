@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:todo_list/provider/provider.dart';
+import 'package:todo_list/globals.dart';
+import 'package:todo_list/model/user_state.dart';
+import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/validator/validation_message.dart' as v;
 import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/utils.dart';
@@ -28,13 +30,11 @@ class SignInForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loading = useState(false);
-
     final msg = useMemoized(() => const v.ValidationMessage());
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        // const SizedBox(height: 32),
         ReactiveForm(
             formGroup: form,
             child: Wrap(
@@ -43,7 +43,6 @@ class SignInForm extends HookConsumerWidget {
                 CustomForm(
                     name: 'email',
                     label: 'Email *',
-                    // leading: const Icon(Icons.mail),
                     placeholder: 'example@mail.com',
                     validator: {
                       'required': (_) => msg.required('Email'),
@@ -52,7 +51,6 @@ class SignInForm extends HookConsumerWidget {
                 CustomForm(
                   name: 'password',
                   label: 'Password *',
-                  // leading: const Icon(Icons.lock),
                   validator: {
                     'required': (_) => msg.required('Password'),
                     'minLength': (error) => msg.minLength(
@@ -66,7 +64,7 @@ class SignInForm extends HookConsumerWidget {
         ),
         CustomButton(
           full: true,
-          loading: loading.value,
+          loading: ref.watch(authControllerProvider) is Loading,
           child: const Text(
             'Sign in',
             style: TextStyle(fontSize: 18),
@@ -74,12 +72,9 @@ class SignInForm extends HookConsumerWidget {
           onPressed: () {
             log(form.value.toString());
             if (!form.valid) {
-              return context.showErrorSnackBar(message: 'blm valid oi');
+              return snackbarKey.showError(message: 'belom oi');
             }
             ref.read(authControllerProvider.notifier).signIn(email, password);
-            loading.value = true;
-            context.showSnackBar(message: 'cihuy');
-            // Navigator.pushNamed(context, '/');
           },
         )
       ],

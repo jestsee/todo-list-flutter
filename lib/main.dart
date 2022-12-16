@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:todo_list/globals.dart';
 import 'package:todo_list/routes/routes.dart';
 
 Future main() async {
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
     return ProviderScope(
       child: MaterialApp(
         title: 'Todo List Flutter',
+        scaffoldMessengerKey: snackbarKey,
         initialRoute: '/splash-screen',
         routes: customRoutes,
         theme: ThemeData(
