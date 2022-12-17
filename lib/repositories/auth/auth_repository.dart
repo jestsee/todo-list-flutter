@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/repositories/auth/auth_base_repository.dart';
@@ -40,6 +38,18 @@ class AuthRepository implements AuthBaseRepository {
   }
 
   @override
+  Future<void> signInOAuth(Provider provider) async {
+    try {
+      await _ref
+          .read(supabaseClientProvider)
+          .auth
+          .signInWithOAuth(provider, redirectTo: 'io.supabase.todolist://login-callback/');
+    } catch (e) {
+      throw CustomException(message: e.toString());
+    }
+  }
+
+  @override
   Future<void> signOutUser() async {
     try {
       await _ref.read(supabaseClientProvider).auth.signOut();
@@ -56,7 +66,6 @@ class AuthRepository implements AuthBaseRepository {
       throw CustomException(message: e.toString());
     }
   }
-
   @override
   Session? get getCurrentSession =>
       _ref.read(supabaseClientProvider).auth.currentSession;
