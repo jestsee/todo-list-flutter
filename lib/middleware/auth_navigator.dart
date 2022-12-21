@@ -13,8 +13,8 @@ class AuthNavigator extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(authControllerProvider, (previous, next) {
-      if (previous is! Loading || next is! Event) return;
+    ref.listen(authControllerProvider, (prev, next) {
+      if (prev is Initial || prev == next || next is! Event) return;
       if (next.event.event == AuthChangeEvent.signedIn) {
         snackbarKey.show(message: 'Successfully signed in');
       }
