@@ -16,3 +16,16 @@ extension ShowSnackBar on GlobalKey<ScaffoldMessengerState> {
     show(message: message, bg: Colors.red);
   }
 }
+
+extension ShowDialog on GlobalKey<NavigatorState> {
+  void showMyDialog() {
+    showDialog(
+        context: currentContext!,
+        builder: (context) => const Center(
+              child: Material(
+                color: Colors.transparent,
+                child: Text('Hello'),
+              ),
+            ));
+  }
+}

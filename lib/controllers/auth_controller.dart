@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/model/user_state.dart';
 import 'package:todo_list/provider.dart';
-import 'package:todo_list/utils.dart';
+import 'package:todo_list/extensions.dart';
 
 class AuthController extends StateNotifier<UserState> {
   final Ref _ref;

@@ -9,8 +9,9 @@ import 'package:todo_list/model/user_state.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/validator/validation_message.dart' as v;
 import 'package:todo_list/ui/widgets/custom_button.dart';
-import 'package:todo_list/utils.dart';
+import 'package:todo_list/extensions.dart';
 import 'package:todo_list/ui/widgets/custom_form.dart';
+import 'package:todo_list/ui/widgets/password_form.dart';
 
 class SignInForm extends HookConsumerWidget {
   const SignInForm({
@@ -46,9 +47,10 @@ class SignInForm extends HookConsumerWidget {
                       'required': (_) => msg.required('Email'),
                       'email': (_) => msg.email()
                     }),
-                CustomForm(
+                PasswordForm(
                   name: 'password',
                   label: 'Password *',
+                  isDirty: form.value.control('password').dirty,
                   validator: {
                     'required': (_) => msg.required('Password'),
                     'minLength': (error) => msg.minLength(
@@ -72,7 +74,9 @@ class SignInForm extends HookConsumerWidget {
             if (!form.value.valid) {
               return snackbarKey.showError(message: 'belom oi');
             }
-            ref.read(authControllerProvider.notifier).signIn(getEmail(), getPassword());
+            ref
+                .read(authControllerProvider.notifier)
+                .signIn(getEmail(), getPassword());
           },
         )
       ],

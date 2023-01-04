@@ -5,7 +5,7 @@ import 'package:todo_list/globals.dart';
 import 'package:todo_list/model/user_state.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/screens/sign_in/sign_in.dart';
-import 'package:todo_list/utils.dart';
+import 'package:todo_list/extensions.dart';
 
 class AuthNavigator extends HookConsumerWidget {
   final Widget child;
@@ -13,6 +13,11 @@ class AuthNavigator extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   // Add Your Code here.
+
+    //   navigatorKey.showMyDialog();
+    // });
     ref.listen(authControllerProvider, (prev, next) {
       if (prev is Initial || prev == next || next is! Event) return;
       if (next.event.event == AuthChangeEvent.signedIn) {

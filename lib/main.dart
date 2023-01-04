@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Todo List Flutter',
         scaffoldMessengerKey: snackbarKey,
+        navigatorKey: navigatorKey,
         initialRoute: '/splash-screen',
         routes: customRoutes,
         theme: ThemeData(
