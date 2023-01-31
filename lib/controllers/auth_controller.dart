@@ -3,18 +3,14 @@ import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
-import 'package:todo_list/globals.dart';
 import 'package:todo_list/model/user_state.dart';
 import 'package:todo_list/provider.dart';
-import 'package:todo_list/extensions.dart';
 
 class AuthController extends StateNotifier<UserState> {
   final Ref _ref;
   StreamSubscription<sb.AuthState>? _authStateChangesSubscription;
 
-  AuthController(this._ref)
-      : super(
-            UserState.event(sb.AuthState(sb.AuthChangeEvent.signedOut, null))) {
+  AuthController(this._ref) : super(const UserState.initial()) {
     _authStateChangesSubscription?.cancel();
     _authStateChangesSubscription =
         _ref.read(authRepositoryProvider).authStateChanges.listen((event) {
@@ -34,9 +30,12 @@ class AuthController extends StateNotifier<UserState> {
     state = const UserState.loading();
   }
 
+  void handleError(String message) {
+    state = UserState.error(message);
+  }
+
   void appStarted() async {
     log('app started called');
-    state = const UserState.initial();
     final session = await _ref.read(authRepositoryProvider).initialSession;
 
     if (session != null) {
@@ -53,8 +52,7 @@ class AuthController extends StateNotifier<UserState> {
     try {
       await _ref.read(authRepositoryProvider).signUpUser(email, password, name);
     } catch (e) {
-      snackbarKey.showError(message: e.toString());
-      state = UserState.event(sb.AuthState(sb.AuthChangeEvent.signedOut, null));
+      handleError(e.toString());
     }
   }
 
@@ -63,8 +61,7 @@ class AuthController extends StateNotifier<UserState> {
     try {
       await _ref.read(authRepositoryProvider).signInUser(email, password);
     } catch (e) {
-      snackbarKey.showError(message: e.toString());
-      state = UserState.event(sb.AuthState(sb.AuthChangeEvent.signedOut, null));
+      handleError(e.toString());
     }
   }
 
@@ -77,9 +74,7 @@ class AuthController extends StateNotifier<UserState> {
     try {
       await _ref.read(authRepositoryProvider).signOutUser();
     } catch (e) {
-      snackbarKey.showError(message: e.toString());
-      state = UserState.event(sb.AuthState(sb.AuthChangeEvent.signedIn,
-          _ref.read(authRepositoryProvider).getCurrentSession));
+      handleError(e.toString());
     }
   }
 }

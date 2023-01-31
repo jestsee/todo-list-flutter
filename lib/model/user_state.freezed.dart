@@ -21,6 +21,7 @@ mixin _$UserState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthState event) event,
+    required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$UserState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthState event)? event,
+    TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$UserState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthState event)? event,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$UserState {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Event value) event,
+    required TResult Function(Error value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$UserState {
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Event value)? event,
+    TResult? Function(Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$UserState {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Event value)? event,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -124,6 +130,7 @@ class _$Initial with DiagnosticableTreeMixin implements Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthState event) event,
+    required TResult Function(String message) error,
   }) {
     return initial();
   }
@@ -134,6 +141,7 @@ class _$Initial with DiagnosticableTreeMixin implements Initial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthState event)? event,
+    TResult? Function(String message)? error,
   }) {
     return initial?.call();
   }
@@ -144,6 +152,7 @@ class _$Initial with DiagnosticableTreeMixin implements Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthState event)? event,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -158,6 +167,7 @@ class _$Initial with DiagnosticableTreeMixin implements Initial {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Event value) event,
+    required TResult Function(Error value) error,
   }) {
     return initial(this);
   }
@@ -168,6 +178,7 @@ class _$Initial with DiagnosticableTreeMixin implements Initial {
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Event value)? event,
+    TResult? Function(Error value)? error,
   }) {
     return initial?.call(this);
   }
@@ -178,6 +189,7 @@ class _$Initial with DiagnosticableTreeMixin implements Initial {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Event value)? event,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -236,6 +248,7 @@ class _$Loading with DiagnosticableTreeMixin implements Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthState event) event,
+    required TResult Function(String message) error,
   }) {
     return loading();
   }
@@ -246,6 +259,7 @@ class _$Loading with DiagnosticableTreeMixin implements Loading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthState event)? event,
+    TResult? Function(String message)? error,
   }) {
     return loading?.call();
   }
@@ -256,6 +270,7 @@ class _$Loading with DiagnosticableTreeMixin implements Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthState event)? event,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -270,6 +285,7 @@ class _$Loading with DiagnosticableTreeMixin implements Loading {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Event value) event,
+    required TResult Function(Error value) error,
   }) {
     return loading(this);
   }
@@ -280,6 +296,7 @@ class _$Loading with DiagnosticableTreeMixin implements Loading {
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Event value)? event,
+    TResult? Function(Error value)? error,
   }) {
     return loading?.call(this);
   }
@@ -290,6 +307,7 @@ class _$Loading with DiagnosticableTreeMixin implements Loading {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Event value)? event,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -375,6 +393,7 @@ class _$Event with DiagnosticableTreeMixin implements Event {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthState event) event,
+    required TResult Function(String message) error,
   }) {
     return event(this.event);
   }
@@ -385,6 +404,7 @@ class _$Event with DiagnosticableTreeMixin implements Event {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthState event)? event,
+    TResult? Function(String message)? error,
   }) {
     return event?.call(this.event);
   }
@@ -395,6 +415,7 @@ class _$Event with DiagnosticableTreeMixin implements Event {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthState event)? event,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (event != null) {
@@ -409,6 +430,7 @@ class _$Event with DiagnosticableTreeMixin implements Event {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Event value) event,
+    required TResult Function(Error value) error,
   }) {
     return event(this);
   }
@@ -419,6 +441,7 @@ class _$Event with DiagnosticableTreeMixin implements Event {
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Event value)? event,
+    TResult? Function(Error value)? error,
   }) {
     return event?.call(this);
   }
@@ -429,6 +452,7 @@ class _$Event with DiagnosticableTreeMixin implements Event {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Event value)? event,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (event != null) {
@@ -444,4 +468,153 @@ abstract class Event implements UserState {
   AuthState get event;
   @JsonKey(ignore: true)
   _$$EventCopyWith<_$Event> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ErrorCopyWith<$Res> {
+  factory _$$ErrorCopyWith(_$Error value, $Res Function(_$Error) then) =
+      __$$ErrorCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$ErrorCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res, _$Error>
+    implements _$$ErrorCopyWith<$Res> {
+  __$$ErrorCopyWithImpl(_$Error _value, $Res Function(_$Error) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$Error(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Error with DiagnosticableTreeMixin implements Error {
+  const _$Error(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserState.error(message: $message)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UserState.error'))
+      ..add(DiagnosticsProperty('message', message));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Error &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ErrorCopyWith<_$Error> get copyWith =>
+      __$$ErrorCopyWithImpl<_$Error>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(AuthState event) event,
+    required TResult Function(String message) error,
+  }) {
+    return error(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(AuthState event)? event,
+    TResult? Function(String message)? error,
+  }) {
+    return error?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(AuthState event)? event,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Event value) event,
+    required TResult Function(Error value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Event value)? event,
+    TResult? Function(Error value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Event value)? event,
+    TResult Function(Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Error implements UserState {
+  const factory Error(final String message) = _$Error;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$ErrorCopyWith<_$Error> get copyWith => throw _privateConstructorUsedError;
 }
