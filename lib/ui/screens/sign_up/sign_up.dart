@@ -22,7 +22,7 @@ class SignUp extends StatelessWidget {
             const SizedBox(height: 16),
             const Text('Please fill the details to create account'),
             const SizedBox(height: 32),
-            SignUpForm(),
+            const SignUpForm(),
             const SizedBox(height: 20),
             RichText(
                 text: TextSpan(
@@ -37,8 +37,10 @@ class SignUp extends StatelessWidget {
                         ..onTap =
                             () => Navigator.pushNamed(context, '/sign-in'))
                 ])),
-                const SizedBox(height: 40,),
-                const ConnectWith()
+            const SizedBox(
+              height: 40,
+            ),
+            const ConnectWith()
           ],
         ),
       ),

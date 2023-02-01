@@ -22,7 +22,7 @@ class SignIn extends StatelessWidget {
             const SizedBox(height: 16),
             const Text('Please sign in to using our app'),
             const SizedBox(height: 32),
-            SignInForm(),
+            const SignInForm(),
             const SizedBox(height: 20),
             RichText(
                 text: TextSpan(
