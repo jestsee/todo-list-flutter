@@ -5,18 +5,20 @@ import 'package:todo_list/model/user_state.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/screens/sign_in/sign_in.dart';
 import 'package:todo_list/extensions.dart';
+import 'package:todo_list/ui/widgets/wrapper.dart';
 
 var snackbarMessage = {
   'signedIn': 'Successfully signed in',
   'signedOut': 'Successfully signed out',
 };
 
-class AuthNavigator extends HookConsumerWidget {
+class AuthNavigator extends ConsumerWidget {
   final Widget child;
   const AuthNavigator({super.key, required this.child});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // macro handler for snackbar
     ref.listen(authControllerProvider, (prev, next) {
       if (prev is Initial) return;
       next.whenOrNull(
@@ -26,7 +28,9 @@ class AuthNavigator extends HookConsumerWidget {
     });
 
     return ref.watch(authControllerProvider).maybeWhen(
-          event: (event) => event.session != null ? child : const SignIn(),
+          event: (event) => event.session == null
+              ? const SignIn()
+              : ScaffoldWrapper(child: child),
           orElse: () => const SignIn(),
         );
   }
