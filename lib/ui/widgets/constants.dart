@@ -4,7 +4,7 @@ enum CustomSize { small, medium, large, full }
 
 enum BadgeVariant { low, moderate, high, other }
 
-const badgeColor = {
+final badgeColor = {
   BadgeVariant.low: Colors.greenAccent,
   BadgeVariant.moderate: Colors.orange,
   BadgeVariant.high: Colors.red,

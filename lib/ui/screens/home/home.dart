@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/widgets/task_item.dart';
+import 'package:todo_list/ui/widgets/task_list.dart';
 
 class Home extends HookConsumerWidget {
   const Home({super.key});
@@ -38,7 +39,7 @@ class Home extends HookConsumerWidget {
                 )
               ],
             ),
-            const TaskItem(),
+            const TaskList(),
             CustomButton(
                 full: true,
                 onPressed: () {
