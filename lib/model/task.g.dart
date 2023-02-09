@@ -15,6 +15,8 @@ _$_Task _$$_TaskFromJson(Map<String, dynamic> json) => _$_Task(
       deadline: json['deadline'] == null
           ? null
           : DateTime.parse(json['deadline'] as String),
+      priority: $enumDecodeNullable(_$PriorityEnumMap, json['priority']) ??
+          Priority.low,
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -32,7 +34,14 @@ Map<String, dynamic> _$$_TaskToJson(_$_Task instance) => <String, dynamic>{
       'longitude': instance.longitude,
       'latitude': instance.latitude,
       'deadline': instance.deadline?.toIso8601String(),
+      'priority': _$PriorityEnumMap[instance.priority]!,
       'created_at': instance.createdAt?.toIso8601String(),
       'created_by': instance.createdBy,
       'subtask': instance.subtasks,
     };
+
+const _$PriorityEnumMap = {
+  Priority.low: 'low',
+  Priority.moderate: 'moderate',
+  Priority.high: 'high',
+};

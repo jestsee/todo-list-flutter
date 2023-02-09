@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/subtask.dart';
 
 part 'task.freezed.dart';
@@ -15,11 +16,10 @@ class Task with _$Task {
     String? longitude,
     String? latitude,
     DateTime? deadline,
+    @Default(Priority.low) Priority priority,
     @JsonKey(name: 'created_at') DateTime? createdAt,
     @JsonKey(name: 'created_by') required String createdBy,
     @Default([]) @JsonKey(name: 'subtask') List<Subtask>? subtasks,
-
-    // TODO priority
   }) = _Task;
 
   factory Task.fromJson(Map<String, Object?> json) => _$TaskFromJson(json);

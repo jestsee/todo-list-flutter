@@ -9,6 +9,8 @@ import 'package:todo_list/repositories/task/task_repository.dart';
 
 import 'model/task.dart';
 
+final supabase = Supabase.instance.client;
+
 // authentication
 final authRepositoryProvider =
     r.Provider<AuthRepository>((_) => const AuthRepository());
@@ -22,10 +24,13 @@ final authControllerProvider =
 
 // task
 final taskRepositoryProvider =
-    r.Provider<TaskRepository>(((ref) => const TaskRepository()));
+    r.Provider<TaskRepository>(((_) => TaskRepository(supabase)));
 
 final taskListControllerProvider =
     r.StateNotifierProvider<TaskListController, r.AsyncValue<List<Task>>>(
         (ref) {
-  return TaskListController(ref, '1');
+  final user = ref.watch(authRepositoryProvider).getCurrentUser;
+  return TaskListController(ref, user?.id);
 });
+
+final currentTaskItem = r.Provider<Task>((_) => throw UnimplementedError());

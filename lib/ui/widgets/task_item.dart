@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:todo_list/model/priority.dart';
+import 'package:todo_list/model/task.dart';
 import 'package:todo_list/ui/widgets/badge.dart';
 import 'package:todo_list/ui/widgets/constants.dart';
 
+final priorityMap = {
+  Priority.low: BadgeVariant.low,
+  Priority.moderate: BadgeVariant.moderate,
+  Priority.high: BadgeVariant.high,
+};
+
 class TaskItem extends StatelessWidget {
-  const TaskItem({super.key});
+  final Task task;
+  const TaskItem({
+    super.key,
+    required this.task,
+  });
 
   @override
   Widget build(BuildContext context) {
+    const gap = 10.0;
     return Container(
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black45),
           borderRadius: BorderRadius.circular(8)),
@@ -17,50 +32,60 @@ class TaskItem extends StatelessWidget {
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Task name',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            children: <Widget>[
+              Text(task.title,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold)),
               Badge(
                 text: 'Priority',
-                variant: BadgeVariant.high,
+                variant: priorityMap[task.priority]!,
               ),
             ],
           ),
+          const SizedBox(height: gap),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Badge(
-                text: 'Group',
+              Badge(
+                text: task.groupId != null ? 'Group' : 'Personal',
                 outline: true,
                 variant: BadgeVariant.other,
               ),
               Row(
-                children: const [
-                  Icon(Icons.timelapse, size: 18),
-                  SizedBox(width: 4),
-                  Text('time/deadline'),
+                children: [
+                  const Icon(Icons.calendar_month, size: 16),
+                  const SizedBox(width: 4),
+                  Text(DateFormat.yMMMd().format(task.createdAt!)),
                 ],
               )
             ],
           ),
-          SizedBox(
-            height: 32,
-            child: CheckboxListTile(
-              value: true,
-              onChanged: ((value) => {}),
-              title: const Text(
-                'task 1',
-                style: TextStyle(decoration: TextDecoration.lineThrough),
-              ),
-              contentPadding: EdgeInsets.zero,
-            ),
+          ListView(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            children: List.from(task.subtasks!.take(2).map(
+                  (e) => SizedBox(
+                    height: 30,
+                    child: CheckboxListTile(
+                      value: e.checked,
+                      onChanged: ((value) => {}),
+                      title: Text(e.text,
+                          style: const TextStyle(
+                              decoration: TextDecoration.lineThrough)),
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                  ),
+                )),
           ),
-          CheckboxListTile(
-            value: false,
-            onChanged: ((value) => {}),
-            title: const Text('task 1'),
-            contentPadding: EdgeInsets.zero,
-          ),
+          task.subtasks!.length > 2
+              ? const Padding(
+                  padding: EdgeInsets.only(top: 12),
+                  child: Text(
+                    '...',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
     );

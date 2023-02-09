@@ -27,6 +27,7 @@ mixin _$Task {
   String? get longitude => throw _privateConstructorUsedError;
   String? get latitude => throw _privateConstructorUsedError;
   DateTime? get deadline => throw _privateConstructorUsedError;
+  Priority get priority => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_by')
@@ -51,6 +52,7 @@ abstract class $TaskCopyWith<$Res> {
       String? longitude,
       String? latitude,
       DateTime? deadline,
+      Priority priority,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'created_by') String createdBy,
       @JsonKey(name: 'subtask') List<Subtask>? subtasks});
@@ -75,6 +77,7 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
     Object? longitude = freezed,
     Object? latitude = freezed,
     Object? deadline = freezed,
+    Object? priority = null,
     Object? createdAt = freezed,
     Object? createdBy = null,
     Object? subtasks = freezed,
@@ -104,6 +107,10 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
           ? _value.deadline
           : deadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      priority: null == priority
+          ? _value.priority
+          : priority // ignore: cast_nullable_to_non_nullable
+              as Priority,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -133,6 +140,7 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       String? longitude,
       String? latitude,
       DateTime? deadline,
+      Priority priority,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'created_by') String createdBy,
       @JsonKey(name: 'subtask') List<Subtask>? subtasks});
@@ -153,6 +161,7 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
     Object? longitude = freezed,
     Object? latitude = freezed,
     Object? deadline = freezed,
+    Object? priority = null,
     Object? createdAt = freezed,
     Object? createdBy = null,
     Object? subtasks = freezed,
@@ -182,6 +191,10 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
           ? _value.deadline
           : deadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      priority: null == priority
+          ? _value.priority
+          : priority // ignore: cast_nullable_to_non_nullable
+              as Priority,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -208,6 +221,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
       this.longitude,
       this.latitude,
       this.deadline,
+      this.priority = Priority.low,
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'created_by') required this.createdBy,
       @JsonKey(name: 'subtask') final List<Subtask>? subtasks = const []})
@@ -230,6 +244,9 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
   @override
   final DateTime? deadline;
   @override
+  @JsonKey()
+  final Priority priority;
+  @override
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
@@ -248,7 +265,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Task(id: $id, title: $title, groupId: $groupId, longitude: $longitude, latitude: $latitude, deadline: $deadline, createdAt: $createdAt, createdBy: $createdBy, subtasks: $subtasks)';
+    return 'Task(id: $id, title: $title, groupId: $groupId, longitude: $longitude, latitude: $latitude, deadline: $deadline, priority: $priority, createdAt: $createdAt, createdBy: $createdBy, subtasks: $subtasks)';
   }
 
   @override
@@ -262,6 +279,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('longitude', longitude))
       ..add(DiagnosticsProperty('latitude', latitude))
       ..add(DiagnosticsProperty('deadline', deadline))
+      ..add(DiagnosticsProperty('priority', priority))
       ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('createdBy', createdBy))
       ..add(DiagnosticsProperty('subtasks', subtasks));
@@ -281,6 +299,8 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
                 other.latitude == latitude) &&
             (identical(other.deadline, deadline) ||
                 other.deadline == deadline) &&
+            (identical(other.priority, priority) ||
+                other.priority == priority) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.createdBy, createdBy) ||
@@ -298,6 +318,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
       longitude,
       latitude,
       deadline,
+      priority,
       createdAt,
       createdBy,
       const DeepCollectionEquality().hash(_subtasks));
@@ -324,6 +345,7 @@ abstract class _Task extends Task {
       final String? longitude,
       final String? latitude,
       final DateTime? deadline,
+      final Priority priority,
       @JsonKey(name: 'created_at') final DateTime? createdAt,
       @JsonKey(name: 'created_by') required final String createdBy,
       @JsonKey(name: 'subtask') final List<Subtask>? subtasks}) = _$_Task;
@@ -344,6 +366,8 @@ abstract class _Task extends Task {
   String? get latitude;
   @override
   DateTime? get deadline;
+  @override
+  Priority get priority;
   @override
   @JsonKey(name: 'created_at')
   DateTime? get createdAt;
