@@ -22,7 +22,7 @@ class TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     const gap = 10.0;
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black45),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
-import 'package:todo_list/ui/widgets/task_item.dart';
+import 'package:todo_list/ui/widgets/search_bar.dart';
 import 'package:todo_list/ui/widgets/task_list.dart';
 
 class Home extends HookConsumerWidget {
@@ -10,20 +10,28 @@ class Home extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final tasksLength = ref.read(taskListControllerProvider).when(
+        data: (data) => data.isNotEmpty ? data.length : 'no',
+        error: (err, st) => '',
+        loading: () => 'loading');
+    const gap = 8.0;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
       body: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hi, Name!',
+              'Hi, ${(ref.watch(authRepositoryProvider).getCurrentUser!.userMetadata)!['name']}!',
               style: Theme.of(context).textTheme.headline1,
               textAlign: TextAlign.left,
             ),
-            const Text('You have 10 unfinished tasks'),
-            // TODO search bar
+            const SizedBox(height: gap - 4),
+            Text('You have $tasksLength unfinished tasks'),
+            const SizedBox(height: 3 * gap),
+            SearchBar(),
+            const SizedBox(height: 3 * gap),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -39,7 +47,6 @@ class Home extends HookConsumerWidget {
                 )
               ],
             ),
-            // const TaskItem(),
             const TaskList(),
             CustomButton(
                 full: true,

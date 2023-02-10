@@ -10,15 +10,19 @@ class TaskList extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final taskListState = ref.read(taskListControllerProvider);
     return taskListState.when(
-        data: (data) => ListView.builder(
-            shrinkWrap: true,
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              final item = data[index];
-              return ProviderScope(
-                  overrides: [currentTaskItem.overrideWithValue(item)],
-                  child: const TaskItemTile());
-            }),
+        data: (data) => MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    final item = data[index];
+                    return ProviderScope(
+                        overrides: [currentTaskItem.overrideWithValue(item)],
+                        child: const TaskItemTile());
+                  }),
+            ),
         error: ((error, stackTrace) => const Text('error')),
         loading: (() => const Text('loading')));
   }
