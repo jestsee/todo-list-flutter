@@ -64,14 +64,16 @@ class TaskItem extends StatelessWidget {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             children: List.from(task.subtasks!.take(2).map(
-                  (e) => SizedBox(
+                  (subtask) => SizedBox(
                     height: 30,
                     child: CheckboxListTile(
-                      value: e.checked,
+                      value: subtask.checked,
                       onChanged: ((value) => {}),
-                      title: Text(e.text,
-                          style: const TextStyle(
-                              decoration: TextDecoration.lineThrough)),
+                      title: Text(subtask.text,
+                          style: TextStyle(
+                              decoration: subtask.checked
+                                  ? TextDecoration.lineThrough
+                                  : null)),
                       contentPadding: EdgeInsets.zero,
                     ),
                   ),

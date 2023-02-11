@@ -8,7 +8,7 @@ class TaskItemTile extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskItem = ref.read(currentTaskItem);
+    final taskItem = ref.watch(currentTaskItem);
     return TaskItem(task: taskItem);
   }
 }

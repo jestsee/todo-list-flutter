@@ -8,7 +8,7 @@ class TaskList extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskListState = ref.read(taskListControllerProvider);
+    final taskListState = ref.watch(taskListControllerProvider);
     return taskListState.when(
         data: (data) => MediaQuery.removePadding(
               context: context,
