@@ -8,14 +8,12 @@ part 'subtask.g.dart';
 class Subtask with _$Subtask {
   const Subtask._();
   const factory Subtask({
-    required String text,
-    required bool checked,
+    @Default('') String text,
+    @Default(false) bool checked,
   }) = _Subtask;
 
   factory Subtask.fromJson(Map<String, Object?> json) =>
       _$SubtaskFromJson(json);
-
-  bool get isChecked => this.checked;
 
   Subtask checkTask() => copyWith(text: text, checked: true);
 

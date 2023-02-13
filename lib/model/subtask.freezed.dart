@@ -104,14 +104,16 @@ class __$$_SubtaskCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Subtask extends _Subtask with DiagnosticableTreeMixin {
-  const _$_Subtask({required this.text, required this.checked}) : super._();
+  const _$_Subtask({this.text = '', this.checked = false}) : super._();
 
   factory _$_Subtask.fromJson(Map<String, dynamic> json) =>
       _$$_SubtaskFromJson(json);
 
   @override
+  @JsonKey()
   final String text;
   @override
+  @JsonKey()
   final bool checked;
 
   @override
@@ -156,8 +158,7 @@ class _$_Subtask extends _Subtask with DiagnosticableTreeMixin {
 }
 
 abstract class _Subtask extends Subtask {
-  const factory _Subtask(
-      {required final String text, required final bool checked}) = _$_Subtask;
+  const factory _Subtask({final String text, final bool checked}) = _$_Subtask;
   const _Subtask._() : super._();
 
   factory _Subtask.fromJson(Map<String, dynamic> json) = _$_Subtask.fromJson;

@@ -12,10 +12,9 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
     fetchTasks();
   }
 
-  Future<void> fetchTasks(
-      {bool isRefreshing = false, String? title, int? count}) async {
-    if (isRefreshing) state = const AsyncLoading();
+  Future<void> fetchTasks({String? title, int? count}) async {
     try {
+      state = const AsyncLoading();
       final tasks = await _ref
           .read(taskRepositoryProvider)
           .fetchTasks(userId: _userId!, title: title, count: count);

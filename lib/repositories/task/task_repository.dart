@@ -44,16 +44,3 @@ class TaskRepository {
     }
   }
 }
-
-
-// TODO
-// 1. cobain populate nama grup -> bisa
-// 2. cobain filter arr of json 
-//  - kalo gabisa, pisahin lagi skemanya 
-//  - filtering through foreign tables buat dapet task dan subtasks 
-//  - jadi pas filter berdasarkan subtask dia bs filter biasa
-//  - tp gabungin sm yg filter task title gmn? (task title & subtask)
-
-// TODO hari ini
-// 1. fitur search
-// 2. ganti badge group jadi nama group (maks berapa karakter?)

@@ -32,8 +32,14 @@ class MyApp extends StatelessWidget {
         routes: customRoutes,
         theme: ThemeData(
           textTheme: const TextTheme(
-              headline1: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-              headline3: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              headline1: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+              headline3: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)),
           primarySwatch: Colors.blue,
         ),
       ),

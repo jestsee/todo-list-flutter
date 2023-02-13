@@ -7,8 +7,8 @@ part of 'subtask.dart';
 // **************************************************************************
 
 _$_Subtask _$$_SubtaskFromJson(Map<String, dynamic> json) => _$_Subtask(
-      text: json['text'] as String,
-      checked: json['checked'] as bool,
+      text: json['text'] as String? ?? '',
+      checked: json['checked'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_SubtaskToJson(_$_Subtask instance) =>
