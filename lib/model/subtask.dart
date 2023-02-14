@@ -15,7 +15,11 @@ class Subtask with _$Subtask {
   factory Subtask.fromJson(Map<String, Object?> json) =>
       _$SubtaskFromJson(json);
 
-  Subtask checkTask() => copyWith(text: text, checked: true);
+  Subtask checkTask() => copyWith(checked: true);
 
-  Subtask uncheckTask() => copyWith(text: text, checked: false);
+  Subtask uncheckTask() => copyWith(checked: false);
+
+  Subtask changeChecked(bool checked) => copyWith(checked: checked);
+
+  Subtask changeText(String text) => copyWith(text: text);
 }

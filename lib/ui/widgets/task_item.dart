@@ -55,6 +55,7 @@ class TaskItem extends StatelessWidget {
                 children: [
                   const Icon(Icons.calendar_month, size: 16),
                   const SizedBox(width: 4),
+                  // TODO ubah createdAt jd deadline
                   Text(DateFormat.yMMMd().format(task.createdAt!)),
                 ],
               )
@@ -63,7 +64,9 @@ class TaskItem extends StatelessWidget {
           ListView(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
-            children: List.from(task.subtasks!.take(2).map(
+            children: task.subtasks!
+                .take(2)
+                .map(
                   (subtask) => SizedBox(
                     height: 30,
                     child: CheckboxListTile(
@@ -77,7 +80,8 @@ class TaskItem extends StatelessWidget {
                       contentPadding: EdgeInsets.zero,
                     ),
                   ),
-                )),
+                )
+                .toList(),
           ),
           task.subtasks!.length > 2
               ? const Padding(
