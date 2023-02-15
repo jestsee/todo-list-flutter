@@ -33,9 +33,8 @@ class SubtaskCheckbox extends HookConsumerWidget {
             child: TextFormField(
               focusNode: focus,
               controller: controller,
-              // textInputAction: TextInputAction.send,
-              // maxLines: null,
-              // keyboardType: TextInputType.multiline,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
               onChanged: (value) {},
               onFieldSubmitted: (value) {
                 subtasksAction.addSubtask(index);

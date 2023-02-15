@@ -26,7 +26,7 @@ class AddTaskDialog extends StatelessWidget {
                       },
                       icon: const Icon(Icons.clear_rounded, size: 28))),
             ),
-            SubtaskList()
+            const SubtaskList()
           ],
         ),
       ),
