@@ -24,9 +24,5 @@ class SubtaskList extends ConsumerWidget {
 }
 
 // TODO
-// 1. (v) x icon muncul pas fokus
-// 2. (v) insert di indeks setelahnya bknn baru
-// 3. ( ) langsung focus di new widget - keyboardnya kejep
-// 4. ( ) multiline masih masalah, kalo dibikin textinput.keyboard dia ga bs enter
-// 5. (v) kalo dihapus semua jadi hilang harusnya masih bisa nambah todo
-// 6. (v) pas enter baru dia focus tetep ke paling bawah
+// 1. ( ) langsung focus di new widget - keyboardnya kejep
+// 2. ( ) multiline masih masalah, kalo dibikin textinput.keyboard dia ga bs enter
