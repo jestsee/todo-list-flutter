@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/model/subtask.dart';
 
 class SubtaskWithController {
   final Subtask subtask;
-  final AutoDisposeProvider<TextEditingController> controller;
+  final TextEditingController controller;
+  final FocusNode focus;
 
-  SubtaskWithController(this.subtask, this.controller);
+  SubtaskWithController(this.subtask, this.controller, this.focus);
 
   SubtaskWithController copyWith({bool? checked, String? text}) =>
       SubtaskWithController(
           Subtask(
               text: text ?? subtask.text, checked: checked ?? subtask.checked),
-          controller);
+          controller,
+          focus);
 }

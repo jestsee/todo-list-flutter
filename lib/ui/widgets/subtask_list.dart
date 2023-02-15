@@ -29,3 +29,4 @@ class SubtaskList extends ConsumerWidget {
 // 3. ( ) langsung focus di new widget - keyboardnya kejep
 // 4. ( ) multiline masih masalah, kalo dibikin textinput.keyboard dia ga bs enter
 // 5. (v) kalo dihapus semua jadi hilang harusnya masih bisa nambah todo
+// 6. (v) pas enter baru dia focus tetep ke paling bawah
