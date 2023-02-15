@@ -40,5 +40,5 @@ final currentTaskItem = r.Provider<Task>((_) => throw UnimplementedError());
 
 // subtask
 final subtaskListControllerProvider = r.StateNotifierProvider.autoDispose<
-        SubtaskListController, List<SubtaskWithController>>(
-    (_) => SubtaskListController()..addSubtask(-1));
+    SubtaskListController,
+    List<SubtaskWithController>>((_) => SubtaskListController()..add(-1));

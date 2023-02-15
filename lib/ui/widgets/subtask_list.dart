@@ -25,4 +25,3 @@ class SubtaskList extends ConsumerWidget {
 
 // TODO
 // 1. ( ) langsung focus di new widget - keyboardnya kejep
-// 2. ( ) multiline masih masalah, kalo dibikin textinput.keyboard dia ga bs enter

@@ -29,7 +29,7 @@ class SubtaskListController extends StateNotifier<List<SubtaskWithController>> {
     }
   }
 
-  void addSubtask(int idx) {
+  void add(int idx) {
     state = [
       ...state
         ..insert(
@@ -40,7 +40,7 @@ class SubtaskListController extends StateNotifier<List<SubtaskWithController>> {
     state[idx + 1].focus.requestFocus();
   }
 
-  void removeSubtask(int idx) {
+  void remove(int idx) {
     if (onlyOneSubtask) return;
 
     state[idx].focus.unfocus();
@@ -52,11 +52,31 @@ class SubtaskListController extends StateNotifier<List<SubtaskWithController>> {
     log('remove called at $idx ${state.map((e) => e.subtask)}');
   }
 
-  void editSubtaskText(int idx, String text) {
+  void editText(int idx, String text) {
     if (idx + 1 > state.length) return;
     state = [
       ...state..replaceRange(idx, idx + 1, [state[idx].copyWith(text: text)])
     ];
+  }
+
+  void editCheck(int idx, bool check) {
+    state[idx].focus.unfocus();
+    state = [
+      ...state
+        ..replaceRange(idx, idx + 1, [state[idx].copyWith(checked: check)])
+    ];
+
+    // reorder
+    state = [
+      ...state
+        ..sort((a, b) {
+          if (b.subtask.checked) {
+            return -1;
+          }
+          return 1;
+        })
+    ];
+    log('reorder ${state.map((e) => e.subtask)}');
   }
 
   bool get onlyOneSubtask => state.length <= 1;
