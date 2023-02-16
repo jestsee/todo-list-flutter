@@ -5,10 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/model/subtask.dart';
 import 'package:todo_list/model/subtask_with_controller.dart';
 
-class SubtaskListController extends StateNotifier<List<SubtaskWithController>> {
+class BaseSubtaskController extends StateNotifier<List<SubtaskWithController>> {
   final List<TextEditingController> _disposedControllerList = [];
   final List<FocusNode> _disposedFocusList = [];
-  SubtaskListController() : super([]);
+  final Ref ref;
+  bool? checked = false;
+  BaseSubtaskController(this.ref, {this.checked}) : super([]);
 
   @override
   void dispose() {
@@ -19,6 +21,7 @@ class SubtaskListController extends StateNotifier<List<SubtaskWithController>> {
       subtask.focus.dispose();
     }
     super.dispose();
+    // gosah kah yg di bawah ini??
     for (final controller in _disposedControllerList) {
       log('controller disposed');
       controller.dispose();
@@ -29,20 +32,19 @@ class SubtaskListController extends StateNotifier<List<SubtaskWithController>> {
     }
   }
 
-  void add(int idx) {
+  void add(int idx, {Subtask? subtask}) {
+    log('checked $checked');
     state = [
       ...state
         ..insert(
             idx + 1,
-            SubtaskWithController(
-                const Subtask(), TextEditingController(), FocusNode()))
+            SubtaskWithController(subtask ?? Subtask(checked: checked ?? false),
+                TextEditingController(text: subtask?.text ?? ''), FocusNode()))
     ];
     state[idx + 1].focus.requestFocus();
   }
 
   void remove(int idx) {
-    if (onlyOneSubtask) return;
-
     state[idx].focus.unfocus();
 
     _disposedControllerList.add(state[idx].controller);
@@ -59,25 +61,9 @@ class SubtaskListController extends StateNotifier<List<SubtaskWithController>> {
     ];
   }
 
-  void editCheck(int idx, bool check) {
-    state[idx].focus.unfocus();
-    state = [
-      ...state
-        ..replaceRange(idx, idx + 1, [state[idx].copyWith(checked: check)])
-    ];
-
-    // reorder
-    state = [
-      ...state
-        ..sort((a, b) {
-          if (b.subtask.checked) {
-            return -1;
-          }
-          return 1;
-        })
-    ];
-    log('reorder ${state.map((e) => e.subtask)}');
+  void editCheck(int idx) {
+    editText(idx, state[idx].controller.text);
   }
 
-  bool get onlyOneSubtask => state.length <= 1;
+  int get length => state.length;
 }

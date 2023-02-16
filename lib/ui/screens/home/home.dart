@@ -30,7 +30,7 @@ class Home extends HookConsumerWidget {
             const SizedBox(height: gap - 4),
             Text('You have $tasksLength unfinished tasks'),
             const SizedBox(height: 3 * gap),
-            SearchBar(),
+            const SearchBar(),
             const SizedBox(height: 3 * gap),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

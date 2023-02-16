@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/ui/widgets/badge.dart';
 import 'package:todo_list/ui/widgets/constants.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/widgets/subtask_list.dart';
@@ -34,8 +33,8 @@ class AddTaskDialog extends StatelessWidget {
                             icon: const Icon(Icons.clear_rounded, size: 28))),
                   ),
                   const SubtaskList(),
+                  const SizedBox(height: 16),
                   // TODO
-                  const SizedBox(height: 8),
                   const Align(
                       alignment: Alignment.bottomRight,
                       child: Text('Last updated by me at 11.06 PM'))
@@ -74,15 +73,17 @@ class AddTaskDialog extends StatelessWidget {
                             ),
                           ),
                           GestureDetector(
-                              onTap: () {},
-                              child: const Icon(Icons.group, size: 36)),
+                            child: const Icon(Icons.group, size: 36),
+                            onTap: () {},
+                          ),
                           GestureDetector(
-                              onTap: () {},
-                              child:
-                                  const Icon(Icons.calendar_month, size: 36)),
+                            child: const Icon(Icons.calendar_month, size: 36),
+                            onTap: () {},
+                          ),
                           GestureDetector(
-                              onTap: () {},
-                              child: const Icon(Icons.location_on, size: 36)),
+                            child: const Icon(Icons.location_on, size: 36),
+                            onTap: () {},
+                          ),
                         ],
                       ),
                     ),
