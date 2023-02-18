@@ -37,23 +37,19 @@ class Home extends HookConsumerWidget {
               children: [
                 Text('Task', style: Theme.of(context).textTheme.headline3),
                 TextButton(
+                  child: const Text('See all',
+                      style: TextStyle(decoration: TextDecoration.underline)),
                   onPressed: () {},
-                  child: const Text(
-                    'See all',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
                 )
               ],
             ),
             const TaskList(),
-            CustomButton(
-                full: true,
-                onPressed: () {
-                  ref.read(authControllerProvider.notifier).signOut();
-                },
-                child: const Text('Sign out'))
+            // CustomButton(
+            //     full: true,
+            //     onPressed: () {
+            //       ref.read(authControllerProvider.notifier).signOut();
+            //     },
+            //     child: const Text('Sign out'))
           ],
         ),
       ),

@@ -6,8 +6,6 @@ import 'package:todo_list/model/subtask.dart';
 import 'package:todo_list/model/subtask_with_controller.dart';
 
 class BaseSubtaskController extends StateNotifier<List<SubtaskWithController>> {
-  final List<TextEditingController> _disposedControllerList = [];
-  final List<FocusNode> _disposedFocusList = [];
   final Ref ref;
   bool? checked = false;
   BaseSubtaskController(this.ref, {this.checked}) : super([]);
@@ -21,19 +19,9 @@ class BaseSubtaskController extends StateNotifier<List<SubtaskWithController>> {
       subtask.focus.dispose();
     }
     super.dispose();
-    // gosah kah yg di bawah ini??
-    for (final controller in _disposedControllerList) {
-      log('controller disposed');
-      controller.dispose();
-    }
-    for (final focus in _disposedFocusList) {
-      log('focus disposed');
-      focus.dispose();
-    }
   }
 
   void add(int idx, {Subtask? subtask}) {
-    log('checked $checked');
     state = [
       ...state
         ..insert(
@@ -47,8 +35,12 @@ class BaseSubtaskController extends StateNotifier<List<SubtaskWithController>> {
   void remove(int idx) {
     state[idx].focus.unfocus();
 
-    _disposedControllerList.add(state[idx].controller);
-    _disposedFocusList.add(state[idx].focus);
+    final controller = state[idx].controller;
+    final focus = state[idx].focus;
+
+    controller.dispose();
+    focus.dispose();
+    log('[DISPOSE] at $idx');
 
     state = [...state..removeAt(idx)];
     log('remove called at $idx ${state.map((e) => e.subtask)}');

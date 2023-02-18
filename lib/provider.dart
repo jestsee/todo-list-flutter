@@ -35,8 +35,6 @@ final taskListControllerProvider =
   return TaskListController(ref, user?.id);
 });
 
-final currentTaskItem = r.Provider<Task>((_) => throw UnimplementedError());
-
 // subtask
 final uncheckedListControllerProvider = r.StateNotifierProvider.autoDispose<
         UncheckedSubtaskController, List<SubtaskWithController>>(

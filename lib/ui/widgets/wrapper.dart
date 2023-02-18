@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:todo_list/ui/screens/add_task/add_task.dart';
+import 'package:todo_list/ui/screens/all_task/all_task.dart';
 import 'package:todo_list/ui/screens/index.dart';
 
 import 'bottom_nav_bar.dart';
@@ -9,7 +9,7 @@ class ScaffoldWrapper extends HookWidget {
   const ScaffoldWrapper({super.key, required this.child});
   final Widget child;
 
-  final screens = const [Home(), AddTask()];
+  final screens = const [Home(), AllTask()];
 
   @override
   Widget build(BuildContext context) {

@@ -17,14 +17,14 @@ class BottomNavBar extends StatelessWidget {
               icon: Icon(Icons.home),
               label: 'Home',
               backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.checklist_rounded), label: 'Task'),
+          BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Group'),
           BottomNavigationBarItem(
               icon: SizedBox(
                 width: 40,
               ),
               label: 'Dummy'),
-          BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Group'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.checklist_rounded), label: 'Task'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ]);
   }

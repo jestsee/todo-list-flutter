@@ -56,7 +56,7 @@ class TaskItem extends StatelessWidget {
                   const Icon(Icons.calendar_month, size: 16),
                   const SizedBox(width: 4),
                   // TODO ubah createdAt jd deadline
-                  Text(DateFormat.yMMMd().format(task.createdAt!)),
+                  // Text(DateFormat.yMMMd().format(task.createdAt!)),
                 ],
               )
             ],

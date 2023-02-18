@@ -10,7 +10,7 @@ part 'task.g.dart';
 class Task with _$Task {
   const Task._();
   const factory Task({
-    int? id,
+    String? id,
     required String title,
     @JsonKey(name: 'group_id') int? groupId,
     String? longitude,
@@ -23,6 +23,10 @@ class Task with _$Task {
   }) = _Task;
 
   factory Task.fromJson(Map<String, Object?> json) => _$TaskFromJson(json);
+
+  Map<String, dynamic> toCleaned() => toJson()
+    ..remove('id')
+    ..remove('created_at');
 
   bool get hasSubtasks => subtasks!.isNotEmpty;
 }

@@ -1,13 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/widgets/constants.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/widgets/subtask_list.dart';
 
-class AddTaskDialog extends StatelessWidget {
+class AddTaskDialog extends HookWidget {
   const AddTaskDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final titleController = useTextEditingController();
+    final date = useState<DateTime?>(null);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -18,9 +26,9 @@ class AddTaskDialog extends StatelessWidget {
               Column(
                 children: [
                   TextFormField(
+                    controller: titleController,
                     maxLines: null,
                     keyboardType: TextInputType.multiline,
-                    initialValue: 'ahoi',
                     style: Theme.of(context).textTheme.headline3,
                     decoration: InputDecoration(
                         hintText: 'Task title',
@@ -42,8 +50,42 @@ class AddTaskDialog extends StatelessWidget {
               ),
               Column(
                 children: [
-                  CustomButton(
-                      full: true, onPressed: () {}, child: const Text('Save')),
+                  Consumer(
+                    builder:
+                        (BuildContext context, WidgetRef ref, Widget? child) {
+                      final currentTasks =
+                          ref.watch(taskListControllerProvider);
+
+                      ref.listen(
+                        taskListControllerProvider,
+                        (previous, next) {
+                          if (next.hasValue) {
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      );
+                      return CustomButton(
+                        full: true,
+                        loading: currentTasks.isLoading,
+                        onPressed: () {
+                          final checkedSubtasks =
+                              ref.watch(checkedListControllerProvider);
+                          final uncheckedSubtasks =
+                              ref.watch(uncheckedListControllerProvider);
+                          final subtasks = [
+                            ...checkedSubtasks,
+                            ...uncheckedSubtasks
+                          ].map((e) => e.subtask).toList();
+
+                          ref.read(taskListControllerProvider.notifier).addTask(
+                              title: titleController.text,
+                              deadline: date.value,
+                              subtasks: subtasks);
+                        },
+                        child: const Text('Save'),
+                      );
+                    },
+                  ),
                   const SizedBox(
                     height: 18,
                   ),
@@ -78,7 +120,14 @@ class AddTaskDialog extends StatelessWidget {
                           ),
                           GestureDetector(
                             child: const Icon(Icons.calendar_month, size: 36),
-                            onTap: () {},
+                            onTap: () async {
+                              date.value = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2099),
+                              );
+                            },
                           ),
                           GestureDetector(
                             child: const Icon(Icons.location_on, size: 36),
