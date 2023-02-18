@@ -6,7 +6,7 @@ class UncheckedSubtaskController extends BaseSubtaskController {
 
   @override
   void editCheck(int idx) {
-    super.editCheck(idx);
+    syncSubtasks();
     final checkSubtask = ref.read(checkedListControllerProvider.notifier);
     checkSubtask.add(checkSubtask.length - 1,
         subtask: state[idx].subtask.copyWith(checked: true));
@@ -19,7 +19,7 @@ class CheckedSubtaskController extends BaseSubtaskController {
 
   @override
   void editCheck(int idx) {
-    super.editCheck(idx);
+    syncSubtasks();
     final uncheckSubtask = ref.read(uncheckedListControllerProvider.notifier);
     uncheckSubtask.add(uncheckSubtask.length - 1,
         subtask: state[idx].subtask.copyWith(checked: false));

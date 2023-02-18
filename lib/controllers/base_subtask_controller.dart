@@ -53,8 +53,11 @@ class BaseSubtaskController extends StateNotifier<List<SubtaskWithController>> {
     ];
   }
 
-  void editCheck(int idx) {
-    editText(idx, state[idx].controller.text);
+  void editCheck(int idx) {}
+
+  void syncSubtasks() {
+    state = state.map((e) => e.copyWith(text: e.controller.text)).toList();
+    log('sync called ${state.map((e) => e.subtask)}');
   }
 
   int get length => state.length;

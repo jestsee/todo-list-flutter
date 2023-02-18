@@ -15,7 +15,6 @@ class TaskList extends HookConsumerWidget {
                 context: context,
                 removeTop: true,
                 child: ListView.builder(
-                    shrinkWrap: true,
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       final item = data[index];

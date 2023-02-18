@@ -32,9 +32,6 @@ class SubtaskCheckbox extends HookConsumerWidget {
           child: Focus(
             onFocusChange: (value) {
               hasFocus.value = value;
-              if (!value) {
-                subtasksAction.editText(index, controller.text);
-              }
             },
             child: TextFormField(
               focusNode: focus,
@@ -55,7 +52,6 @@ class SubtaskCheckbox extends HookConsumerWidget {
         hasFocus.value
             ? IconButton(
                 onPressed: () {
-                  // hasFocus.value = false;
                   subtasksAction.remove(index);
                 },
                 icon: const Icon(Icons.clear_rounded))
