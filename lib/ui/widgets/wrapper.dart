@@ -21,7 +21,7 @@ class ScaffoldWrapper extends HookWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add_rounded, size: 32),
         onPressed: () {
-          showAddTaskDialog(context);
+          showTaskDialog(context);
         },
       ),
       bottomNavigationBar: BottomAppBar(

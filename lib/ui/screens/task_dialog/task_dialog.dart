@@ -3,18 +3,20 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todo_list/model/task.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/widgets/constants.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/widgets/subtask_list.dart';
 
-class AddTaskDialog extends HookWidget {
-  const AddTaskDialog({super.key});
+class TaskDialog extends HookWidget {
+  final Task? task;
+  const TaskDialog({super.key, this.task});
 
   @override
   Widget build(BuildContext context) {
-    final titleController = useTextEditingController();
-    final date = useState<DateTime?>(null);
+    final titleController = useTextEditingController(text: task?.title);
+    final date = useState<DateTime?>(task?.deadline);
 
     return Scaffold(
       body: Padding(
@@ -24,13 +26,11 @@ class AddTaskDialog extends HookWidget {
           children: [
             InputDecorator(
               decoration: InputDecoration(
-                  hintText: 'Task title',
                   border: InputBorder.none,
                   suffix: IconButton(
                     icon: const Icon(Icons.clear_rounded, size: 28),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      // TODO are u sure dont want to save?
                     },
                   )),
               child: TextFormField(
@@ -42,7 +42,7 @@ class AddTaskDialog extends HookWidget {
                     const InputDecoration.collapsed(hintText: 'Task title'),
               ),
             ),
-            const SubtaskList(),
+            SubtaskList(subtasks: task?.subtasks),
             const SizedBox(height: 16),
             // TODO
             // const Align(
@@ -64,28 +64,8 @@ class AddTaskDialog extends HookWidget {
                   full: true,
                   loading: currentTasks.isLoading,
                   onPressed: () {
-                    //  TODO pindahin ke tasklistcontrollers
-                    // sync both checked and unchecked subtasks
-                    ref
-                        .read(checkedListControllerProvider.notifier)
-                        .syncSubtasks();
-                    ref
-                        .read(uncheckedListControllerProvider.notifier)
-                        .syncSubtasks();
-
-                    // combine both subtasks
-                    final checkedSubtasks =
-                        ref.watch(checkedListControllerProvider);
-                    final uncheckedSubtasks =
-                        ref.watch(uncheckedListControllerProvider);
-                    final subtasks = [...checkedSubtasks, ...uncheckedSubtasks]
-                        .map((e) => e.subtask)
-                        .toList();
-
                     ref.read(taskListControllerProvider.notifier).addTask(
-                        title: titleController.text,
-                        deadline: date.value,
-                        subtasks: subtasks);
+                        title: titleController.text, deadline: date.value);
                   },
                   child: const Text('Save'),
                 );
@@ -147,7 +127,7 @@ class AddTaskDialog extends HookWidget {
   }
 }
 
-void showAddTaskDialog(BuildContext context) {
+void showTaskDialog(BuildContext context, {Task? task}) {
   showGeneralDialog(
     context: context,
     pageBuilder: (ctx, a1, a2) {
@@ -156,7 +136,7 @@ void showAddTaskDialog(BuildContext context) {
             begin: const Offset(0.0, 1.0),
             end: Offset.zero,
           ).animate(a1),
-          child: const AddTaskDialog());
+          child: TaskDialog(task: task));
     },
     transitionDuration: const Duration(milliseconds: 250),
   );

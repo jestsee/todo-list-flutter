@@ -28,16 +28,13 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
     }
   }
 
-  Future<void> addTask(
-      {required String title,
-      List<Subtask>? subtasks,
-      DateTime? deadline}) async {
+  Future<void> addTask({required String title, DateTime? deadline}) async {
     try {
       final tempTasks = state.value;
       state = const AsyncLoading();
       final task = Task(
           title: title,
-          subtasks: subtasks,
+          subtasks: prepareSubtasks(),
           deadline: deadline,
           createdBy: _userId!);
       final taskId = await _ref
@@ -48,5 +45,39 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       log(e.toString());
       state = AsyncError(e, st);
     }
+  }
+
+// TODO pindahin?
+  List<Subtask> prepareSubtasks() {
+    final check = _ref.read(checkedListControllerProvider.notifier);
+    final uncheck = _ref.read(uncheckedListControllerProvider.notifier);
+
+    // sync both checked and unchecked subtasks
+    check.syncSubtasks();
+    uncheck.syncSubtasks();
+
+    // combine both subtasks
+    return [...check.state, ...uncheck.state].map((e) => e.subtask).toList();
+  }
+
+// TODO kemungkinan ga dipake
+  void setSubtasks(List<Subtask> subtasks) {
+    final check = _ref.read(checkedListControllerProvider.notifier);
+    final uncheck = _ref.read(uncheckedListControllerProvider.notifier);
+
+    log('setsub called');
+
+    final List<Subtask> checkedSubtasks = [];
+    final List<Subtask> uncheckedSubtasks = [];
+
+    for (var item in subtasks) {
+      if (item.checked) {
+        checkedSubtasks.add(item);
+      } else {
+        uncheckedSubtasks.add(item);
+      }
+    }
+    check.set(checkedSubtasks);
+    uncheck.set(uncheckedSubtasks);
   }
 }

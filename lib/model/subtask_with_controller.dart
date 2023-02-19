@@ -8,6 +8,10 @@ class SubtaskWithController {
 
   SubtaskWithController(this.subtask, this.controller, this.focus);
 
+  factory SubtaskWithController.bySubtask(Subtask subtask) =>
+      SubtaskWithController(
+          subtask, TextEditingController(text: subtask.text), FocusNode());
+
   SubtaskWithController copyWith({bool? checked, String? text}) =>
       SubtaskWithController(
           Subtask(
