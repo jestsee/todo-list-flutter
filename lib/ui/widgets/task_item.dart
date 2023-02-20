@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/task.dart';
-import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/screens/index.dart';
 import 'package:todo_list/ui/widgets/badge.dart';
 import 'package:todo_list/ui/widgets/constants.dart';
@@ -58,9 +57,9 @@ class TaskItem extends ConsumerWidget {
                   variant: BadgeVariant.other,
                 ),
                 Row(
-                  children: [
-                    const Icon(Icons.calendar_month, size: 16),
-                    const SizedBox(width: 4),
+                  children: const [
+                    Icon(Icons.calendar_month, size: 16),
+                    SizedBox(width: 4),
                     // TODO ubah createdAt jd deadline
                     // Text(DateFormat.yMMMd().format(task.createdAt!)),
                   ],
@@ -68,23 +67,20 @@ class TaskItem extends ConsumerWidget {
               ],
             ),
             ListView(
-              scrollDirection: Axis.vertical,
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               children: task.subtasks!
                   .take(2)
                   .map(
-                    (subtask) => SizedBox(
-                      height: 30,
-                      child: CheckboxListTile(
-                        value: subtask.checked,
-                        onChanged: ((value) => {}),
-                        title: Text(subtask.text,
-                            style: TextStyle(
-                                decoration: subtask.checked
-                                    ? TextDecoration.lineThrough
-                                    : null)),
-                        contentPadding: EdgeInsets.zero,
-                      ),
+                    (subtask) => CheckboxListTile(
+                      value: subtask.checked,
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: ((value) => {}),
+                      title: Text(subtask.text,
+                          style: TextStyle(
+                              decoration: subtask.checked
+                                  ? TextDecoration.lineThrough
+                                  : null)),
                     ),
                   )
                   .toList(),

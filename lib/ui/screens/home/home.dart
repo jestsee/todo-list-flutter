@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/provider.dart';
-import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/widgets/search_bar.dart';
 import 'package:todo_list/ui/widgets/task_list.dart';
 

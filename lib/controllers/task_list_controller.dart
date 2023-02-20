@@ -47,7 +47,6 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
     }
   }
 
-// TODO pindahin?
   List<Subtask> prepareSubtasks() {
     final check = _ref.read(checkedListControllerProvider.notifier);
     final uncheck = _ref.read(uncheckedListControllerProvider.notifier);
@@ -58,26 +57,5 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
 
     // combine both subtasks
     return [...check.state, ...uncheck.state].map((e) => e.subtask).toList();
-  }
-
-// TODO kemungkinan ga dipake
-  void setSubtasks(List<Subtask> subtasks) {
-    final check = _ref.read(checkedListControllerProvider.notifier);
-    final uncheck = _ref.read(uncheckedListControllerProvider.notifier);
-
-    log('setsub called');
-
-    final List<Subtask> checkedSubtasks = [];
-    final List<Subtask> uncheckedSubtasks = [];
-
-    for (var item in subtasks) {
-      if (item.checked) {
-        checkedSubtasks.add(item);
-      } else {
-        uncheckedSubtasks.add(item);
-      }
-    }
-    check.set(checkedSubtasks);
-    uncheck.set(uncheckedSubtasks);
   }
 }
