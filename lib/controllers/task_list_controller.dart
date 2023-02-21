@@ -11,7 +11,7 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
   final String? _userId;
 
   TaskListController(this._ref, this._userId) : super(const AsyncLoading()) {
-    fetchTasks();
+    if (_userId != null) fetchTasks();
   }
 
   Future<void> fetchTasks({String? title, int? count}) async {
@@ -40,10 +40,24 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
           subtasks: subtasks,
           deadline: deadline,
           createdBy: _userId!);
-      final taskId = await _ref
-          .read(taskRepositoryProvider)
-          .addTask(userId: _userId!, task: task);
+      final taskId =
+          await _ref.read(taskRepositoryProvider).addTask(task: task);
       state = AsyncData(tempTasks!..add(task.copyWith(id: taskId)));
+    } on Exception catch (e, st) {
+      log(e.toString());
+      state = AsyncError(e, st);
+    }
+  }
+
+  Future<void> updateTask({required Task updatedTask}) async {
+    try {
+      final tempTasks = state.value;
+      state = const AsyncLoading();
+      await _ref.read(taskRepositoryProvider).updateTask(task: updatedTask);
+      state = AsyncData([
+        for (final task in tempTasks!)
+          task.id == updatedTask.id ? updatedTask : task
+      ]);
     } on Exception catch (e, st) {
       log(e.toString());
       state = AsyncError(e, st);

@@ -7,10 +7,11 @@ import 'package:todo_list/model/subtask_with_controller.dart';
 
 class BaseSubtaskController extends StateNotifier<List<SubtaskWithController>> {
   final Ref ref;
-  final List<Subtask>? subtasks;
+  final List<Subtask> subtasks;
   bool? checked = false;
-  BaseSubtaskController(this.ref, {this.checked, this.subtasks}) : super([]) {
-    if (subtasks != null) set(subtasks!);
+  BaseSubtaskController(this.ref, {this.checked, required this.subtasks})
+      : super([]) {
+    if (subtasks.isNotEmpty) set(subtasks);
   }
 
   @override
