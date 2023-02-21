@@ -20,7 +20,7 @@ Task _$TaskFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Task {
-  int? get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_id')
   int? get groupId => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $TaskCopyWith<$Res> {
       _$TaskCopyWithImpl<$Res, Task>;
   @useResult
   $Res call(
-      {int? id,
+      {String? id,
       String title,
       @JsonKey(name: 'group_id') int? groupId,
       String? longitude,
@@ -86,7 +86,7 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -134,7 +134,7 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int? id,
+      {String? id,
       String title,
       @JsonKey(name: 'group_id') int? groupId,
       String? longitude,
@@ -170,7 +170,7 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -231,7 +231,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
   factory _$_Task.fromJson(Map<String, dynamic> json) => _$$_TaskFromJson(json);
 
   @override
-  final int? id;
+  final String? id;
   @override
   final String title;
   @override
@@ -339,7 +339,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
 
 abstract class _Task extends Task {
   const factory _Task(
-      {final int? id,
+      {final String? id,
       required final String title,
       @JsonKey(name: 'group_id') final int? groupId,
       final String? longitude,
@@ -354,7 +354,7 @@ abstract class _Task extends Task {
   factory _Task.fromJson(Map<String, dynamic> json) = _$_Task.fromJson;
 
   @override
-  int? get id;
+  String? get id;
   @override
   String get title;
   @override

@@ -8,6 +8,7 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
         currentIndex: currentIndex,
         onTap: onTap,
         iconSize: 28,
@@ -15,10 +16,13 @@ class BottomNavBar extends StatelessWidget {
           BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
-              backgroundColor: Colors.blue),
+              backgroundColor: Colors.black),
           BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Group'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle), label: 'New Task'),
+              icon: SizedBox(
+                width: 40,
+              ),
+              label: 'Dummy'),
           BottomNavigationBarItem(
               icon: Icon(Icons.checklist_rounded), label: 'Task'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),

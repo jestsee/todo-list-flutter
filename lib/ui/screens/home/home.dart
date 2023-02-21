@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/provider.dart';
-import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/widgets/search_bar.dart';
 import 'package:todo_list/ui/widgets/task_list.dart';
 
@@ -30,30 +29,26 @@ class Home extends HookConsumerWidget {
             const SizedBox(height: gap - 4),
             Text('You have $tasksLength unfinished tasks'),
             const SizedBox(height: 3 * gap),
-            SearchBar(),
+            const SearchBar(),
             const SizedBox(height: 3 * gap),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Task', style: Theme.of(context).textTheme.headline3),
                 TextButton(
+                  child: const Text('See all',
+                      style: TextStyle(decoration: TextDecoration.underline)),
                   onPressed: () {},
-                  child: const Text(
-                    'See all',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
                 )
               ],
             ),
             const TaskList(),
-            CustomButton(
-                full: true,
-                onPressed: () {
-                  ref.read(authControllerProvider.notifier).signOut();
-                },
-                child: const Text('Sign out'))
+            // CustomButton(
+            //     full: true,
+            //     onPressed: () {
+            //       ref.read(authControllerProvider.notifier).signOut();
+            //     },
+            //     child: const Text('Sign out'))
           ],
         ),
       ),

@@ -43,4 +43,16 @@ class TaskRepository {
       throw CustomException(message: e.toString());
     }
   }
+
+  Future<String> addTask({required String userId, required Task task}) async {
+    try {
+      final createdTask =
+          await supabase.from('task').insert(task.toCleaned()).select('id');
+      log('created task id: $createdTask');
+      final taskId = createdTask as List;
+      return taskId.first['id'];
+    } on Exception catch (e) {
+      throw CustomException(message: e.toString());
+    }
+  }
 }
