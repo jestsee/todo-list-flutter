@@ -32,7 +32,7 @@ class BaseSubtaskController extends StateNotifier<List<SubtaskWithController>> {
   }
 
   void add(int idx, {Subtask? subtask}) {
-    log('add called');
+    log('add called ${state.map((e) => e.subtask)}');
     state = [
       ...state
         ..insert(
@@ -57,18 +57,11 @@ class BaseSubtaskController extends StateNotifier<List<SubtaskWithController>> {
     log('remove called at $idx ${state.map((e) => e.subtask)}');
   }
 
-  void editText(int idx, String text) {
-    if (idx + 1 > state.length) return;
-    state = [
-      ...state..replaceRange(idx, idx + 1, [state[idx].copyWith(text: text)])
-    ];
-  }
-
   void editCheck(int idx) {}
 
   void syncSubtasks() {
     state = state.map((e) => e.copyWith(text: e.controller.text)).toList();
-    log('sync called ${state.map((e) => e.subtask)}');
+    log('[SYNC] ${state.map((e) => e.subtask)}');
   }
 
   int get length => state.length;

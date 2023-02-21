@@ -28,13 +28,16 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
     }
   }
 
-  Future<void> addTask({required String title, DateTime? deadline}) async {
+  Future<void> addTask(
+      {required String title,
+      DateTime? deadline,
+      List<Subtask>? subtasks}) async {
     try {
       final tempTasks = state.value;
       state = const AsyncLoading();
       final task = Task(
           title: title,
-          subtasks: prepareSubtasks(),
+          subtasks: subtasks,
           deadline: deadline,
           createdBy: _userId!);
       final taskId = await _ref
@@ -45,17 +48,5 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       log(e.toString());
       state = AsyncError(e, st);
     }
-  }
-
-  List<Subtask> prepareSubtasks() {
-    final check = _ref.read(checkedListControllerProvider.notifier);
-    final uncheck = _ref.read(uncheckedListControllerProvider.notifier);
-
-    // sync both checked and unchecked subtasks
-    check.syncSubtasks();
-    uncheck.syncSubtasks();
-
-    // combine both subtasks
-    return [...check.state, ...uncheck.state].map((e) => e.subtask).toList();
   }
 }
