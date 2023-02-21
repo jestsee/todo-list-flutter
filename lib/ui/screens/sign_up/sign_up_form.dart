@@ -20,7 +20,6 @@ class SignUpForm extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final msg = useMemoized(() => const v.ValidationMessage());
     final form = useState(FormGroup({
-      // TODO alpha numeric only
       'name': FormControl<String>(validators: [Validators.required]),
       'email': FormControl<String>(
           validators: [Validators.required, Validators.email]),

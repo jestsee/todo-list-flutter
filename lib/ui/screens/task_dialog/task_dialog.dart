@@ -69,25 +69,12 @@ class TaskDialog extends HookWidget {
                     full: true,
                     loading: currentTasks.isLoading,
                     onPressed: () {
-                      final checkAction =
-                          ref.read(checkedListControllerProvider.notifier);
-                      final uncheckAction =
-                          ref.read(uncheckedListControllerProvider.notifier);
-
-                      checkAction.syncSubtasks();
-                      uncheckAction.syncSubtasks();
-
-                      final check = ref.watch(checkedListControllerProvider);
-                      final uncheck =
-                          ref.watch(uncheckedListControllerProvider);
-                      final sub = [...check, ...uncheck];
-
-                      log('[SUB] ${sub.map((e) => e.subtask)}');
-
+                      final subtasks = ref.read(subtaskListProvider);
                       ref.read(taskListControllerProvider.notifier).addTask(
-                          title: titleController.text,
-                          deadline: date.value,
-                          subtasks: sub.map((e) => e.subtask).toList());
+                            title: titleController.text,
+                            deadline: date.value,
+                            subtasks: subtasks,
+                          );
                     },
                     child: const Text('Save'),
                   );
