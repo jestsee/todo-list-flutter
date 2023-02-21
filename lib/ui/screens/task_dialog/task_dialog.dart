@@ -73,14 +73,13 @@ class TaskDialog extends HookWidget {
                           ref.read(checkedListControllerProvider.notifier);
                       final uncheckAction =
                           ref.read(uncheckedListControllerProvider.notifier);
-                      final check = ref.watch(checkedListControllerProvider);
-                      final uncheck =
-                          ref.watch(uncheckedListControllerProvider);
 
-                      // TODO belum work sync disini
                       checkAction.syncSubtasks();
                       uncheckAction.syncSubtasks();
 
+                      final check = ref.watch(checkedListControllerProvider);
+                      final uncheck =
+                          ref.watch(uncheckedListControllerProvider);
                       final sub = [...check, ...uncheck];
 
                       log('[SUB] ${sub.map((e) => e.subtask)}');
