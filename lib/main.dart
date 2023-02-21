@@ -31,6 +31,15 @@ class MyApp extends StatelessWidget {
         initialRoute: '/splash-screen',
         routes: customRoutes,
         theme: ThemeData(
+          textTheme: const TextTheme(
+              headline1: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+              headline3: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)),
           primarySwatch: Colors.blue,
         ),
       ),

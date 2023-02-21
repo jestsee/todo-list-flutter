@@ -19,7 +19,8 @@ class BottomNavBar extends StatelessWidget {
           BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Group'),
           BottomNavigationBarItem(
               icon: Icon(Icons.add_circle), label: 'New Task'),
-          BottomNavigationBarItem(icon: Icon(Icons.task), label: 'Task'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.checklist_rounded), label: 'Task'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ]);
   }
