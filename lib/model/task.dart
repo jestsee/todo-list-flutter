@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/subtask.dart';
+import 'package:todo_list/model/timestamp_serializer.dart';
 
 part 'task.freezed.dart';
 part 'task.g.dart';
@@ -15,9 +16,9 @@ class Task with _$Task {
     @JsonKey(name: 'group_id') int? groupId,
     String? longitude,
     String? latitude,
-    DateTime? deadline,
+    @TimestampSerializer() DateTime? deadline,
     @Default(Priority.low) Priority priority,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'created_at') @TimestampSerializer() DateTime? createdAt,
     @JsonKey(name: 'created_by') required String createdBy,
     @Default([]) @JsonKey(name: 'subtask') List<Subtask>? subtasks,
   }) = _Task;

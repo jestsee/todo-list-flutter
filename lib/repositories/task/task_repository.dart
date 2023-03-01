@@ -60,7 +60,7 @@ class TaskRepository {
       await supabase.from('task').update({
         'title': task.title,
         'subtask': task.subtasks,
-        'deadline': task.deadline
+        'deadline': task.deadline?.toIso8601String(),
       }).match({'id': task.id});
     } on Exception catch (e) {
       throw CustomException(message: e.toString());
