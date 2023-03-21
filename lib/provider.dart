@@ -37,9 +37,9 @@ final taskListControllerProvider =
 });
 
 // subtask
-final currentSubtasksProvider = r.Provider<List<Subtask>?>((ref) => null);
+final currentSubtasksProvider = r.Provider<List<Subtask>>((ref) => <Subtask>[]);
 
-final subtaskListProvider = r.Provider.autoDispose<List<Subtask>?>((ref) {
+final subtaskListProvider = r.Provider.autoDispose<List<Subtask>>((ref) {
   final check = ref.watch(checkedListControllerProvider);
   final uncheck = ref.watch(uncheckedListControllerProvider);
   final sub = [
@@ -57,7 +57,7 @@ final uncheckedListControllerProvider = r.StateNotifierProvider.autoDispose<
   final current = ref.watch(currentSubtasksProvider);
 
   return UncheckedSubtaskController(ref,
-      subtasks: current?.where((item) => !item.checked).toList());
+      subtasks: current.where((item) => !item.checked).toList());
 }, dependencies: [currentSubtasksProvider]);
 
 final checkedListControllerProvider = r.StateNotifierProvider.autoDispose<
@@ -65,5 +65,5 @@ final checkedListControllerProvider = r.StateNotifierProvider.autoDispose<
   final current = ref.watch(currentSubtasksProvider);
 
   return CheckedSubtaskController(ref,
-      subtasks: current?.where((item) => item.checked).toList());
+      subtasks: current.where((item) => item.checked).toList());
 }, dependencies: [currentSubtasksProvider]);

@@ -37,20 +37,31 @@ class TaskRepository {
             .select('*, group(*)')
             .eq('created_by', userId);
       }
-      log('hahh $tasks');
       return List.from(tasks.map((item) => Task.fromJson(item)));
     } catch (e) {
       throw CustomException(message: e.toString());
     }
   }
 
-  Future<String> addTask({required String userId, required Task task}) async {
+  Future<String> addTask({required Task task}) async {
     try {
       final createdTask =
           await supabase.from('task').insert(task.toCleaned()).select('id');
       log('created task id: $createdTask');
       final taskId = createdTask as List;
       return taskId.first['id'];
+    } on Exception catch (e) {
+      throw CustomException(message: e.toString());
+    }
+  }
+
+  Future<void> updateTask({required Task task}) async {
+    try {
+      await supabase.from('task').update({
+        'title': task.title,
+        'subtask': task.subtasks,
+        'deadline': task.deadline?.toIso8601String(),
+      }).match({'id': task.id});
     } on Exception catch (e) {
       throw CustomException(message: e.toString());
     }

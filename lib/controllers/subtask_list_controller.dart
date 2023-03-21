@@ -3,8 +3,10 @@ import 'package:todo_list/model/subtask.dart';
 import 'package:todo_list/provider.dart';
 
 class UncheckedSubtaskController extends BaseSubtaskController {
-  UncheckedSubtaskController(super.ref, {List<Subtask>? subtasks})
-      : super(subtasks: subtasks);
+  UncheckedSubtaskController(super.ref, {required List<Subtask> subtasks})
+      : super(subtasks: subtasks) {
+    if (subtasks.isEmpty) add(-1);
+  }
 
   @override
   void editCheck(int idx) {
@@ -17,7 +19,7 @@ class UncheckedSubtaskController extends BaseSubtaskController {
 }
 
 class CheckedSubtaskController extends BaseSubtaskController {
-  CheckedSubtaskController(super.ref, {List<Subtask>? subtasks})
+  CheckedSubtaskController(super.ref, {required List<Subtask> subtasks})
       : super(checked: true, subtasks: subtasks);
 
   @override

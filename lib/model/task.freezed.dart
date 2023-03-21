@@ -26,9 +26,11 @@ mixin _$Task {
   int? get groupId => throw _privateConstructorUsedError;
   String? get longitude => throw _privateConstructorUsedError;
   String? get latitude => throw _privateConstructorUsedError;
+  @TimestampSerializer()
   DateTime? get deadline => throw _privateConstructorUsedError;
   Priority get priority => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
+  @TimestampSerializer()
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_by')
   String get createdBy => throw _privateConstructorUsedError;
@@ -51,9 +53,9 @@ abstract class $TaskCopyWith<$Res> {
       @JsonKey(name: 'group_id') int? groupId,
       String? longitude,
       String? latitude,
-      DateTime? deadline,
+      @TimestampSerializer() DateTime? deadline,
       Priority priority,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'created_at') @TimestampSerializer() DateTime? createdAt,
       @JsonKey(name: 'created_by') String createdBy,
       @JsonKey(name: 'subtask') List<Subtask>? subtasks});
 }
@@ -139,9 +141,9 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       @JsonKey(name: 'group_id') int? groupId,
       String? longitude,
       String? latitude,
-      DateTime? deadline,
+      @TimestampSerializer() DateTime? deadline,
       Priority priority,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'created_at') @TimestampSerializer() DateTime? createdAt,
       @JsonKey(name: 'created_by') String createdBy,
       @JsonKey(name: 'subtask') List<Subtask>? subtasks});
 }
@@ -220,9 +222,9 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
       @JsonKey(name: 'group_id') this.groupId,
       this.longitude,
       this.latitude,
-      this.deadline,
+      @TimestampSerializer() this.deadline,
       this.priority = Priority.low,
-      @JsonKey(name: 'created_at') this.createdAt,
+      @JsonKey(name: 'created_at') @TimestampSerializer() this.createdAt,
       @JsonKey(name: 'created_by') required this.createdBy,
       @JsonKey(name: 'subtask') final List<Subtask>? subtasks = const []})
       : _subtasks = subtasks,
@@ -242,12 +244,14 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
   @override
   final String? latitude;
   @override
+  @TimestampSerializer()
   final DateTime? deadline;
   @override
   @JsonKey()
   final Priority priority;
   @override
   @JsonKey(name: 'created_at')
+  @TimestampSerializer()
   final DateTime? createdAt;
   @override
   @JsonKey(name: 'created_by')
@@ -341,14 +345,20 @@ abstract class _Task extends Task {
   const factory _Task(
       {final String? id,
       required final String title,
-      @JsonKey(name: 'group_id') final int? groupId,
+      @JsonKey(name: 'group_id')
+          final int? groupId,
       final String? longitude,
       final String? latitude,
-      final DateTime? deadline,
+      @TimestampSerializer()
+          final DateTime? deadline,
       final Priority priority,
-      @JsonKey(name: 'created_at') final DateTime? createdAt,
-      @JsonKey(name: 'created_by') required final String createdBy,
-      @JsonKey(name: 'subtask') final List<Subtask>? subtasks}) = _$_Task;
+      @JsonKey(name: 'created_at')
+      @TimestampSerializer()
+          final DateTime? createdAt,
+      @JsonKey(name: 'created_by')
+          required final String createdBy,
+      @JsonKey(name: 'subtask')
+          final List<Subtask>? subtasks}) = _$_Task;
   const _Task._() : super._();
 
   factory _Task.fromJson(Map<String, dynamic> json) = _$_Task.fromJson;
@@ -365,11 +375,13 @@ abstract class _Task extends Task {
   @override
   String? get latitude;
   @override
+  @TimestampSerializer()
   DateTime? get deadline;
   @override
   Priority get priority;
   @override
   @JsonKey(name: 'created_at')
+  @TimestampSerializer()
   DateTime? get createdAt;
   @override
   @JsonKey(name: 'created_by')

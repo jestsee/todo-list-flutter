@@ -13,6 +13,8 @@ class TaskDialog extends HookWidget {
   final Task? task;
   const TaskDialog({super.key, this.task});
 
+  bool get isUpdate => task?.id != null;
+
   @override
   Widget build(BuildContext context) {
     final titleController = useTextEditingController(text: task?.title);
@@ -23,7 +25,7 @@ class TaskDialog extends HookWidget {
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
         child: ProviderScope(
           overrides: [
-            currentSubtasksProvider.overrideWithValue(task?.subtasks)
+            currentSubtasksProvider.overrideWithValue(task?.subtasks ?? [])
           ],
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,13 +72,21 @@ class TaskDialog extends HookWidget {
                     loading: currentTasks.isLoading,
                     onPressed: () {
                       final subtasks = ref.read(subtaskListProvider);
-                      ref.read(taskListControllerProvider.notifier).addTask(
-                            title: titleController.text,
-                            deadline: date.value,
-                            subtasks: subtasks,
-                          );
+                      final taskAction =
+                          ref.read(taskListControllerProvider.notifier);
+                      isUpdate
+                          ? taskAction.updateTask(
+                              updatedTask: task!.copyWith(
+                                  title: titleController.text,
+                                  deadline: date.value,
+                                  subtasks: subtasks))
+                          : taskAction.addTask(
+                              title: titleController.text,
+                              deadline: date.value,
+                              subtasks: subtasks,
+                            );
                     },
-                    child: const Text('Save'),
+                    child: Text(isUpdate ? 'Update' : 'Save'),
                   );
                 },
               ),
@@ -115,7 +125,7 @@ class TaskDialog extends HookWidget {
                         onTap: () async {
                           date.value = await showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
+                            initialDate: task?.deadline ?? DateTime.now(),
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2099),
                           );

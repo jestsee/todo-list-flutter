@@ -40,6 +40,7 @@ class SubtaskCheckbox extends HookConsumerWidget {
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (value) {
+                focus.requestFocus();
                 subtasksAction.add(index);
               },
               decoration: const InputDecoration.collapsed(hintText: 'subtask'),
