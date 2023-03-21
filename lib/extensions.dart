@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/globals.dart';
 
 extension ShowSnackBar on GlobalKey<ScaffoldMessengerState> {
   void show({
@@ -9,11 +10,15 @@ extension ShowSnackBar on GlobalKey<ScaffoldMessengerState> {
       content: Text(message),
       backgroundColor: bg,
     );
-    currentState?.showSnackBar(snackBar);
+    snackbarKey.currentState?.showSnackBar(snackBar);
   }
 
   void showError({required String message}) {
     show(message: message, bg: Colors.red);
+  }
+
+  void showInfo({required String message}) {
+    show(message: message, bg: Colors.blueGrey.shade700);
   }
 }
 

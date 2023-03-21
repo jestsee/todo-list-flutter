@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/model/task.dart';
 import 'package:todo_list/provider.dart';
+import 'package:todo_list/snackbar.dart';
 
 import '../model/subtask.dart';
 
@@ -58,6 +59,21 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
         for (final task in tempTasks!)
           task.id == updatedTask.id ? updatedTask : task
       ]);
+    } on Exception catch (e, st) {
+      log(e.toString());
+      state = AsyncError(e, st);
+    }
+  }
+
+  Future<void> deleteTask({required String id}) async {
+    infoSnackbar(message: 'Loading...');
+    try {
+      final tempTasks = state.value;
+      state = const AsyncLoading();
+      await _ref.read(taskRepositoryProvider).deleteTask(id: id);
+      state =
+          AsyncData(tempTasks!.where((element) => element.id != id).toList());
+      showSnackBar(message: 'Task deleted successfully');
     } on Exception catch (e, st) {
       log(e.toString());
       state = AsyncError(e, st);

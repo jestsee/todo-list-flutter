@@ -81,7 +81,7 @@ class SignUpForm extends HookConsumerWidget {
           onPressed: () {
             log(form.value.toString());
             if (!form.value.valid) {
-              return snackbarKey.showError(message: 'blm valid oi');
+              return snackbarKey.showError(message: 'Invalid input');
             }
             ref
                 .read(authControllerProvider.notifier)
