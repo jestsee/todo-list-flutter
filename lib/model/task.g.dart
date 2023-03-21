@@ -10,8 +10,8 @@ _$_Task _$$_TaskFromJson(Map<String, dynamic> json) => _$_Task(
       id: json['id'] as String?,
       title: json['title'] as String,
       groupId: json['group_id'] as int?,
-      longitude: json['longitude'] as String?,
-      latitude: json['latitude'] as String?,
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      latitude: (json['latitude'] as num?)?.toDouble(),
       deadline: _$JsonConverterFromJson<String, DateTime>(
           json['deadline'], const TimestampSerializer().fromJson),
       priority: $enumDecodeNullable(_$PriorityEnumMap, json['priority']) ??

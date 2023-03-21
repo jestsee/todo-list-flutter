@@ -24,8 +24,8 @@ mixin _$Task {
   String get title => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_id')
   int? get groupId => throw _privateConstructorUsedError;
-  String? get longitude => throw _privateConstructorUsedError;
-  String? get latitude => throw _privateConstructorUsedError;
+  double? get longitude => throw _privateConstructorUsedError;
+  double? get latitude => throw _privateConstructorUsedError;
   @TimestampSerializer()
   DateTime? get deadline => throw _privateConstructorUsedError;
   Priority get priority => throw _privateConstructorUsedError;
@@ -51,8 +51,8 @@ abstract class $TaskCopyWith<$Res> {
       {String? id,
       String title,
       @JsonKey(name: 'group_id') int? groupId,
-      String? longitude,
-      String? latitude,
+      double? longitude,
+      double? latitude,
       @TimestampSerializer() DateTime? deadline,
       Priority priority,
       @JsonKey(name: 'created_at') @TimestampSerializer() DateTime? createdAt,
@@ -100,11 +100,11 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
       longitude: freezed == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       latitude: freezed == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       deadline: freezed == deadline
           ? _value.deadline
           : deadline // ignore: cast_nullable_to_non_nullable
@@ -139,8 +139,8 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       {String? id,
       String title,
       @JsonKey(name: 'group_id') int? groupId,
-      String? longitude,
-      String? latitude,
+      double? longitude,
+      double? latitude,
       @TimestampSerializer() DateTime? deadline,
       Priority priority,
       @JsonKey(name: 'created_at') @TimestampSerializer() DateTime? createdAt,
@@ -184,11 +184,11 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
       longitude: freezed == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       latitude: freezed == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       deadline: freezed == deadline
           ? _value.deadline
           : deadline // ignore: cast_nullable_to_non_nullable
@@ -240,9 +240,9 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
   @JsonKey(name: 'group_id')
   final int? groupId;
   @override
-  final String? longitude;
+  final double? longitude;
   @override
-  final String? latitude;
+  final double? latitude;
   @override
   @TimestampSerializer()
   final DateTime? deadline;
@@ -347,8 +347,8 @@ abstract class _Task extends Task {
       required final String title,
       @JsonKey(name: 'group_id')
           final int? groupId,
-      final String? longitude,
-      final String? latitude,
+      final double? longitude,
+      final double? latitude,
       @TimestampSerializer()
           final DateTime? deadline,
       final Priority priority,
@@ -371,9 +371,9 @@ abstract class _Task extends Task {
   @JsonKey(name: 'group_id')
   int? get groupId;
   @override
-  String? get longitude;
+  double? get longitude;
   @override
-  String? get latitude;
+  double? get latitude;
   @override
   @TimestampSerializer()
   DateTime? get deadline;

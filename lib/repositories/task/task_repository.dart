@@ -66,4 +66,12 @@ class TaskRepository {
       throw CustomException(message: e.toString());
     }
   }
+
+  Future<void> deleteTask({required String id}) async {
+    try {
+      supabase.from('task').delete().match({'id': id});
+    } on Exception catch (e) {
+      throw CustomException(message: e.toString());
+    }
+  }
 }
