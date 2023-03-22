@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/task.dart';
 import 'package:todo_list/provider.dart';
+import 'package:todo_list/ui/screens/map_dialog/map_dialog.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/widgets/subtask_list.dart';
 
@@ -139,7 +140,9 @@ class TaskDialog extends HookWidget {
                       ),
                       GestureDetector(
                         child: const Icon(Icons.location_on, size: 36),
-                        onTap: () {},
+                        onTap: () {
+                          showMapDialog(context);
+                        },
                       ),
                     ],
                   ),
