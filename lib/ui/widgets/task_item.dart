@@ -8,7 +8,7 @@ import 'package:todo_list/ui/widgets/constants.dart';
 
 final priorityMap = {
   Priority.low: BadgeVariant.low,
-  Priority.moderate: BadgeVariant.moderate,
+  Priority.medium: BadgeVariant.medium,
   Priority.high: BadgeVariant.high,
 };
 

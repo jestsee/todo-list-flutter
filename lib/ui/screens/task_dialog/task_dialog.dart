@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/task.dart';
 import 'package:todo_list/provider.dart';
-import 'package:todo_list/ui/widgets/constants.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/widgets/subtask_list.dart';
 
@@ -19,6 +17,11 @@ class TaskDialog extends HookWidget {
   Widget build(BuildContext context) {
     final titleController = useTextEditingController(text: task?.title);
     final date = useState<DateTime?>(task?.deadline);
+    final priority = useState<Priority>(task?.priority ?? Priority.low);
+
+    void handlePriority() {
+      priority.value = priority.value.switchPriority();
+    }
 
     return Scaffold(
       body: Padding(
@@ -79,12 +82,13 @@ class TaskDialog extends HookWidget {
                               updatedTask: task!.copyWith(
                                   title: titleController.text,
                                   deadline: date.value,
-                                  subtasks: subtasks))
+                                  subtasks: subtasks,
+                                  priority: priority.value))
                           : taskAction.addTask(
                               title: titleController.text,
                               deadline: date.value,
                               subtasks: subtasks,
-                            );
+                              priority: priority.value);
                     },
                     child: Text(isUpdate ? 'Update' : 'Save'),
                   );
@@ -106,14 +110,16 @@ class TaskDialog extends HookWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 12),
-                        child: Chip(
-                          backgroundColor: badgeColor[BadgeVariant.moderate],
-                          label: const Text(
-                            'Medium',
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                        child: ActionChip(
+                          backgroundColor: priorityColor[priority.value],
+                          label: Text(
+                            priority.value.name,
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.white),
                           ),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
+                          onPressed: handlePriority,
                         ),
                       ),
                       GestureDetector(
