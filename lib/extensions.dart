@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:todo_list/globals.dart';
 
 extension ShowSnackBar on GlobalKey<ScaffoldMessengerState> {
@@ -41,5 +43,11 @@ extension ShowDialog on GlobalKey<NavigatorState> {
 extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
+}
+
+extension MapExtension on Position {
+  LatLng toLatLng() {
+    return LatLng(latitude, longitude);
   }
 }

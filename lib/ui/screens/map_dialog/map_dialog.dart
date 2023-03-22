@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todo_list/provider.dart';
 
-class MapDialog extends StatelessWidget {
+class MapDialog extends ConsumerWidget {
   const MapDialog({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentLocation = ref.watch(locationControllerProvider);
     LatLng initialLocation = const LatLng(37.422131, -122.084801);
     return Scaffold(
-      body: GoogleMap(
+        body: currentLocation.whenOrNull(
+      data: (data) => GoogleMap(
         initialCameraPosition: CameraPosition(
-          target: initialLocation,
+          target: data ?? initialLocation,
           zoom: 14,
         ),
       ),
-    );
+      loading: () => const Text('Loading...'),
+    ));
   }
 }
 

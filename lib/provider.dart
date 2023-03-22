@@ -1,7 +1,9 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as r;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:todo_list/controllers/auth_controller.dart';
+import 'package:todo_list/controllers/location_controller.dart';
 import 'package:todo_list/controllers/task_list_controller.dart';
 import 'package:todo_list/model/user_state.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
@@ -67,3 +69,9 @@ final checkedListControllerProvider = r.StateNotifierProvider.autoDispose<
   return CheckedSubtaskController(ref,
       subtasks: current.where((item) => item.checked).toList());
 }, dependencies: [currentSubtasksProvider]);
+
+// location
+// TODO pake autodispose ga ya?
+final locationControllerProvider =
+    r.StateNotifierProvider<LocationController, r.AsyncValue<LatLng?>>(
+        (_) => LocationController()..determinePosition());
