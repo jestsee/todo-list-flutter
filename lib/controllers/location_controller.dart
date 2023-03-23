@@ -8,28 +8,20 @@ import 'package:todo_list/extensions.dart';
 
 class LocationController extends StateNotifier<AsyncValue<LatLng?>> {
   StreamSubscription<Position>? _positionStream;
-
-  final LocationSettings locationSettings = AndroidSettings(
-      accuracy: LocationAccuracy.high,
-      distanceFilter: 100,
-      forceLocationManager: true,
-      intervalDuration: const Duration(seconds: 10),
-      // keep the app alive when going to background
-      foregroundNotificationConfig: const ForegroundNotificationConfig(
-        notificationText:
-            "Example app will continue to receive your location even when you aren't using it",
-        notificationTitle: "Running in Background",
-        enableWakeLock: true,
-      ));
+  final LocationSettings locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 100,
+  );
 
   LocationController() : super(const AsyncData(null)) {
-    _positionStream?.cancel();
+    // _positionStream?.cancel();
     _positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position position) {
       log('[position] ${position.latitude} ${position.longitude}');
       state = AsyncData(position.toLatLng());
     });
+    log('[stream] $_positionStream');
   }
 
   @override
