@@ -9,10 +9,10 @@ class Home extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasksLength = ref.read(taskListControllerProvider).when(
+    final tasksLength = ref.watch(taskListControllerProvider).when(
         data: (data) => data.isNotEmpty ? data.length : 'no',
         error: (err, st) => '',
-        loading: () => 'loading');
+        loading: () => '...');
     const gap = 8.0;
 
     return Scaffold(

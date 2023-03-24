@@ -57,11 +57,10 @@ class TaskRepository {
 
   Future<void> updateTask({required Task task}) async {
     try {
-      await supabase.from('task').update({
-        'title': task.title,
-        'subtask': task.subtasks,
-        'deadline': task.deadline?.toIso8601String(),
-      }).match({'id': task.id});
+      await supabase
+          .from('task')
+          .update(task.toCleaned())
+          .match({'id': task.id});
     } on Exception catch (e) {
       throw CustomException(message: e.toString());
     }

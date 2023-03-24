@@ -6,7 +6,7 @@ import 'package:todo_list/model/subtask_with_controller.dart';
 
 class SubtaskCheckbox extends HookConsumerWidget {
   final int index;
-  final AutoDisposeStateNotifierProvider<BaseSubtaskController,
+  final StateNotifierProvider<BaseSubtaskController,
       List<SubtaskWithController>> subtaskListControllerProvider;
   const SubtaskCheckbox(this.subtaskListControllerProvider,
       {super.key, required this.index});
@@ -25,9 +25,7 @@ class SubtaskCheckbox extends HookConsumerWidget {
       children: [
         Checkbox(
             value: subtask.checked,
-            onChanged: ((_) {
-              subtasksAction.editCheck(index);
-            })),
+            onChanged: ((_) => subtasksAction.editCheck(index))),
         Expanded(
           child: Focus(
             onFocusChange: (value) {

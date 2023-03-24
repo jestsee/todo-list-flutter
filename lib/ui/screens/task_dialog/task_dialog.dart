@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/task.dart';
@@ -19,7 +22,9 @@ class TaskDialog extends HookWidget {
     final titleController = useTextEditingController(text: task?.title);
     final date = useState<DateTime?>(task?.deadline);
     final priority = useState<Priority>(task?.priority ?? Priority.low);
-
+    final location = useState<LatLng?>(task?.latitude != null
+        ? LatLng(task!.latitude!, task!.longitude!)
+        : null);
     void handlePriority() {
       priority.value = priority.value.switchPriority();
     }
@@ -61,7 +66,6 @@ class TaskDialog extends HookWidget {
               Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
                   final currentTasks = ref.watch(taskListControllerProvider);
-
                   ref.listen(
                     taskListControllerProvider,
                     (previous, next) {
@@ -75,6 +79,10 @@ class TaskDialog extends HookWidget {
                     full: true,
                     loading: currentTasks.isLoading,
                     onPressed: () {
+                      final position = ref
+                          .watch(markerControllerProvider(location.value))
+                          ?.position;
+
                       final subtasks = ref.read(subtaskListProvider);
                       final taskAction =
                           ref.read(taskListControllerProvider.notifier);
@@ -84,12 +92,19 @@ class TaskDialog extends HookWidget {
                                   title: titleController.text,
                                   deadline: date.value,
                                   subtasks: subtasks,
-                                  priority: priority.value))
+                                  priority: priority.value,
+                                  latitude: position?.latitude,
+                                  longitude: position?.longitude))
                           : taskAction.addTask(
                               title: titleController.text,
                               deadline: date.value,
                               subtasks: subtasks,
-                              priority: priority.value);
+                              priority: priority.value,
+                              position: position);
+
+                      ref.invalidate(markerControllerProvider);
+                      ref.invalidate(uncheckedListControllerProvider);
+                      ref.invalidate(checkedListControllerProvider);
                     },
                     child: Text(isUpdate ? 'Update' : 'Save'),
                   );
@@ -132,7 +147,8 @@ class TaskDialog extends HookWidget {
                         onTap: () async {
                           date.value = await showDatePicker(
                             context: context,
-                            initialDate: task?.deadline ?? DateTime.now(),
+                            initialDate:
+                                task?.deadline ?? date.value ?? DateTime.now(),
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2099),
                           );
@@ -141,7 +157,9 @@ class TaskDialog extends HookWidget {
                       GestureDetector(
                         child: const Icon(Icons.location_on, size: 36),
                         onTap: () {
-                          showMapDialog(context);
+                          showMapDialog(context,
+                              initialLocation: location.value,
+                              markerLocation: location.value);
                         },
                       ),
                     ],

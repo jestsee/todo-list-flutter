@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:todo_list/controllers/auth_controller.dart';
 import 'package:todo_list/controllers/location_controller.dart';
+import 'package:todo_list/controllers/marker_controller.dart';
 import 'package:todo_list/controllers/task_list_controller.dart';
 import 'package:todo_list/model/user_state.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
@@ -54,7 +55,7 @@ final subtaskListProvider = r.Provider.autoDispose<List<Subtask>>((ref) {
   checkedListControllerProvider
 ]);
 
-final uncheckedListControllerProvider = r.StateNotifierProvider.autoDispose<
+final uncheckedListControllerProvider = r.StateNotifierProvider<
     UncheckedSubtaskController, List<SubtaskWithController>>((ref) {
   final current = ref.watch(currentSubtasksProvider);
 
@@ -62,7 +63,7 @@ final uncheckedListControllerProvider = r.StateNotifierProvider.autoDispose<
       subtasks: current.where((item) => !item.checked).toList());
 }, dependencies: [currentSubtasksProvider]);
 
-final checkedListControllerProvider = r.StateNotifierProvider.autoDispose<
+final checkedListControllerProvider = r.StateNotifierProvider<
     CheckedSubtaskController, List<SubtaskWithController>>((ref) {
   final current = ref.watch(currentSubtasksProvider);
 
@@ -71,7 +72,11 @@ final checkedListControllerProvider = r.StateNotifierProvider.autoDispose<
 }, dependencies: [currentSubtasksProvider]);
 
 // location
-// TODO pake autodispose ga ya?
 final locationControllerProvider =
     r.StateNotifierProvider<LocationController, r.AsyncValue<LatLng?>>(
         (_) => LocationController()..determinePosition());
+
+// marker location
+final markerControllerProvider =
+    r.StateNotifierProvider.family<MarkerController, Marker?, LatLng?>(
+        (ref, arg) => MarkerController(arg));
