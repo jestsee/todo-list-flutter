@@ -31,16 +31,16 @@ class MyApp extends StatelessWidget {
         initialRoute: '/splash-screen',
         routes: customRoutes,
         theme: ThemeData(
-          textTheme: const TextTheme(
-              headline1: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              headline3: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
           primarySwatch: Colors.blue,
+          textTheme: TextTheme(
+            headline1: const TextStyle(
+                fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
+            headline3: const TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+            headline4: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+            headline5: TextStyle(fontSize: 18, color: Colors.grey.shade600),
+            headline6: TextStyle(fontSize: 24, color: Colors.grey.shade600),
+          ),
         ),
       ),
     );

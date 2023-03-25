@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/model/priority.dart';
+import 'package:todo_list/model/subtask.dart';
 import 'package:todo_list/model/task.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/screens/map_dialog/map_dialog.dart';
@@ -22,9 +21,11 @@ class TaskDialog extends HookWidget {
     final titleController = useTextEditingController(text: task?.title);
     final date = useState<DateTime?>(task?.deadline);
     final priority = useState<Priority>(task?.priority ?? Priority.low);
+    final subtasks = useState(task?.subtasks ?? List<Subtask>.empty());
     final location = useState<LatLng?>(task?.latitude != null
         ? LatLng(task!.latitude!, task!.longitude!)
         : null);
+
     void handlePriority() {
       priority.value = priority.value.switchPriority();
     }
@@ -34,7 +35,7 @@ class TaskDialog extends HookWidget {
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
         child: ProviderScope(
           overrides: [
-            currentSubtasksProvider.overrideWithValue(task?.subtasks ?? [])
+            currentSubtasksProvider.overrideWithValue(subtasks.value)
           ],
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

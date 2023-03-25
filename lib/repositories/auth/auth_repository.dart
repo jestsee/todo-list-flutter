@@ -59,10 +59,22 @@ class AuthRepository implements AuthBaseRepository {
     }
   }
 
+  Future<void> updateName(String newName) async {
+    try {
+      await Supabase.instance.client.auth.updateUser(
+        UserAttributes(data: {'name': newName}),
+      );
+    } catch (e) {
+      throw CustomException(message: e.toString());
+    }
+  }
+
   @override
   Session? get getCurrentSession =>
       Supabase.instance.client.auth.currentSession;
 
   @override
   User? get getCurrentUser => getCurrentSession?.user;
+
+  String get name => (getCurrentUser!.userMetadata)!['name'];
 }

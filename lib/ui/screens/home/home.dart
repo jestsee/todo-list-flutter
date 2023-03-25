@@ -10,9 +10,11 @@ class Home extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tasksLength = ref.watch(taskListControllerProvider).when(
-        data: (data) => data.isNotEmpty ? data.length : 'no',
-        error: (err, st) => '',
-        loading: () => '...');
+        data: (data) => data.isNotEmpty
+            ? 'You have ${data.length} unfinished tasks'
+            : 'All tasks done!',
+        error: (err, st) => 'Something went wrong',
+        loading: () => 'Loading...');
     const gap = 8.0;
 
     return Scaffold(
@@ -22,12 +24,12 @@ class Home extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hi, ${(ref.watch(authRepositoryProvider).getCurrentUser!.userMetadata)!['name']}!',
+              'Hi, ${ref.read(authRepositoryProvider).name}!',
               style: Theme.of(context).textTheme.headline1,
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: gap - 4),
-            Text('You have $tasksLength unfinished tasks'),
+            Text(tasksLength),
             const SizedBox(height: 3 * gap),
             const SearchBar(),
             const SizedBox(height: 3 * gap),

@@ -77,4 +77,13 @@ class AuthController extends StateNotifier<UserState> {
       handleError(e.toString());
     }
   }
+
+  void updateName(String name) async {
+    setLoading();
+    try {
+      await _ref.read(authRepositoryProvider).updateName(name);
+    } catch (e) {
+      handleError(e.toString());
+    }
+  }
 }
