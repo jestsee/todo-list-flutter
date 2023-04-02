@@ -64,7 +64,7 @@ class SignInForm extends HookConsumerWidget {
         ),
         CustomButton(
           full: true,
-          loading: ref.watch(authControllerProvider) is Loading,
+          loading: ref.watch(authControllerProvider).isLoading,
           child: const Text(
             'Sign in',
             style: TextStyle(fontSize: 18),

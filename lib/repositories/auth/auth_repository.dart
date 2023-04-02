@@ -62,16 +62,6 @@ class AuthRepository implements AuthBaseRepository {
     }
   }
 
-  Future<void> updateName(String newName) async {
-    try {
-      await Supabase.instance.client.auth.updateUser(
-        UserAttributes(data: {'name': newName}),
-      );
-    } catch (e) {
-      throw CustomException(message: e.toString());
-    }
-  }
-
   Future<String> uploadPicture(XFile file) async {
     try {
       final bytes = await file.readAsBytes();

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/provider.dart';
@@ -74,33 +73,6 @@ class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
     try {
       await _ref.read(authRepositoryProvider).signOutUser();
       snackbarKey.show(message: 'Signed out');
-    } catch (e) {
-      snackbarKey.showError(message: e.toString());
-    }
-  }
-
-// TODO belum ditest
-  void updateName(String name) async {
-    setLoading();
-    try {
-      await _ref.read(authRepositoryProvider).updateName(name);
-    } catch (e) {
-      snackbarKey.showError(message: e.toString());
-    }
-  }
-
-  void updateProfilePicture() async {
-    final picker = ImagePicker();
-    final imageFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (imageFile == null) return;
-
-    setLoading();
-    try {
-      await _ref.read(authRepositoryProvider).uploadPicture(imageFile);
-      snackbarKey.show(message: 'Profile picture updated');
-    } on sb.StorageException catch (e) {
-      snackbarKey.showError(message: e.message);
     } catch (e) {
       snackbarKey.showError(message: e.toString());
     }

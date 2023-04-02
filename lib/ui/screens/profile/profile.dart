@@ -21,18 +21,16 @@ class Profile extends HookConsumerWidget {
         alignment: Alignment.center,
         child: Padding(
           padding: const EdgeInsets.all(32.0),
-          child: ref.watch(authControllerProvider).whenOrNull(
+          child: ref.watch(profileControllerProvider).whenOrNull(
+              loading: () => const Text('Loading...'),
               data: (item) => Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Stack(children: [
                         CircleAvatar(
-                          backgroundImage:
-                              item?.session?.user.userMetadata?['avatar_url'] !=
-                                      null
-                                  ? NetworkImage(item?.session?.user
-                                      .userMetadata?['avatar_url'])
-                                  : null,
+                          backgroundImage: item.avatarUrl != null
+                              ? NetworkImage(item.avatarUrl!)
+                              : null,
                           backgroundColor: const Color(0xff00A3FF),
                           radius: 56.0,
                         ),
@@ -56,7 +54,7 @@ class Profile extends HookConsumerWidget {
                                 ),
                                 onPressed: (() {
                                   ref
-                                      .read(authControllerProvider.notifier)
+                                      .read(profileControllerProvider.notifier)
                                       .updateProfilePicture();
                                 }),
                               ),
@@ -64,7 +62,7 @@ class Profile extends HookConsumerWidget {
                       ]),
                       const SizedBox(height: 32),
                       Text(
-                        item?.session?.user.userMetadata?['name'],
+                        item.name,
                         style: Theme.of(context).textTheme.headline1,
                       ),
                       const SizedBox(height: 8),
