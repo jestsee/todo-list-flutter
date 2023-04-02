@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/screens/sign_in/sign_in.dart';
@@ -15,12 +16,13 @@ class AuthNavigator extends ConsumerWidget {
     // macro handler for snackbar
     ref.listen(authControllerProvider, (_, next) {
       next.whenOrNull(
-        error: (msg) => snackbarKey.showError(message: msg),
+        error: ((error, stackTrace) =>
+            snackbarKey.showError(message: error.toString())),
       );
     });
 
     return ref.watch(authControllerProvider).maybeWhen(
-          event: (event) => event.session == null
+          data: (event) => event?.session == null
               ? const SignIn()
               : ScaffoldWrapper(child: child),
           orElse: () => const SignIn(),

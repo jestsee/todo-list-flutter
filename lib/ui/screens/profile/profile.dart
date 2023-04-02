@@ -22,15 +22,15 @@ class Profile extends HookConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(32.0),
           child: ref.watch(authControllerProvider).whenOrNull(
-              event: (item) => Column(
+              data: (item) => Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Stack(children: [
                         CircleAvatar(
                           backgroundImage:
-                              item.session?.user.userMetadata?['avatar_url'] !=
+                              item?.session?.user.userMetadata?['avatar_url'] !=
                                       null
-                                  ? NetworkImage(item.session?.user
+                                  ? NetworkImage(item?.session?.user
                                       .userMetadata?['avatar_url'])
                                   : null,
                           backgroundColor: const Color(0xff00A3FF),
@@ -64,7 +64,7 @@ class Profile extends HookConsumerWidget {
                       ]),
                       const SizedBox(height: 32),
                       Text(
-                        item.session?.user.userMetadata?['name'],
+                        item?.session?.user.userMetadata?['name'],
                         style: Theme.of(context).textTheme.headline1,
                       ),
                       const SizedBox(height: 8),

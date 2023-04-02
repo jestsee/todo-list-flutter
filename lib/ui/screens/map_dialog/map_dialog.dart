@@ -20,10 +20,6 @@ class MapDialog extends ConsumerWidget {
     final currentLocation = ref.watch(locationControllerProvider);
     final setMarkers = markerAction.notNull ? {marker!} : <Marker>{};
 
-    if (initialLocation == initialLocation) {
-      log('sama euy');
-    }
-
     return Scaffold(
         body: currentLocation.whenOrNull(
       data: (data) => Column(
