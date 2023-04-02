@@ -16,11 +16,25 @@ class AuthController extends StateNotifier<UserState> {
 
   AuthController(this._ref) : super(const UserState.initial()) {
     _authStateChangesSubscription?.cancel();
-    _authStateChangesSubscription =
-        _ref.read(authRepositoryProvider).authStateChanges.listen((event) {
-      log('[authState changes] ${event.event.toString()}');
-      state = UserState.event(event);
-    });
+    _authStateChangesSubscription = _ref
+        .read(authRepositoryProvider)
+        .authStateChanges
+        .listen(authStateHandler);
+  }
+
+  void authStateHandler(newEvent) {
+    log('[authState changes] ${newEvent.event.toString()}');
+    if (newEvent.event == AuthChangeEvent.signedIn) {
+      state.whenOrNull(
+          event: (oldEvent) => {
+                // dont let the state change when the oldEvent either signedIn or userUpdated
+                if (oldEvent.event != AuthChangeEvent.signedIn &&
+                    oldEvent.event != AuthChangeEvent.userUpdated)
+                  {log('masuk siniii'), state = UserState.event(newEvent)}
+              });
+    } else {
+      state = UserState.event(newEvent);
+    }
   }
 
   @override
@@ -104,10 +118,8 @@ class AuthController extends StateNotifier<UserState> {
 
     if (imageFile == null) return;
 
-    setLoading();
     try {
-      final imageUrl =
-          await _ref.read(authRepositoryProvider).uploadPicture(imageFile);
+      await _ref.read(authRepositoryProvider).uploadPicture(imageFile);
       snackbarKey.show(message: 'Profile picture updated');
     } on StorageException catch (e) {
       snackbarKey.showError(message: e.message);

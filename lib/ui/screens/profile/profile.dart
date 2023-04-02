@@ -71,7 +71,7 @@ class Profile extends HookConsumerWidget {
                       Text(
                         ref.watch(taskListControllerProvider).when(
                             data: (data) => data.isNotEmpty
-                                ? '${data.length} tasks undone'
+                                ? 'You have ${data.length} tasks'
                                 : 'All tasks done!',
                             error: (err, st) => 'Something went wrong',
                             loading: () => 'Loading...'),

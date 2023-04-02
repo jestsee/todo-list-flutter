@@ -11,7 +11,7 @@ class Home extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tasksLength = ref.watch(taskListControllerProvider).when(
         data: (data) => data.isNotEmpty
-            ? 'You have ${data.length} unfinished tasks'
+            ? 'You have ${data.length} tasks'
             : 'All tasks done!',
         error: (err, st) => 'Something went wrong',
         loading: () => 'Loading...');

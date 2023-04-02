@@ -108,7 +108,6 @@ class AuthRepository implements AuthBaseRepository {
 
   @override
   User? get getCurrentUser => getCurrentSession?.user;
-
   String get name => (getCurrentUser!.userMetadata)!['name'];
   String get avatarUrl => (getCurrentUser!.userMetadata)!['avatar_url'];
 }
