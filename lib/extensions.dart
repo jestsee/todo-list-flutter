@@ -4,17 +4,20 @@ import 'package:todo_list/globals.dart';
 extension ShowSnackBar on GlobalKey<ScaffoldMessengerState> {
   void show({
     required String message,
-    Color bg = Colors.green,
+    Color bg = const Color.fromARGB(255, 34, 217, 128),
+    Duration duration = const Duration(seconds: 1),
   }) {
     final SnackBar snackBar = SnackBar(
       content: Text(message),
       backgroundColor: bg,
+      duration: duration,
     );
     snackbarKey.currentState?.showSnackBar(snackBar);
   }
 
   void showError({required String message}) {
-    show(message: message, bg: Colors.red);
+    show(
+        message: message, bg: Colors.red, duration: const Duration(seconds: 3));
   }
 
   void showInfo({required String message}) {
@@ -32,5 +35,11 @@ extension ShowDialog on GlobalKey<NavigatorState> {
                 child: Text('Hello'),
               ),
             ));
+  }
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }

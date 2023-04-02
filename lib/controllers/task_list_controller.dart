@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todo_list/globals.dart';
+import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/task.dart';
 import 'package:todo_list/provider.dart';
-import 'package:todo_list/snackbar.dart';
+import 'package:todo_list/extensions.dart';
 
 import '../model/subtask.dart';
 
@@ -32,7 +34,8 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
   Future<void> addTask(
       {required String title,
       DateTime? deadline,
-      List<Subtask>? subtasks}) async {
+      List<Subtask>? subtasks,
+      required Priority priority}) async {
     try {
       final tempTasks = state.value;
       state = const AsyncLoading();
@@ -40,6 +43,7 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
           title: title,
           subtasks: subtasks,
           deadline: deadline,
+          priority: priority,
           createdBy: _userId!);
       final taskId =
           await _ref.read(taskRepositoryProvider).addTask(task: task);
@@ -66,14 +70,14 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
   }
 
   Future<void> deleteTask({required String id}) async {
-    infoSnackbar(message: 'Loading...');
+    snackbarKey.showInfo(message: 'Loading...');
     try {
       final tempTasks = state.value;
       state = const AsyncLoading();
       await _ref.read(taskRepositoryProvider).deleteTask(id: id);
       state =
           AsyncData(tempTasks!.where((element) => element.id != id).toList());
-      showSnackBar(message: 'Task deleted successfully');
+      snackbarKey.show(message: 'Task deleted successfully');
     } on Exception catch (e, st) {
       log(e.toString());
       state = AsyncError(e, st);
