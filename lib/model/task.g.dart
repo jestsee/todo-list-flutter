@@ -48,7 +48,7 @@ Value? _$JsonConverterFromJson<Json, Value>(
 
 const _$PriorityEnumMap = {
   Priority.low: 'low',
-  Priority.medium: 'moderate',
+  Priority.medium: 'medium',
   Priority.high: 'high',
 };
 

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/model/priority.dart';
@@ -35,7 +36,8 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       {required String title,
       DateTime? deadline,
       List<Subtask>? subtasks,
-      required Priority priority}) async {
+      required Priority priority,
+      LatLng? position}) async {
     try {
       final tempTasks = state.value;
       state = const AsyncLoading();
@@ -44,7 +46,9 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
           subtasks: subtasks,
           deadline: deadline,
           priority: priority,
-          createdBy: _userId!);
+          createdBy: _userId!,
+          latitude: position?.latitude,
+          longitude: position?.longitude);
       final taskId =
           await _ref.read(taskRepositoryProvider).addTask(task: task);
       state = AsyncData(tempTasks!..add(task.copyWith(id: taskId)));
@@ -63,6 +67,7 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
         for (final task in tempTasks!)
           task.id == updatedTask.id ? updatedTask : task
       ]);
+      log('[update] $updatedTask');
     } on Exception catch (e, st) {
       log(e.toString());
       state = AsyncError(e, st);

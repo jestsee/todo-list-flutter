@@ -72,7 +72,7 @@ class SignInForm extends HookConsumerWidget {
           onPressed: () {
             log(form.value.value.toString());
             if (!form.value.valid) {
-              return snackbarKey.showError(message: 'belom oi');
+              return snackbarKey.showError(message: 'Invalid input');
             }
             ref
                 .read(authControllerProvider.notifier)
