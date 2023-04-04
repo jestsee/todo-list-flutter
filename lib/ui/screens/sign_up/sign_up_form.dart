@@ -7,6 +7,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/validator/validation_message.dart' as v;
+import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/widgets/custom_form.dart';
 import 'package:todo_list/extensions.dart';
 import 'package:todo_list/ui/widgets/password_form.dart';
@@ -74,10 +75,9 @@ class SignUpForm extends HookConsumerWidget {
         const SizedBox(
           height: 36,
         ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(56),
-          ),
+        CustomButton(
+          full: true,
+          loading: ref.watch(authControllerProvider).isLoading,
           onPressed: () {
             log(form.value.toString());
             if (!form.value.valid) {
@@ -90,7 +90,7 @@ class SignUpForm extends HookConsumerWidget {
             snackbarKey.show(message: 'cihuy');
           },
           child: const Text(
-            'Getting Started',
+            'Sign up',
             style: TextStyle(fontSize: 18),
           ),
         )

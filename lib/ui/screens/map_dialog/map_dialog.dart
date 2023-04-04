@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,10 +17,6 @@ class MapDialog extends ConsumerWidget {
     final marker = ref.watch(markerControllerProvider(markerLocation));
     final currentLocation = ref.watch(locationControllerProvider);
     final setMarkers = markerAction.notNull ? {marker!} : <Marker>{};
-
-    if (initialLocation == initialLocation) {
-      log('sama euy');
-    }
 
     return Scaffold(
         body: currentLocation.whenOrNull(

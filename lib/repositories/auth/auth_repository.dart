@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/repositories/auth/auth_base_repository.dart';
 import 'package:todo_list/repositories/custom_exception.dart';
@@ -59,10 +62,42 @@ class AuthRepository implements AuthBaseRepository {
     }
   }
 
+  Future<String> uploadPicture(XFile file) async {
+    try {
+      final bytes = await file.readAsBytes();
+      final fileExt = file.path.split('.').last;
+      final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
+      final filePath = fileName;
+
+      // upload image
+      await Supabase.instance.client.storage.from('avatars').uploadBinary(
+            filePath,
+            bytes,
+            fileOptions: FileOptions(contentType: file.mimeType),
+          );
+
+      // generate url
+      final imageUrlResponse = await Supabase.instance.client.storage
+          .from('avatars')
+          .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
+      log('[img url] $imageUrlResponse');
+
+      // update user's data
+      await Supabase.instance.client.auth
+          .updateUser(UserAttributes(data: {'avatar_url': imageUrlResponse}));
+
+      return imageUrlResponse;
+    } catch (e) {
+      throw CustomException(message: e.toString());
+    }
+  }
+
   @override
   Session? get getCurrentSession =>
       Supabase.instance.client.auth.currentSession;
 
   @override
   User? get getCurrentUser => getCurrentSession?.user;
+  String get name => (getCurrentUser!.userMetadata)!['name'];
+  String get avatarUrl => (getCurrentUser!.userMetadata)!['avatar_url'];
 }

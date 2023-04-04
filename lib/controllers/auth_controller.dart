@@ -3,20 +3,20 @@ import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
-import 'package:todo_list/model/user_state.dart';
+import 'package:todo_list/globals.dart';
 import 'package:todo_list/provider.dart';
+import 'package:todo_list/extensions.dart';
 
-class AuthController extends StateNotifier<UserState> {
+class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
   final Ref _ref;
   StreamSubscription<sb.AuthState>? _authStateChangesSubscription;
 
-  AuthController(this._ref) : super(const UserState.initial()) {
+  AuthController(this._ref) : super(const AsyncData(null)) {
     _authStateChangesSubscription?.cancel();
     _authStateChangesSubscription =
-        _ref.read(authRepositoryProvider).authStateChanges.listen((event) {
-      log('[authState changes] ${event.event.toString()}');
-      state = UserState.event(event);
-    });
+        _ref.read(authRepositoryProvider).authStateChanges.listen(((event) {
+      state = AsyncData(event);
+    }));
   }
 
   @override
@@ -27,32 +27,29 @@ class AuthController extends StateNotifier<UserState> {
   }
 
   void setLoading() {
-    state = const UserState.loading();
-  }
-
-  void handleError(String message) {
-    state = UserState.error(message);
+    state = const AsyncLoading();
   }
 
   void appStarted() async {
-    log('app started called');
+    log('app started');
     final session = await _ref.read(authRepositoryProvider).initialSession;
 
     if (session != null) {
-      state =
-          UserState.event(sb.AuthState(sb.AuthChangeEvent.signedIn, session));
+      state = AsyncData(sb.AuthState(sb.AuthChangeEvent.signedIn, session));
       return;
     }
-    state =
-        UserState.event(sb.AuthState(sb.AuthChangeEvent.signedOut, session));
+    state = AsyncData(sb.AuthState(sb.AuthChangeEvent.signedOut, session));
   }
 
   void signUp(String email, String password, String name) async {
     setLoading();
     try {
       await _ref.read(authRepositoryProvider).signUpUser(email, password, name);
-    } catch (e) {
-      handleError(e.toString());
+      snackbarKey.show(
+          message:
+              'Your account has been created. Please check your email $email to activate your account.');
+    } catch (e, st) {
+      state = AsyncError(e, st);
     }
   }
 
@@ -60,21 +57,24 @@ class AuthController extends StateNotifier<UserState> {
     setLoading();
     try {
       await _ref.read(authRepositoryProvider).signInUser(email, password);
-    } catch (e) {
-      handleError(e.toString());
+      snackbarKey.show(message: 'Successfully signed in');
+    } catch (e, st) {
+      state = AsyncError(e, st);
     }
   }
 
   void signInGithub() async {
     await _ref.read(authRepositoryProvider).signInOAuth(sb.Provider.github);
+    snackbarKey.show(message: 'Successfully signed in');
   }
 
   void signOut() async {
     setLoading();
     try {
       await _ref.read(authRepositoryProvider).signOutUser();
+      snackbarKey.show(message: 'Signed out');
     } catch (e) {
-      handleError(e.toString());
+      snackbarKey.showError(message: e.toString());
     }
   }
 }

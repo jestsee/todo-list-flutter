@@ -1,16 +1,19 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as r;
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:todo_list/controllers/auth_controller.dart';
 import 'package:todo_list/controllers/location_controller.dart';
 import 'package:todo_list/controllers/marker_controller.dart';
+import 'package:todo_list/controllers/profile_controller.dart';
 import 'package:todo_list/controllers/task_list_controller.dart';
-import 'package:todo_list/model/user_state.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
+import 'package:todo_list/repositories/profile/profile_repository.dart';
 import 'package:todo_list/repositories/task/task_repository.dart';
 
 import 'controllers/subtask_list_controller.dart';
+import 'model/profile.dart';
 import 'model/subtask.dart';
 import 'model/subtask_with_controller.dart';
 import 'model/task.dart';
@@ -25,8 +28,18 @@ final authStateChangesProvider = r.StreamProvider<AuthState>(
     ((ref) => ref.watch(authRepositoryProvider).authStateChanges));
 
 final authControllerProvider =
-    r.StateNotifierProvider<AuthController, UserState>(
+    r.StateNotifierProvider<AuthController, AsyncValue<AuthState?>>(
         (ref) => AuthController(ref)..appStarted());
+
+// profile
+final profileRepositoryProvider =
+    r.Provider<ProfileRepository>(((ref) => ProfileRepository(supabase)));
+
+final profileControllerProvider =
+    r.StateNotifierProvider<ProfileController, r.AsyncValue<Profile>>(((ref) {
+  final user = ref.watch(authControllerProvider).value?.session?.user;
+  return ProfileController(ref, user?.id);
+}));
 
 // task
 final taskRepositoryProvider =
@@ -35,7 +48,7 @@ final taskRepositoryProvider =
 final taskListControllerProvider =
     r.StateNotifierProvider<TaskListController, r.AsyncValue<List<Task>>>(
         (ref) {
-  final user = ref.watch(authRepositoryProvider).getCurrentUser;
+  final user = ref.watch(authControllerProvider).value?.session?.user;
   return TaskListController(ref, user?.id);
 });
 

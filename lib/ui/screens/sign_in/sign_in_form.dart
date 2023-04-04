@@ -5,7 +5,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:todo_list/globals.dart';
-import 'package:todo_list/model/user_state.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/validator/validation_message.dart' as v;
 import 'package:todo_list/ui/widgets/custom_button.dart';
@@ -64,7 +63,7 @@ class SignInForm extends HookConsumerWidget {
         ),
         CustomButton(
           full: true,
-          loading: ref.watch(authControllerProvider) is Loading,
+          loading: ref.watch(authControllerProvider).isLoading,
           child: const Text(
             'Sign in',
             style: TextStyle(fontSize: 18),
