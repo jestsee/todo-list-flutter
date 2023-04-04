@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/screens/sign_in/sign_in.dart';
