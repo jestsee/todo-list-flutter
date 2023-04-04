@@ -1,9 +1,11 @@
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as r;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:todo_list/controllers/auth_controller.dart';
+import 'package:todo_list/controllers/contact_controller.dart';
 import 'package:todo_list/controllers/location_controller.dart';
 import 'package:todo_list/controllers/marker_controller.dart';
 import 'package:todo_list/controllers/profile_controller.dart';
@@ -93,3 +95,8 @@ final locationControllerProvider =
 final markerControllerProvider =
     r.StateNotifierProvider.family<MarkerController, Marker?, LatLng?>(
         (ref, arg) => MarkerController(arg));
+
+// contact
+final contactControllerProvider =
+    r.StateNotifierProvider<ContactController, r.AsyncValue<List<Contact>?>>(
+        (_) => ContactController());

@@ -26,36 +26,40 @@ class LocationController extends StateNotifier<AsyncValue<LatLng?>> {
 
   @override
   void dispose() {
-    log('dispose called');
+    log('dispose location called');
     _positionStream?.cancel();
     super.dispose();
   }
 
-  Future<void> determinePosition() async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      final canOpenSettings = await Geolocator.openLocationSettings();
-      if (!canOpenSettings) {
-        return Future.error('Location services are disabled.');
+  void determinePosition() async {
+    try {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        final canOpenSettings = await Geolocator.openLocationSettings();
+        if (!canOpenSettings) {
+          return Future.error('Location services are disabled.');
+        }
       }
-    }
 
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
+      LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          return Future.error('Location permissions are denied');
+        }
       }
-    }
 
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      if (permission == LocationPermission.deniedForever) {
+        return Future.error(
+            'Location permissions are permanently denied, we cannot request permissions.');
+      }
+      state = const AsyncLoading();
+      final position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      state = AsyncData(position.toLatLng());
+      log('[location state] $state');
+    } on Exception catch (e, st) {
+      state = AsyncError(e, st);
     }
-    state = const AsyncLoading();
-    final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    state = AsyncData(position.toLatLng());
-    log('[location state] $state');
   }
 }

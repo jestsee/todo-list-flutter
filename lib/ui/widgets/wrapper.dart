@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:todo_list/ui/screens/all_task/all_task.dart';
+import 'package:todo_list/ui/screens/contact/contact_screen.dart';
+import 'package:todo_list/ui/screens/dummy.dart';
 import 'package:todo_list/ui/screens/index.dart';
 import 'package:todo_list/ui/screens/profile/profile.dart';
 
@@ -10,7 +12,13 @@ class ScaffoldWrapper extends HookWidget {
   const ScaffoldWrapper({super.key, required this.child});
   final Widget child;
 
-  final screens = const [Home(), AllTask(), AllTask(), Profile()];
+  final screens = const [
+    Home(),
+    ContactScreen(),
+    Dummy(),
+    AllTask(),
+    Profile()
+  ];
 
   @override
   Widget build(BuildContext context) {
