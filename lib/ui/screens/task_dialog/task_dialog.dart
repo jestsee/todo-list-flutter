@@ -9,6 +9,7 @@ import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/screens/map_dialog/map_dialog.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/widgets/subtask_list.dart';
+import 'package:todo_list/extensions.dart';
 
 class TaskDialog extends HookWidget {
   final Task? task;
@@ -20,6 +21,9 @@ class TaskDialog extends HookWidget {
   Widget build(BuildContext context) {
     final titleController = useTextEditingController(text: task?.title);
     final date = useState<DateTime?>(task?.deadline);
+    final time = useState<TimeOfDay?>(task?.deadline != null
+        ? TimeOfDay.fromDateTime(task!.deadline!)
+        : null);
     final priority = useState<Priority>(task?.priority ?? Priority.low);
     final subtasks = useState(task?.subtasks ?? List<Subtask>.empty());
     final location = useState<LatLng?>(task?.latitude != null
@@ -29,6 +33,9 @@ class TaskDialog extends HookWidget {
     void handlePriority() {
       priority.value = priority.value.switchPriority();
     }
+
+    DateTime? getMergedTime() => date.value
+        ?.copyWith(hour: time.value?.hour, minute: time.value?.minute);
 
     return Scaffold(
       body: Padding(
@@ -91,14 +98,14 @@ class TaskDialog extends HookWidget {
                           ? taskAction.updateTask(
                               updatedTask: task!.copyWith(
                                   title: titleController.text,
-                                  deadline: date.value,
+                                  deadline: getMergedTime(),
                                   subtasks: subtasks,
                                   priority: priority.value,
                                   latitude: position?.latitude,
                                   longitude: position?.longitude))
                           : taskAction.addTask(
                               title: titleController.text,
-                              deadline: date.value,
+                              deadline: getMergedTime(),
                               subtasks: subtasks,
                               priority: priority.value,
                               position: position);
@@ -140,10 +147,6 @@ class TaskDialog extends HookWidget {
                         ),
                       ),
                       GestureDetector(
-                        child: const Icon(Icons.group, size: 36),
-                        onTap: () {},
-                      ),
-                      GestureDetector(
                         child: const Icon(Icons.calendar_month, size: 36),
                         onTap: () async {
                           date.value = await showDatePicker(
@@ -153,6 +156,14 @@ class TaskDialog extends HookWidget {
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2099),
                           );
+                        },
+                      ),
+                      GestureDetector(
+                        child: const Icon(Icons.access_time, size: 36),
+                        onTap: () async {
+                          time.value = await showTimePicker(
+                              context: context,
+                              initialTime: time.value ?? TimeOfDay.now());
                         },
                       ),
                       GestureDetector(
