@@ -33,7 +33,7 @@ class SubtaskList extends ConsumerWidget {
             ),
             GestureDetector(
               child: const ListTile(
-                leading: Icon(Icons.add, size: 24),
+                leading: Icon(Icons.add_rounded, size: 24),
                 title: Text('New subtask'),
                 textColor: Colors.grey,
               ),
