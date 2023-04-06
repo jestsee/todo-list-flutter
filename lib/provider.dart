@@ -10,6 +10,7 @@ import 'package:todo_list/controllers/location_controller.dart';
 import 'package:todo_list/controllers/marker_controller.dart';
 import 'package:todo_list/controllers/profile_controller.dart';
 import 'package:todo_list/controllers/task_list_controller.dart';
+import 'package:todo_list/model/task_filter.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
 import 'package:todo_list/repositories/profile/profile_repository.dart';
 import 'package:todo_list/repositories/task/task_repository.dart';
@@ -53,6 +54,22 @@ final taskListControllerProvider =
   final user = ref.watch(authControllerProvider).value?.session?.user;
   return TaskListController(ref, user?.id);
 });
+
+// task filter
+final tasksFilterByPriorityProvider = r.StateProvider<TaskFilter?>((_) => null);
+
+final filteredTasksProvider = r.Provider<List<Task>>(((ref) {
+  final taskList = ref.watch(taskListControllerProvider);
+  final taskFilter = ref.watch(tasksFilterByPriorityProvider);
+  return taskList.maybeWhen(
+      data: (data) {
+        if (taskFilter == null) return data;
+        return data
+            .where((item) => item.priority == taskFilter.priority)
+            .toList();
+      },
+      orElse: () => []);
+}));
 
 // subtask
 final currentSubtasksProvider = r.Provider<List<Subtask>>((ref) => <Subtask>[]);

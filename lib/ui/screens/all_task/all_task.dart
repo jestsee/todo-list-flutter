@@ -21,7 +21,7 @@ class AllTask extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          const TaskList()
+          const TaskList(filtered: true)
         ],
       ),
     ));

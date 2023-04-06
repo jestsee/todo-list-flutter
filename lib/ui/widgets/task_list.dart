@@ -5,14 +5,17 @@ import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/widgets/task_item.dart';
 
 class TaskList extends HookConsumerWidget {
-  const TaskList({super.key});
+  final bool filtered;
+  const TaskList({super.key, this.filtered = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final taskListState = ref.watch(taskListControllerProvider);
     final taskAction = ref.read(taskListControllerProvider.notifier);
+    final filteredTask = ref.watch(filteredTasksProvider);
+    final data = filtered ? filteredTask : taskListState.value!;
     return taskListState.when(
-        data: (data) => Expanded(
+        data: (_) => Expanded(
               child: MediaQuery.removePadding(
                 context: context,
                 removeTop: true,
