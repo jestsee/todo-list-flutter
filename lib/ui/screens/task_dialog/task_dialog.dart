@@ -8,6 +8,7 @@ import 'package:todo_list/model/task.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/screens/map_dialog/map_dialog.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
+import 'package:todo_list/ui/widgets/priority_chip.dart';
 import 'package:todo_list/ui/widgets/subtask_list.dart';
 import 'package:todo_list/extensions.dart';
 
@@ -134,17 +135,10 @@ class TaskDialog extends HookWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 12),
-                        child: ActionChip(
-                          backgroundColor: priorityColor[priority.value],
-                          label: Text(
-                            priority.value.name,
-                            style: const TextStyle(
-                                fontSize: 16, color: Colors.white),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          onPressed: handlePriority,
-                        ),
+                        child: PriorityChip(
+                            priority: priority.value,
+                            onPressed: handlePriority,
+                            selected: true),
                       ),
                       GestureDetector(
                         child: const Icon(Icons.calendar_month, size: 36),
