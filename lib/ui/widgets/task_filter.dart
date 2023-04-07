@@ -54,7 +54,7 @@ class Filter extends HookConsumerWidget {
         useState<Priority?>(ref.read(priorityFilterProvider));
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 40),
+      padding: const EdgeInsets.fromLTRB(32, 24, 32, 36),
       child: ListView(
         shrinkWrap: true,
         children: <Widget>[
