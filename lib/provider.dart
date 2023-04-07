@@ -58,17 +58,25 @@ final taskListControllerProvider =
 });
 
 // task filter
+final searchFilterProvider = r.StateProvider<String?>((_) => null);
 final priorityFilterProvider = r.StateProvider<Priority?>((_) => null);
 
 final filteredTasksProvider = r.Provider<List<Task>>(((ref) {
   final taskList = ref.watch(taskListControllerProvider);
+  final searchFilter = ref.watch(searchFilterProvider);
   final priorityFilter = ref.watch(priorityFilterProvider);
   return taskList.maybeWhen(
       data: (data) {
         List<Task> tempData = data;
+        if (searchFilter != null) {
+          tempData = tempData
+              .where((item) => item.title.contains(searchFilter))
+              .toList();
+        }
         if (priorityFilter != null) {
-          tempData =
-              data.where((item) => item.priority == priorityFilter).toList();
+          tempData = tempData
+              .where((item) => item.priority == priorityFilter)
+              .toList();
         }
         log('masuk data $tempData');
         return tempData;
