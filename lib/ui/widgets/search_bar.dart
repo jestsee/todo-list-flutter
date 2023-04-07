@@ -9,7 +9,11 @@ class SearchBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TextField(
       decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide.none),
           hintText: 'Search',
           hintStyle: const TextStyle(fontSize: 18),
           contentPadding:

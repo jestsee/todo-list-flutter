@@ -22,6 +22,7 @@ class TaskList extends HookConsumerWidget {
             context: context,
             removeTop: true,
             child: ListView.separated(
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 separatorBuilder: ((context, index) => const Divider(
                       color: Colors.white,
                     )),

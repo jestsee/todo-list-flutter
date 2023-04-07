@@ -18,12 +18,12 @@ class TaskFilter extends HookWidget {
     return Ink(
         padding: const EdgeInsets.all(3),
         decoration: ShapeDecoration(
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).primaryColorDark,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         child: IconButton(
           icon: const Icon(
-            Icons.filter_alt_rounded,
+            Icons.filter_list_rounded,
             color: Colors.white,
           ),
           onPressed: () {
@@ -61,7 +61,7 @@ class Filter extends HookConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Priority', style: Theme.of(context).textTheme.headline3),
+              Text('Priority', style: Theme.of(context).textTheme.displaySmall),
               TextButton(
                   onPressed: () {
                     ref.read(priorityFilterProvider.notifier).state = null;
@@ -102,7 +102,7 @@ class Filter extends HookConsumerWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Text('Date', style: Theme.of(context).textTheme.headline3),
+          Text('Date', style: Theme.of(context).textTheme.displaySmall),
           const SizedBox(height: 12),
           TextField(
               controller: dateController,

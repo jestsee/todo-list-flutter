@@ -61,7 +61,7 @@ class TaskDialog extends HookWidget {
                   controller: titleController,
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
-                  style: Theme.of(context).textTheme.headline2,
+                  style: Theme.of(context).textTheme.displayMedium,
                   decoration:
                       const InputDecoration.collapsed(hintText: 'Task title'),
                 ),

@@ -25,7 +25,7 @@ class Home extends HookConsumerWidget {
           children: [
             Text(
               'Hi, ${ref.read(authRepositoryProvider).name}!',
-              style: Theme.of(context).textTheme.headline1,
+              style: Theme.of(context).textTheme.displayLarge,
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: gap - 4),
@@ -36,7 +36,7 @@ class Home extends HookConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Task', style: Theme.of(context).textTheme.headline2),
+                Text('Task', style: Theme.of(context).textTheme.displayMedium),
                 TextButton(
                   child: const Text('See all',
                       style: TextStyle(decoration: TextDecoration.underline)),

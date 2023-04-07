@@ -20,7 +20,7 @@ class TaskSort extends StatelessWidget {
         label: const Text('Sort'),
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          backgroundColor: Colors.blueGrey.shade700,
+          backgroundColor: Theme.of(context).primaryColorDark,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40.0),
           ),
@@ -52,7 +52,7 @@ class Sort extends HookConsumerWidget {
       child: ListView(
         shrinkWrap: true,
         children: [
-          Text('Sort task by', style: Theme.of(context).textTheme.headline3),
+          Text('Sort task by', style: Theme.of(context).textTheme.displaySmall),
           const SizedBox(height: 16),
           RadioListTile(
               contentPadding: EdgeInsets.zero,
