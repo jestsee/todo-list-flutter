@@ -145,8 +145,7 @@ class TaskDialog extends HookWidget {
                         onTap: () async {
                           date.value = await showDatePicker(
                             context: context,
-                            initialDate:
-                                task?.deadline ?? date.value ?? DateTime.now(),
+                            initialDate: date.value ?? DateTime.now(),
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2099),
                           );

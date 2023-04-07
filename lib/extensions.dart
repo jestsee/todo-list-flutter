@@ -74,4 +74,7 @@ extension DateTimeExtension on DateTime {
       microsecond ?? this.microsecond,
     );
   }
+
+  bool isSameDate(DateTime other) =>
+      year == other.year && month == other.month && day == other.day;
 }

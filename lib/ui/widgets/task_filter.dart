@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
@@ -44,8 +45,13 @@ class Filter extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedDate = useState<DateTime?>(ref.read(dateFilterProvider));
+    final dateController = useTextEditingController(
+        text: selectedDate.value != null
+            ? DateFormat('dd MMMM yyyy').format(selectedDate.value!)
+            : null);
     final selectedPriority =
-        useState<Priority?>(ref.read(priorityFilterProvider.notifier).state);
+        useState<Priority?>(ref.read(priorityFilterProvider));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 40),
@@ -59,6 +65,7 @@ class Filter extends HookConsumerWidget {
               TextButton(
                   onPressed: () {
                     ref.read(priorityFilterProvider.notifier).state = null;
+                    ref.read(dateFilterProvider.notifier).state = null;
                     Navigator.of(context).pop();
                   },
                   child: const Text(
@@ -98,6 +105,8 @@ class Filter extends HookConsumerWidget {
           Text('Date', style: Theme.of(context).textTheme.headline3),
           const SizedBox(height: 12),
           TextField(
+              controller: dateController,
+              readOnly: true,
               decoration: InputDecoration(
                 hintText: 'Filter by date',
                 prefixIcon: Icon(
@@ -109,12 +118,16 @@ class Filter extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(12.0),
                 ),
               ),
-              onTap: (() {
-                showDatePicker(
+              onTap: (() async {
+                selectedDate.value = await showDatePicker(
                     context: context,
-                    initialDate: DateTime.now(),
+                    initialDate: selectedDate.value ?? DateTime.now(),
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2999));
+                if (selectedDate.value != null) {
+                  dateController.text =
+                      DateFormat('dd MMMM yyyy').format(selectedDate.value!);
+                }
               })),
           const SizedBox(height: 32),
           CustomButton(
@@ -122,6 +135,7 @@ class Filter extends HookConsumerWidget {
             onPressed: (() {
               ref.read(priorityFilterProvider.notifier).state =
                   selectedPriority.value;
+              ref.read(dateFilterProvider.notifier).state = selectedDate.value;
               Navigator.of(context).pop();
             }),
             child: const Text(

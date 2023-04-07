@@ -16,6 +16,7 @@ import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
 import 'package:todo_list/repositories/profile/profile_repository.dart';
 import 'package:todo_list/repositories/task/task_repository.dart';
+import 'package:todo_list/extensions.dart';
 
 import 'controllers/subtask_list_controller.dart';
 import 'model/profile.dart';
@@ -60,11 +61,13 @@ final taskListControllerProvider =
 // task filter
 final searchFilterProvider = r.StateProvider<String?>((_) => null);
 final priorityFilterProvider = r.StateProvider<Priority?>((_) => null);
+final dateFilterProvider = r.StateProvider<DateTime?>((_) => null);
 
 final filteredTasksProvider = r.Provider<List<Task>>(((ref) {
   final taskList = ref.watch(taskListControllerProvider);
   final searchFilter = ref.watch(searchFilterProvider);
   final priorityFilter = ref.watch(priorityFilterProvider);
+  final dateFilter = ref.watch(dateFilterProvider);
   return taskList.maybeWhen(
       data: (data) {
         List<Task> tempData = data;
@@ -76,6 +79,13 @@ final filteredTasksProvider = r.Provider<List<Task>>(((ref) {
         if (priorityFilter != null) {
           tempData = tempData
               .where((item) => item.priority == priorityFilter)
+              .toList();
+        }
+        if (dateFilter != null) {
+          tempData = tempData
+              .where((item) =>
+                  item.deadline != null &&
+                  item.deadline!.isSameDate(dateFilter))
               .toList();
         }
         log('masuk data $tempData');
