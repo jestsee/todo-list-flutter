@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as r;
@@ -10,7 +12,7 @@ import 'package:todo_list/controllers/location_controller.dart';
 import 'package:todo_list/controllers/marker_controller.dart';
 import 'package:todo_list/controllers/profile_controller.dart';
 import 'package:todo_list/controllers/task_list_controller.dart';
-import 'package:todo_list/model/task_filter.dart';
+import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
 import 'package:todo_list/repositories/profile/profile_repository.dart';
 import 'package:todo_list/repositories/task/task_repository.dart';
@@ -56,17 +58,20 @@ final taskListControllerProvider =
 });
 
 // task filter
-final tasksFilterByPriorityProvider = r.StateProvider<TaskFilter?>((_) => null);
+final priorityFilterProvider = r.StateProvider<Priority?>((_) => null);
 
 final filteredTasksProvider = r.Provider<List<Task>>(((ref) {
   final taskList = ref.watch(taskListControllerProvider);
-  final taskFilter = ref.watch(tasksFilterByPriorityProvider);
+  final priorityFilter = ref.watch(priorityFilterProvider);
   return taskList.maybeWhen(
       data: (data) {
-        if (taskFilter == null) return data;
-        return data
-            .where((item) => item.priority == taskFilter.priority)
-            .toList();
+        List<Task> tempData = data;
+        if (priorityFilter != null) {
+          tempData =
+              data.where((item) => item.priority == priorityFilter).toList();
+        }
+        log('masuk data $tempData');
+        return tempData;
       },
       orElse: () => []);
 }));

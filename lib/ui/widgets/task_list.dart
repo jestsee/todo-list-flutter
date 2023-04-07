@@ -13,41 +13,42 @@ class TaskList extends HookConsumerWidget {
     final taskListState = ref.watch(taskListControllerProvider);
     final taskAction = ref.read(taskListControllerProvider.notifier);
     final filteredTask = ref.watch(filteredTasksProvider);
-    final data = filtered ? filteredTask : taskListState.value!;
     return taskListState.when(
-        data: (_) => Expanded(
-              child: MediaQuery.removePadding(
-                context: context,
-                removeTop: true,
-                child: ListView.separated(
-                    separatorBuilder: ((context, index) => const Divider(
-                          color: Colors.white,
-                        )),
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      final item = data[index];
-                      return Slidable(
-                          key: Key(item.id!),
-                          endActionPane: ActionPane(
-                              motion: const BehindMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (BuildContext context) {
-                                    taskAction.deleteTask(id: (item.id!));
-                                  },
-                                  backgroundColor: Colors.redAccent,
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.delete,
-                                  label: 'Delete',
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(8)),
-                                ),
-                              ]),
-                          child: TaskItem(task: item));
-                    }),
-              ),
-            ),
-        error: ((error, stackTrace) => const Text('error')),
-        loading: (() => const Text('loading')));
+      error: ((error, stackTrace) => const Text('error')),
+      loading: (() => const Text('loading')),
+      data: (_) {
+        return Expanded(
+          child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView.separated(
+                separatorBuilder: ((context, index) => const Divider(
+                      color: Colors.white,
+                    )),
+                itemCount: filteredTask.length,
+                itemBuilder: (context, index) {
+                  final item = filteredTask[index];
+                  return Slidable(
+                      key: Key(item.id!),
+                      endActionPane:
+                          ActionPane(motion: const BehindMotion(), children: [
+                        SlidableAction(
+                          onPressed: (BuildContext context) {
+                            taskAction.deleteTask(id: (item.id!));
+                          },
+                          backgroundColor: Colors.redAccent,
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Delete',
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                        ),
+                      ]),
+                      child: TaskItem(task: item));
+                }),
+          ),
+        );
+      },
+    );
   }
 }

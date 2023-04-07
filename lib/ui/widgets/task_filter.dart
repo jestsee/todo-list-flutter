@@ -28,7 +28,6 @@ class TaskFilter extends HookWidget {
           onPressed: () {
             showModalBottomSheet(
               context: context,
-              // isScrollControlled: true,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24)),
               builder: (context) => const Filter(),
@@ -45,16 +44,29 @@ class Filter extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO pass argumen dari provider ke useState
-    final filterState = ref.watch(tasksFilterByPriorityProvider);
-    final selectedPriority = useState<Priority>(Priority.high);
+    final selectedPriority =
+        useState<Priority?>(ref.read(priorityFilterProvider.notifier).state);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 40),
       child: ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Text('Priority', style: Theme.of(context).textTheme.headline3),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Priority', style: Theme.of(context).textTheme.headline3),
+              TextButton(
+                  onPressed: () {
+                    ref.read(priorityFilterProvider.notifier).state = null;
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Reset',
+                    style: TextStyle(fontSize: 16),
+                  ))
+            ],
+          ),
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,7 +119,11 @@ class Filter extends HookConsumerWidget {
           const SizedBox(height: 32),
           CustomButton(
             full: true,
-            onPressed: (() {}),
+            onPressed: (() {
+              ref.read(priorityFilterProvider.notifier).state =
+                  selectedPriority.value;
+              Navigator.of(context).pop();
+            }),
             child: const Text(
               'Apply',
               style: TextStyle(fontSize: 18),
