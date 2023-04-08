@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' as r;
@@ -10,9 +12,11 @@ import 'package:todo_list/controllers/location_controller.dart';
 import 'package:todo_list/controllers/marker_controller.dart';
 import 'package:todo_list/controllers/profile_controller.dart';
 import 'package:todo_list/controllers/task_list_controller.dart';
+import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
 import 'package:todo_list/repositories/profile/profile_repository.dart';
 import 'package:todo_list/repositories/task/task_repository.dart';
+import 'package:todo_list/extensions.dart';
 
 import 'controllers/subtask_list_controller.dart';
 import 'model/profile.dart';
@@ -53,6 +57,42 @@ final taskListControllerProvider =
   final user = ref.watch(authControllerProvider).value?.session?.user;
   return TaskListController(ref, user?.id);
 });
+
+// task filter
+final searchFilterProvider = r.StateProvider<String?>((_) => null);
+final priorityFilterProvider = r.StateProvider<Priority?>((_) => null);
+final dateFilterProvider = r.StateProvider<DateTime?>((_) => null);
+
+final filteredTasksProvider = r.Provider<List<Task>>(((ref) {
+  final taskList = ref.watch(taskListControllerProvider);
+  final searchFilter = ref.watch(searchFilterProvider);
+  final priorityFilter = ref.watch(priorityFilterProvider);
+  final dateFilter = ref.watch(dateFilterProvider);
+  return taskList.maybeWhen(
+      data: (data) {
+        List<Task> tempData = data;
+        if (searchFilter != null) {
+          tempData = tempData
+              .where((item) => item.title.contains(searchFilter))
+              .toList();
+        }
+        if (priorityFilter != null) {
+          tempData = tempData
+              .where((item) => item.priority == priorityFilter)
+              .toList();
+        }
+        if (dateFilter != null) {
+          tempData = tempData
+              .where((item) =>
+                  item.deadline != null &&
+                  item.deadline!.isSameDate(dateFilter))
+              .toList();
+        }
+        log('masuk data $tempData');
+        return tempData;
+      },
+      orElse: () => []);
+}));
 
 // subtask
 final currentSubtasksProvider = r.Provider<List<Subtask>>((ref) => <Subtask>[]);

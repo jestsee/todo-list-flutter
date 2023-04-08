@@ -12,6 +12,8 @@ class ScaffoldWrapper extends HookWidget {
   const ScaffoldWrapper({super.key, required this.child});
   final Widget child;
 
+  // TODO buang semua filter sebelum masuk ke home
+
   final screens = const [
     Home(),
     ContactScreen(),

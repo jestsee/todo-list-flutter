@@ -37,8 +37,8 @@ class SignIn extends StatelessWidget {
                         ..onTap =
                             () => Navigator.pushNamed(context, '/sign-up'))
                 ])),
-                const SizedBox(height: 40,),
-                const ConnectWith()
+            const SizedBox(height: 40),
+            const ConnectWith()
           ],
         ),
       ),

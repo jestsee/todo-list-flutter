@@ -36,10 +36,11 @@ class Home extends HookConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Task', style: Theme.of(context).textTheme.headline3),
+                Text('Task', style: Theme.of(context).textTheme.headline2),
                 TextButton(
                   child: const Text('See all',
                       style: TextStyle(decoration: TextDecoration.underline)),
+                  // TODO
                   onPressed: () {},
                 )
               ],
