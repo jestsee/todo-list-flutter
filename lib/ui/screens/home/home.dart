@@ -18,8 +18,9 @@ class Home extends HookConsumerWidget {
     const gap = 8.0;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.fromLTRB(32, 32, 32, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -45,7 +46,7 @@ class Home extends HookConsumerWidget {
                 )
               ],
             ),
-            const TaskList(),
+            const TaskList(addPadding: false, pick: 2),
           ],
         ),
       ),

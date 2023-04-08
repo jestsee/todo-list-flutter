@@ -32,6 +32,9 @@ class MyApp extends StatelessWidget {
         routes: customRoutes,
         theme: ThemeData(
             primarySwatch: Colors.blue,
+            colorScheme: ColorScheme.fromSwatch(
+                accentColor: Colors.blue,
+                backgroundColor: Colors.grey.shade200),
             textTheme: TextTheme(
               displayLarge: const TextStyle(
                   fontSize: 36,

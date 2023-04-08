@@ -12,7 +12,7 @@ class Profile extends HookConsumerWidget {
     final nameController = useTextEditingController(text: '');
 
     final buttonTheme = ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Theme.of(context).colorScheme.background,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(99)),
         elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16));

@@ -13,6 +13,7 @@ class AllTask extends HookWidget {
   Widget build(BuildContext context) {
     final showFab = useState(false);
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       floatingActionButton: showFab.value ? const TaskSort() : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: NotificationListener<UserScrollNotification>(

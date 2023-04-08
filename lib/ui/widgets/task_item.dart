@@ -28,10 +28,10 @@ class TaskItem extends ConsumerWidget {
         showTaskDialog(context, task: task);
       },
       child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
+        padding: const EdgeInsets.fromLTRB(28, 24, 28, 32),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.black45),
-            borderRadius: BorderRadius.circular(8)),
+            borderRadius: BorderRadius.circular(8),
+            color: Theme.of(context).cardColor),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -48,26 +48,15 @@ class TaskItem extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: gap),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                b.Badge(
-                  text: task.groupId != null ? 'Group' : 'Personal',
-                  outline: true,
-                  variant: BadgeVariant.other,
-                ),
-                task.deadline != null
-                    ? Row(
-                        children: [
-                          const Icon(Icons.calendar_month, size: 16),
-                          const SizedBox(width: 4),
-                          Text(DateFormat('dd MMMM yyyy')
-                              .format(task.deadline!)),
-                        ],
-                      )
-                    : const SizedBox(),
-              ],
-            ),
+            task.deadline != null
+                ? Row(
+                    children: [
+                      const Icon(Icons.calendar_month, size: 16),
+                      const SizedBox(width: 4),
+                      Text(DateFormat('dd MMMM yyyy').format(task.deadline!)),
+                    ],
+                  )
+                : const SizedBox(),
             ListView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -88,13 +77,7 @@ class TaskItem extends ConsumerWidget {
                   .toList(),
             ),
             task.subtasks!.length > 2
-                ? const Padding(
-                    padding: EdgeInsets.only(top: 12),
-                    child: Text(
-                      '...',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  )
+                ? const Text('...', style: TextStyle(fontSize: 20))
                 : const SizedBox(),
           ],
         ),

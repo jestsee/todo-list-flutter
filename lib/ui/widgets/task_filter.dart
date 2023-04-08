@@ -25,6 +25,7 @@ class TaskFilter extends HookWidget {
           icon: const Icon(
             Icons.filter_list_rounded,
             color: Colors.white,
+            size: 28,
           ),
           onPressed: () {
             showModalBottomSheet(
