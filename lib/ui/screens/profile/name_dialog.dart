@@ -6,13 +6,12 @@ import 'package:todo_list/provider.dart';
 import 'package:todo_list/ui/widgets/custom_button.dart';
 import 'package:todo_list/ui/validator/validation_message.dart' as v;
 
-void showEditNameDialog(BuildContext context) {
-  showDialog(
-      context: context, builder: ((context) => const ChangeNameDialog()));
+void showNameDialog(BuildContext context) {
+  showDialog(context: context, builder: ((context) => const NameDialog()));
 }
 
-class ChangeNameDialog extends HookConsumerWidget {
-  const ChangeNameDialog({super.key});
+class NameDialog extends HookConsumerWidget {
+  const NameDialog({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +28,7 @@ class ChangeNameDialog extends HookConsumerWidget {
     String getNewName() => form.value.control('name').value;
 
     return AlertDialog(
-      title: const Text("Change name"),
+      title: const Text("New name"),
       content: ReactiveForm(
         formGroup: form.value,
         child: ReactiveTextField(

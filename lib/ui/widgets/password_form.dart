@@ -6,11 +6,9 @@ class PasswordForm extends HookWidget {
   final Map<String, String Function(Object)>? validator;
   final String name;
   final String? placeholder, label;
-  final bool isDirty;
   const PasswordForm(
       {super.key,
       required this.name,
-      required this.isDirty,
       this.placeholder,
       this.label,
       this.validator});

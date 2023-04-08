@@ -45,25 +45,25 @@ class SignUpForm extends HookConsumerWidget {
                 CustomForm(
                     name: 'name',
                     label: 'Name *',
-                    // leading: const Icon(Icons.person),
                     placeholder: 'John Doe',
                     validator: {
                       'required': (_) => msg.required('Name'),
+                      'minLength': (error) => msg.minLength(
+                          'Password', (error as Map)['requiredLength'])
                     }),
                 CustomForm(
                     name: 'email',
                     label: 'Email *',
-                    // leading: const Icon(Icons.mail),
                     placeholder: 'example@mail.com',
                     validator: {
                       'required': (_) => msg.required('Email'),
-                      'email': (_) => msg.email()
+                      'email': (_) => msg.email(),
+                      'minLength': (error) => msg.minLength(
+                          'Password', (error as Map)['requiredLength'])
                     }),
                 PasswordForm(
                   name: 'password',
                   label: 'Password *',
-                  isDirty: form.value.control('password').dirty,
-                  // leading: const Icon(Icons.lock),
                   validator: {
                     'required': (_) => msg.required('Password'),
                     'minLength': (error) => msg.minLength(
