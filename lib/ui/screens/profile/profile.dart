@@ -12,7 +12,7 @@ class Profile extends HookConsumerWidget {
     final nameController = useTextEditingController(text: '');
 
     final buttonTheme = ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Theme.of(context).colorScheme.background,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(99)),
         elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16));
@@ -64,7 +64,7 @@ class Profile extends HookConsumerWidget {
                       const SizedBox(height: 32),
                       Text(
                         item.name,
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.displayLarge,
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -74,7 +74,7 @@ class Profile extends HookConsumerWidget {
                                 : 'All tasks done!',
                             error: (err, st) => 'Something went wrong',
                             loading: () => 'Loading...'),
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       const SizedBox(height: 52),
                       ElevatedButton(
@@ -87,7 +87,8 @@ class Profile extends HookConsumerWidget {
                               const SizedBox(width: 12),
                               Text(
                                 'Change name',
-                                style: Theme.of(context).textTheme.headline5,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               )
                             ],
                           )),
@@ -102,7 +103,8 @@ class Profile extends HookConsumerWidget {
                               const SizedBox(width: 12),
                               Text(
                                 'Change password',
-                                style: Theme.of(context).textTheme.headline5,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               )
                             ],
                           )),
@@ -119,7 +121,8 @@ class Profile extends HookConsumerWidget {
                               const SizedBox(width: 12),
                               Text(
                                 'Sign out',
-                                style: Theme.of(context).textTheme.headline5,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               )
                             ],
                           )),

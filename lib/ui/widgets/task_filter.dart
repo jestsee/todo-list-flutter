@@ -18,13 +18,14 @@ class TaskFilter extends HookWidget {
     return Ink(
         padding: const EdgeInsets.all(3),
         decoration: ShapeDecoration(
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).primaryColorDark,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         child: IconButton(
           icon: const Icon(
-            Icons.filter_alt_rounded,
+            Icons.filter_list_rounded,
             color: Colors.white,
+            size: 28,
           ),
           onPressed: () {
             showModalBottomSheet(
@@ -54,14 +55,14 @@ class Filter extends HookConsumerWidget {
         useState<Priority?>(ref.read(priorityFilterProvider));
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 40),
+      padding: const EdgeInsets.fromLTRB(32, 24, 32, 36),
       child: ListView(
         shrinkWrap: true,
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Priority', style: Theme.of(context).textTheme.headline3),
+              Text('Priority', style: Theme.of(context).textTheme.displaySmall),
               TextButton(
                   onPressed: () {
                     ref.read(priorityFilterProvider.notifier).state = null;
@@ -102,7 +103,7 @@ class Filter extends HookConsumerWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Text('Date', style: Theme.of(context).textTheme.headline3),
+          Text('Date', style: Theme.of(context).textTheme.displaySmall),
           const SizedBox(height: 12),
           TextField(
               controller: dateController,

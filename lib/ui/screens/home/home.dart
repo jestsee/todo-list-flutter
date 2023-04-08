@@ -18,14 +18,15 @@ class Home extends HookConsumerWidget {
     const gap = 8.0;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.fromLTRB(32, 32, 32, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Hi, ${ref.read(authRepositoryProvider).name}!',
-              style: Theme.of(context).textTheme.headline1,
+              style: Theme.of(context).textTheme.displayLarge,
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: gap - 4),
@@ -36,7 +37,7 @@ class Home extends HookConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Task', style: Theme.of(context).textTheme.headline2),
+                Text('Task', style: Theme.of(context).textTheme.displayMedium),
                 TextButton(
                   child: const Text('See all',
                       style: TextStyle(decoration: TextDecoration.underline)),
@@ -45,7 +46,7 @@ class Home extends HookConsumerWidget {
                 )
               ],
             ),
-            const TaskList(),
+            const TaskList(addPadding: false, pick: 2),
           ],
         ),
       ),

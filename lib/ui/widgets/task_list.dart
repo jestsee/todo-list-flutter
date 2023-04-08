@@ -6,13 +6,17 @@ import 'package:todo_list/ui/widgets/task_item.dart';
 
 class TaskList extends HookConsumerWidget {
   final bool filtered;
-  const TaskList({super.key, this.filtered = false});
+  final bool addPadding;
+  final int? pick;
+  const TaskList(
+      {super.key, this.filtered = false, this.addPadding = true, this.pick});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final taskListState = ref.watch(taskListControllerProvider);
     final taskAction = ref.read(taskListControllerProvider.notifier);
     final filteredTask = ref.watch(filteredTasksProvider);
+
     return taskListState.when(
       error: ((error, stackTrace) => const Text('error')),
       loading: (() => const Text('loading')),
@@ -22,10 +26,15 @@ class TaskList extends HookConsumerWidget {
             context: context,
             removeTop: true,
             child: ListView.separated(
+                padding: addPadding
+                    ? const EdgeInsets.symmetric(vertical: 24)
+                    : null,
                 separatorBuilder: ((context, index) => const Divider(
                       color: Colors.white,
                     )),
-                itemCount: filteredTask.length,
+                itemCount: pick != null && filteredTask.length > 2
+                    ? pick!
+                    : filteredTask.length,
                 itemBuilder: (context, index) {
                   final item = filteredTask[index];
                   return Slidable(

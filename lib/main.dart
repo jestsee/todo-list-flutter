@@ -32,22 +32,26 @@ class MyApp extends StatelessWidget {
         routes: customRoutes,
         theme: ThemeData(
             primarySwatch: Colors.blue,
+            colorScheme: ColorScheme.fromSwatch(
+                accentColor: Colors.blue,
+                backgroundColor: Colors.grey.shade200),
             textTheme: TextTheme(
-              headline1: const TextStyle(
+              displayLarge: const TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
-              headline2: const TextStyle(
+              displayMedium: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
-              headline3: const TextStyle(
+              displaySmall: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
-              headline4: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-              headline5: TextStyle(fontSize: 18, color: Colors.grey.shade600),
-              headline6: TextStyle(fontSize: 24, color: Colors.grey.shade600),
+              headlineMedium:
+                  TextStyle(fontSize: 12, color: Colors.grey.shade600),
+              headlineSmall:
+                  TextStyle(fontSize: 18, color: Colors.grey.shade600),
             )),
       ),
     );

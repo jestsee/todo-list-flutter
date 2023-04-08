@@ -13,6 +13,7 @@ import 'package:todo_list/controllers/marker_controller.dart';
 import 'package:todo_list/controllers/profile_controller.dart';
 import 'package:todo_list/controllers/task_list_controller.dart';
 import 'package:todo_list/model/priority.dart';
+import 'package:todo_list/model/task_sort_enum.dart';
 import 'package:todo_list/repositories/auth/auth_repository.dart';
 import 'package:todo_list/repositories/profile/profile_repository.dart';
 import 'package:todo_list/repositories/task/task_repository.dart';
@@ -58,16 +59,19 @@ final taskListControllerProvider =
   return TaskListController(ref, user?.id);
 });
 
-// task filter
+// task filter & sort
 final searchFilterProvider = r.StateProvider<String?>((_) => null);
 final priorityFilterProvider = r.StateProvider<Priority?>((_) => null);
 final dateFilterProvider = r.StateProvider<DateTime?>((_) => null);
+final taskSortProvider =
+    r.StateProvider<TaskSortEnum>((_) => TaskSortEnum.closestDeadline);
 
 final filteredTasksProvider = r.Provider<List<Task>>(((ref) {
   final taskList = ref.watch(taskListControllerProvider);
   final searchFilter = ref.watch(searchFilterProvider);
   final priorityFilter = ref.watch(priorityFilterProvider);
   final dateFilter = ref.watch(dateFilterProvider);
+  final sortType = ref.watch(taskSortProvider);
   return taskList.maybeWhen(
       data: (data) {
         List<Task> tempData = data;
@@ -88,7 +92,26 @@ final filteredTasksProvider = r.Provider<List<Task>>(((ref) {
                   item.deadline!.isSameDate(dateFilter))
               .toList();
         }
-        log('masuk data $tempData');
+        switch (sortType) {
+          case TaskSortEnum.closestDeadline:
+            tempData = List.from(tempData
+              ..sort((a, b) => (a.deadline ?? DateTime(2999))
+                  .compareTo(b.deadline ?? DateTime(2999))));
+            break;
+          case TaskSortEnum.furthestDeadline:
+            tempData = List.from(tempData
+              ..sort((a, b) => (b.deadline ?? DateTime(2999))
+                  .compareTo(a.deadline ?? DateTime(2999))));
+            break;
+          case TaskSortEnum.highestPriority:
+            tempData = List.from(tempData
+              ..sort((a, b) => b.priority.index.compareTo(a.priority.index)));
+            break;
+          default:
+            tempData = List.from(tempData
+              ..sort((a, b) => a.priority.index.compareTo(b.priority.index)));
+            break;
+        }
         return tempData;
       },
       orElse: () => []);
