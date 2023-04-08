@@ -18,7 +18,7 @@ class ProfileController extends StateNotifier<AsyncValue<Profile>> {
   }
 
   void setLoading() {
-    state = const AsyncLoading();
+    if (mounted) state = const AsyncLoading();
   }
 
   Future<void> fetchProfile() async {
@@ -42,17 +42,29 @@ class ProfileController extends StateNotifier<AsyncValue<Profile>> {
 
     setLoading();
     try {
-      final imageUrl = await _ref
+      await _ref
           .read(profileRepositoryProvider)
           .updateProfilePicture(imageFile);
-      if (mounted) {
-        state = AsyncData(state.value!.copyWith(avatarUrl: imageUrl));
-      }
       snackbarKey.show(message: 'Profile picture updated');
     } on StorageException catch (e) {
       snackbarKey.showError(message: e.message);
     } catch (e) {
       snackbarKey.showError(message: e.toString());
     }
+  }
+
+  void updateName(String newName) async {
+    try {
+      setLoading();
+      await _ref.read(profileRepositoryProvider).updateName(newName);
+      snackbarKey.show(message: 'Name updated');
+    } catch (e, st) {
+      state = AsyncError(e, st);
+      snackbarKey.showError(message: e.toString());
+    }
+  }
+
+  void setProfile({required String name, required String avatarUrl}) {
+    state = AsyncData(Profile(avatarUrl: avatarUrl, name: name));
   }
 }

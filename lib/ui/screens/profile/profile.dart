@@ -1,16 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/provider.dart';
+import 'package:todo_list/ui/screens/profile/edit_name_dialog.dart';
 
 class Profile extends HookConsumerWidget {
   const Profile({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final nameController = useTextEditingController(text: '');
-
     final buttonTheme = ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.background,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(99)),
@@ -78,7 +75,7 @@ class Profile extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 52),
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => showEditNameDialog(context),
                           style: buttonTheme,
                           child: Row(
                             children: [

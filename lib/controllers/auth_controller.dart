@@ -15,6 +15,13 @@ class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
     _authStateChangesSubscription?.cancel();
     _authStateChangesSubscription =
         _ref.read(authRepositoryProvider).authStateChanges.listen(((event) {
+      log('[auth state] ${event.event.name}');
+      if (event.event == sb.AuthChangeEvent.userUpdated) {
+        _ref.read(profileControllerProvider.notifier).setProfile(
+            name: event.session?.user.userMetadata?['name'],
+            avatarUrl: event.session?.user.userMetadata?['avatar_url']);
+        return;
+      }
       state = AsyncData(event);
     }));
   }

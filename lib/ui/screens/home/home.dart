@@ -15,7 +15,7 @@ class Home extends HookConsumerWidget {
             : 'All tasks done!',
         error: (err, st) => 'Something went wrong',
         loading: () => 'Loading...');
-    const gap = 8.0;
+    const gap = 6.0;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -25,12 +25,16 @@ class Home extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hi, ${ref.read(authRepositoryProvider).name}!',
+              ref.read(profileControllerProvider).when(
+                    loading: (() => 'Loading...'),
+                    data: (data) => 'Hi, ${data.name}',
+                    error: (error, stackTrace) => 'Something went wrong',
+                  ),
               style: Theme.of(context).textTheme.displayLarge,
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: gap - 4),
-            Text(tasksLength),
+            Text(tasksLength, style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 3 * gap),
             const SearchBar(),
             const SizedBox(height: 3 * gap),
