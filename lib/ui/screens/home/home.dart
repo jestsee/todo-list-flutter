@@ -45,12 +45,6 @@ class Home extends HookConsumerWidget {
               ],
             ),
             const TaskList(),
-            // CustomButton(
-            //     full: true,
-            //     onPressed: () {
-            //       ref.read(authControllerProvider.notifier).signOut();
-            //     },
-            //     child: const Text('Sign out'))
           ],
         ),
       ),

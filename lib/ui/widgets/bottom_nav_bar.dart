@@ -19,7 +19,7 @@ class BottomNavBar extends StatelessWidget {
               backgroundColor: Colors.black),
           BottomNavigationBarItem(
               icon: Icon(Icons.group),
-              label: 'Group',
+              label: 'Contact',
               backgroundColor: Colors.black),
           BottomNavigationBarItem(
               icon: SizedBox(
