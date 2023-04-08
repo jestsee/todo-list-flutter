@@ -55,4 +55,19 @@ class ProfileController extends StateNotifier<AsyncValue<Profile>> {
       snackbarKey.showError(message: e.toString());
     }
   }
+
+  void updateName(String newName) async {
+    try {
+      final oldState = state.value;
+      setLoading();
+      await _ref.read(profileRepositoryProvider).updateName(newName);
+      if (mounted) {
+        state = AsyncData(oldState!.copyWith(name: newName));
+      }
+      snackbarKey.show(message: 'Name updated');
+    } catch (e, st) {
+      state = AsyncError(e, st);
+      snackbarKey.showError(message: e.toString());
+    }
+  }
 }
