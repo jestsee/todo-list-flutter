@@ -68,6 +68,7 @@ class SignInForm extends HookConsumerWidget {
           ),
           onPressed: () {
             log(form.value.value.toString());
+            form.value.markAllAsTouched();
             if (!form.value.valid) {
               return snackbarKey.showError(message: 'Invalid input');
             }

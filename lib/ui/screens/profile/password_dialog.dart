@@ -37,12 +37,14 @@ class PasswordDialog extends HookConsumerWidget {
           children: [
             PasswordForm(
               name: 'oldPassword',
+              placeholder: 'Old password',
               label: 'Enter old password',
               validator: {'required': (_) => msg.required('Old password')},
             ),
             const Padding(padding: EdgeInsets.all(8.0)),
             PasswordForm(
               name: 'newPassword',
+              placeholder: 'New password',
               label: 'Enter new password',
               validator: {'required': (_) => msg.required('New password')},
             ),
@@ -58,8 +60,11 @@ class PasswordDialog extends HookConsumerWidget {
         ),
         CustomButton(
           onPressed: () {
+            form.value.markAllAsTouched();
             if (!form.value.valid) return;
-            // TODO
+            ref
+                .read(profileControllerProvider.notifier)
+                .updatePassword(getOldPassword(), getNewPassword());
             if (!profile.isLoading && !profile.hasError) {
               Navigator.of(context).pop();
             }

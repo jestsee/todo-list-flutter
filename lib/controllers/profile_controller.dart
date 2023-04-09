@@ -64,6 +64,21 @@ class ProfileController extends StateNotifier<AsyncValue<Profile>> {
     }
   }
 
+  void updatePassword(String oldPassword, String newPassword) async {
+    final oldState = state.value;
+    setLoading();
+    try {
+      await _ref
+          .read(authRepositoryProvider)
+          .updatePassword(oldPassword, newPassword);
+      snackbarKey.show(message: 'Password updated successfully');
+    } catch (e) {
+      snackbarKey.showError(message: e.toString());
+    } finally {
+      state = AsyncData(oldState!);
+    }
+  }
+
   void setProfile({required String name, required String avatarUrl}) {
     state = AsyncData(Profile(avatarUrl: avatarUrl, name: name));
   }

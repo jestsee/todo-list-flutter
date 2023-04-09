@@ -80,6 +80,7 @@ class SignUpForm extends HookConsumerWidget {
           loading: ref.watch(authControllerProvider).isLoading,
           onPressed: () {
             log(form.value.toString());
+            form.value.markAllAsTouched();
             if (!form.value.valid) {
               return snackbarKey.showError(message: 'Invalid input');
             }
