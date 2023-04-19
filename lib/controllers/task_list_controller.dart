@@ -2,11 +2,13 @@ import 'dart:developer';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/task.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/extensions.dart';
+import 'package:todo_list/services/notification_service.dart';
 
 import '../model/subtask.dart';
 
@@ -51,6 +53,14 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
           longitude: position?.longitude);
       final taskId =
           await _ref.read(taskRepositoryProvider).addTask(task: task);
+      if (deadline != null) {
+        NotificationService.showScheduledNotification(
+          title: title,
+          body:
+              'this task due ${DateFormat('dd MMMM yyyy - hh:mm').format(task.deadline!)}',
+          scheduledDate: deadline,
+        );
+      }
       state = AsyncData(tempTasks!..add(task.copyWith(id: taskId)));
     } on Exception catch (e, st) {
       log(e.toString());
