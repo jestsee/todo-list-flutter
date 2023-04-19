@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/provider.dart';
-import 'package:todo_list/ui/screens/profile/edit_name_dialog.dart';
+import 'package:todo_list/ui/screens/profile/name_dialog.dart';
+import 'package:todo_list/ui/screens/profile/password_dialog.dart';
 
 class Profile extends HookConsumerWidget {
   const Profile({super.key});
@@ -75,7 +76,7 @@ class Profile extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 52),
                       ElevatedButton(
-                          onPressed: () => showEditNameDialog(context),
+                          onPressed: () => showNameDialog(context),
                           style: buttonTheme,
                           child: Row(
                             children: [
@@ -91,7 +92,7 @@ class Profile extends HookConsumerWidget {
                           )),
                       const SizedBox(height: 28),
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => showPasswordDialog(context),
                           style: buttonTheme,
                           child: Row(
                             children: [

@@ -60,6 +60,4 @@ class ProfileRepository {
       throw CustomException(message: e.toString());
     }
   }
-
-  // TODO update password
 }

@@ -25,7 +25,7 @@ class Home extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              ref.read(profileControllerProvider).when(
+              ref.watch(profileControllerProvider).when(
                     loading: (() => 'Loading...'),
                     data: (data) => 'Hi, ${data.name}',
                     error: (error, stackTrace) => 'Something went wrong',

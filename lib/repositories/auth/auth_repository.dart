@@ -62,32 +62,13 @@ class AuthRepository implements AuthBaseRepository {
     }
   }
 
-  Future<String> uploadPicture(XFile file) async {
+  Future<void> updatePassword(String oldPassword, String newPassword) async {
     try {
-      final bytes = await file.readAsBytes();
-      final fileExt = file.path.split('.').last;
-      final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
-      final filePath = fileName;
-
-      // upload image
-      await Supabase.instance.client.storage.from('avatars').uploadBinary(
-            filePath,
-            bytes,
-            fileOptions: FileOptions(contentType: file.mimeType),
-          );
-
-      // generate url
-      final imageUrlResponse = await Supabase.instance.client.storage
-          .from('avatars')
-          .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
-      log('[img url] $imageUrlResponse');
-
-      // update user's data
-      await Supabase.instance.client.auth
-          .updateUser(UserAttributes(data: {'avatar_url': imageUrlResponse}));
-
-      return imageUrlResponse;
-    } catch (e) {
+      await Supabase.instance.client.rpc('change_user_password', params: {
+        'current_plain_password': oldPassword,
+        'new_plain_password': newPassword
+      });
+    } on Exception catch (e) {
       throw CustomException(message: e.toString());
     }
   }

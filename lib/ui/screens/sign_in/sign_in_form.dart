@@ -23,8 +23,7 @@ class SignInForm extends HookConsumerWidget {
     final form = useState(FormGroup({
       'email': FormControl<String>(
           validators: [Validators.required, Validators.email]),
-      'password': FormControl<String>(
-          validators: [Validators.required, Validators.minLength(6)])
+      'password': FormControl<String>(validators: [Validators.required])
     }));
 
     String getEmail() => form.value.control('email').value;
@@ -49,7 +48,6 @@ class SignInForm extends HookConsumerWidget {
                 PasswordForm(
                   name: 'password',
                   label: 'Password *',
-                  isDirty: form.value.control('password').dirty,
                   validator: {
                     'required': (_) => msg.required('Password'),
                     'minLength': (error) => msg.minLength(
@@ -70,6 +68,7 @@ class SignInForm extends HookConsumerWidget {
           ),
           onPressed: () {
             log(form.value.value.toString());
+            form.value.markAllAsTouched();
             if (!form.value.valid) {
               return snackbarKey.showError(message: 'Invalid input');
             }
