@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,21 +26,20 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       final tasks = await _ref
           .read(taskRepositoryProvider)
           .fetchTasks(userId: _userId!, title: title, count: count);
-      if (mounted) state = AsyncData(tasks);
 
-      var pendingNotifications =
+      final pendingNotifications =
           await NotificationService.pendingNotificationRequests();
-      log('pending ${pendingNotifications.toString()}');
       if (pendingNotifications.isNotEmpty) return;
 
-      for (final task in tasks) {
+      for (var i = 0; i < tasks.length; i++) {
+        final task = tasks.elementAt(i);
         if (task.deadline == null) continue;
-        await NotificationService.scheduleTaskNotification(task);
+        final notificationId =
+            await NotificationService.scheduleTaskNotification(task);
+        tasks[i] = task.copyWith(notificationId: notificationId);
       }
 
-      pendingNotifications =
-          await NotificationService.pendingNotificationRequests();
-      log('after pending ${pendingNotifications.first.title}');
+      if (mounted) state = AsyncData(tasks);
     } catch (e, st) {
       log(e.toString());
       state = AsyncError(e, st);
@@ -93,9 +91,7 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       ]);
 
       if (updatedTask.deadline != null) {
-        int? notificationId = updatedTask.notificationId;
-        await NotificationService.scheduleTaskNotification(
-            updatedTask.copyWith(notificationId: notificationId));
+        await NotificationService.scheduleTaskNotification(updatedTask);
       }
 
       log('[update] $updatedTask');
