@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
-import 'package:timezone/timezone.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:timezone/data/latest.dart';
 
 import '../model/task.dart';
 
@@ -18,9 +18,9 @@ class NotificationService {
     await _notifications.initialize(settings);
 
     if (initSchedule) {
-      initializeTimeZones();
+      tz.initializeTimeZones();
       final locationName = await FlutterNativeTimezone.getLocalTimezone();
-      setLocalLocation(getLocation(locationName));
+      tz.setLocalLocation(tz.getLocation(locationName));
     }
   }
 
@@ -52,8 +52,13 @@ class NotificationService {
     String? payload,
     required DateTime scheduledDate,
   }) async {
+    final date = scheduledDate.isUtc
+        ? scheduledDate.toLocal().subtract(const Duration(hours: 7))
+        : scheduledDate;
+    if (date.isBefore(DateTime.now())) return;
+    print('DATEE ${date}');
     _notifications.zonedSchedule(id, title, body,
-        TZDateTime.from(scheduledDate, local), await _notificationDetails(),
+        tz.TZDateTime.from(date, tz.local), await _notificationDetails(),
         payload: payload,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
@@ -63,7 +68,6 @@ class NotificationService {
   static Future<int> scheduleTaskNotification(Task task) async {
     int? notificationId = task.notificationId;
     notificationId ??= Random().nextInt(999);
-    print('schedule notification called');
     await NotificationService.showScheduledNotification(
       id: notificationId,
       title: task.title,
