@@ -1,7 +1,10 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/data/latest.dart';
+
+import '../model/task.dart';
 
 class NotificationService {
   static final _notifications = FlutterLocalNotificationsPlugin();
@@ -53,5 +56,26 @@ class NotificationService {
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
+  }
+
+  static Future scheduleTaskNotification(Task task) async {
+    if (task.notificationId == null) {
+      return;
+    }
+    await NotificationService.showScheduledNotification(
+      id: task.notificationId!,
+      title: task.title,
+      body:
+          'this task due ${DateFormat('dd MMMM yyyy - hh:mm').format(task.deadline!)}',
+      scheduledDate: task.deadline!,
+    );
+  }
+
+  static Future cancelNotification(int id) async {
+    await _notifications.cancel(id);
+  }
+
+  static Future cancelAllNotifications() async {
+    await _notifications.cancelAll();
   }
 }

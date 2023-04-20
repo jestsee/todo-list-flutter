@@ -1,8 +1,8 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/task.dart';
@@ -53,15 +53,16 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
           longitude: position?.longitude);
       final taskId =
           await _ref.read(taskRepositoryProvider).addTask(task: task);
+
+      late int? notificationId;
       if (deadline != null) {
-        NotificationService.showScheduledNotification(
-          title: title,
-          body:
-              'this task due ${DateFormat('dd MMMM yyyy - hh:mm').format(task.deadline!)}',
-          scheduledDate: deadline,
-        );
+        notificationId = math.Random().nextInt(999);
+        await NotificationService.scheduleTaskNotification(
+            task.copyWith(notificationId: notificationId));
       }
-      state = AsyncData(tempTasks!..add(task.copyWith(id: taskId)));
+
+      state = AsyncData(tempTasks!
+        ..add(task.copyWith(id: taskId, notificationId: notificationId)));
     } on Exception catch (e, st) {
       log(e.toString());
       state = AsyncError(e, st);
@@ -77,6 +78,16 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
         for (final task in tempTasks!)
           task.id == updatedTask.id ? updatedTask : task
       ]);
+
+      if (updatedTask.deadline != null) {
+        int? notificationId = updatedTask.notificationId;
+        if (updatedTask.notificationId == null) {
+          notificationId = math.Random().nextInt(999);
+        }
+        await NotificationService.scheduleTaskNotification(
+            updatedTask.copyWith(notificationId: notificationId));
+      }
+
       log('[update] $updatedTask');
     } on Exception catch (e, st) {
       log(e.toString());
@@ -84,7 +95,7 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
     }
   }
 
-  Future<void> deleteTask({required String id}) async {
+  Future<void> deleteTask({required String id, int? notificationId}) async {
     snackbarKey.showInfo(message: 'Loading...');
     try {
       final tempTasks = state.value;
@@ -92,6 +103,11 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       await _ref.read(taskRepositoryProvider).deleteTask(id: id);
       state =
           AsyncData(tempTasks!.where((element) => element.id != id).toList());
+
+      if (notificationId != null) {
+        await NotificationService.cancelNotification(notificationId);
+      }
+
       snackbarKey.show(message: 'Task deleted successfully');
     } on Exception catch (e, st) {
       log(e.toString());

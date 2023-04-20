@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/extensions.dart';
+import 'package:todo_list/services/notification_service.dart';
 
 class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
   final Ref _ref;
@@ -79,9 +80,16 @@ class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
     setLoading();
     try {
       await _ref.read(authRepositoryProvider).signOutUser();
+      await NotificationService.cancelAllNotifications();
       snackbarKey.show(message: 'Signed out');
     } catch (e) {
       snackbarKey.showError(message: e.toString());
     }
   }
+
+  sb.Session? get getCurrentSession =>
+      _ref.read(authRepositoryProvider).getCurrentSession;
+
+  sb.User? get getCurrentUser =>
+      _ref.read(authRepositoryProvider).getCurrentUser;
 }

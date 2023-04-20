@@ -43,7 +43,10 @@ class TaskList extends HookConsumerWidget {
                           ActionPane(motion: const BehindMotion(), children: [
                         SlidableAction(
                           onPressed: (BuildContext context) {
-                            taskAction.deleteTask(id: (item.id!));
+                            taskAction.deleteTask(
+                              id: (item.id!),
+                              notificationId: item.notificationId,
+                            );
                           },
                           backgroundColor: Colors.redAccent,
                           foregroundColor: Colors.white,
