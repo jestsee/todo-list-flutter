@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'dart:developer' as l;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -56,7 +56,7 @@ class NotificationService {
         ? scheduledDate.toLocal().subtract(const Duration(hours: 7))
         : scheduledDate;
     if (date.isBefore(DateTime.now())) return;
-    print('DATEE ${date}');
+    l.log('DATEE $date');
     _notifications.zonedSchedule(id, title, body,
         tz.TZDateTime.from(date, tz.local), await _notificationDetails(),
         payload: payload,
