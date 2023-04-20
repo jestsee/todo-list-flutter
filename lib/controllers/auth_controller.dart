@@ -11,18 +11,24 @@ import 'package:todo_list/services/notification_service.dart';
 class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
   final Ref _ref;
   StreamSubscription<sb.AuthState>? _authStateChangesSubscription;
+  sb.AuthState? oldState;
 
   AuthController(this._ref) : super(const AsyncData(null)) {
     _authStateChangesSubscription?.cancel();
     _authStateChangesSubscription =
         _ref.read(authRepositoryProvider).authStateChanges.listen(((event) {
-      log('[auth state] ${event.event.name}');
+      log('[auth state] ${oldState?.event.name} -> ${event.event.name}');
+
       if (event.event == sb.AuthChangeEvent.userUpdated) {
         _ref.read(profileControllerProvider.notifier).setProfile(
             name: event.session?.user.userMetadata?['name'],
             avatarUrl: event.session?.user.userMetadata?['avatar_url']);
         return;
       }
+
+      if (oldState?.event == event.event) return;
+
+      oldState = state.value ?? event;
       state = AsyncData(event);
     }));
   }
@@ -39,7 +45,6 @@ class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
   }
 
   void appStarted() async {
-    log('app started');
     final session = await _ref.read(authRepositoryProvider).initialSession;
 
     if (session != null) {
@@ -47,6 +52,8 @@ class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
       return;
     }
     state = AsyncData(sb.AuthState(sb.AuthChangeEvent.signedOut, session));
+    oldState = state.value;
+    log('app started ${state.asData?.value?.event}');
   }
 
   void signUp(String email, String password, String name) async {

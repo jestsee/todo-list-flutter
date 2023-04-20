@@ -28,6 +28,20 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
           .read(taskRepositoryProvider)
           .fetchTasks(userId: _userId!, title: title, count: count);
       if (mounted) state = AsyncData(tasks);
+
+      var pendingNotifications =
+          await NotificationService.pendingNotificationRequests();
+      log('pending ${pendingNotifications.toString()}');
+      if (pendingNotifications.isNotEmpty) return;
+
+      for (final task in tasks) {
+        if (task.deadline == null) continue;
+        await NotificationService.scheduleTaskNotification(task);
+      }
+
+      pendingNotifications =
+          await NotificationService.pendingNotificationRequests();
+      log('after pending ${pendingNotifications.first.title}');
     } catch (e, st) {
       log(e.toString());
       state = AsyncError(e, st);
@@ -56,9 +70,8 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
 
       late int? notificationId;
       if (deadline != null) {
-        notificationId = math.Random().nextInt(999);
-        await NotificationService.scheduleTaskNotification(
-            task.copyWith(notificationId: notificationId));
+        notificationId =
+            await NotificationService.scheduleTaskNotification(task);
       }
 
       state = AsyncData(tempTasks!
@@ -81,9 +94,6 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
 
       if (updatedTask.deadline != null) {
         int? notificationId = updatedTask.notificationId;
-        if (updatedTask.notificationId == null) {
-          notificationId = math.Random().nextInt(999);
-        }
         await NotificationService.scheduleTaskNotification(
             updatedTask.copyWith(notificationId: notificationId));
       }

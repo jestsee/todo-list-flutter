@@ -98,8 +98,8 @@ final filteredTasksProvider = r.Provider<List<Task>>(((ref) {
             break;
           case TaskSortEnum.furthestDeadline:
             tempData = List.from(tempData
-              ..sort((a, b) => (b.deadline ?? DateTime(2999))
-                  .compareTo(a.deadline ?? DateTime(2999))));
+              ..sort((a, b) => (b.deadline ?? DateTime(0))
+                  .compareTo(a.deadline ?? DateTime(0))));
             break;
           case TaskSortEnum.highestPriority:
             tempData = List.from(tempData

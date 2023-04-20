@@ -50,7 +50,7 @@ class Home extends HookConsumerWidget {
                 )
               ],
             ),
-            const TaskList(addPadding: false, pick: 2),
+            const Expanded(child: TaskList(addPadding: false, pick: 2)),
           ],
         ),
       ),

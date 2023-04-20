@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart';
@@ -58,17 +60,19 @@ class NotificationService {
             UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  static Future scheduleTaskNotification(Task task) async {
-    if (task.notificationId == null) {
-      return;
-    }
+  static Future<int> scheduleTaskNotification(Task task) async {
+    int? notificationId = task.notificationId;
+    notificationId ??= Random().nextInt(999);
+    print('schedule notification called');
     await NotificationService.showScheduledNotification(
-      id: task.notificationId!,
+      id: notificationId,
       title: task.title,
       body:
           'this task due ${DateFormat('dd MMMM yyyy - hh:mm').format(task.deadline!)}',
       scheduledDate: task.deadline!,
     );
+
+    return notificationId;
   }
 
   static Future cancelNotification(int id) async {
@@ -77,5 +81,10 @@ class NotificationService {
 
   static Future cancelAllNotifications() async {
     await _notifications.cancelAll();
+  }
+
+  static Future<List<PendingNotificationRequest>>
+      pendingNotificationRequests() async {
+    return await _notifications.pendingNotificationRequests();
   }
 }
