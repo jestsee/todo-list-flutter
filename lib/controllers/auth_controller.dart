@@ -53,7 +53,7 @@ class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
     }
     state = AsyncData(sb.AuthState(sb.AuthChangeEvent.signedOut, session));
     oldState = state.value;
-    log('app started ${state.asData?.value?.event}');
+    log('app started');
   }
 
   void signUp(String email, String password, String name) async {
