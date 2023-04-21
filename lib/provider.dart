@@ -150,7 +150,7 @@ final checkedListControllerProvider = r.StateNotifierProvider<
 // location
 final locationControllerProvider =
     r.StateNotifierProvider<LocationController, r.AsyncValue<LatLng?>>(
-        (_) => LocationController()..startLocationTracking());
+        (ref) => LocationController(ref)..startLocationTracking());
 
 // marker location
 final markerControllerProvider =

@@ -18,6 +18,7 @@ class Task with _$Task {
     double? longitude,
     double? latitude,
     @TimestampSerializer() DateTime? deadline,
+    @TimestampSerializer() DateTime? locationNotification,
     @Default(Priority.low) Priority priority,
     @JsonKey(name: 'created_at') @TimestampSerializer() DateTime? createdAt,
     @JsonKey(name: 'created_by') required String createdBy,
@@ -29,6 +30,7 @@ class Task with _$Task {
   Map<String, dynamic> toCleaned() => toJson()
     ..remove('id')
     ..remove('notificationId')
+    ..remove('locationNotification')
     ..remove('created_at');
 
   bool get hasSubtasks => subtasks!.isNotEmpty;

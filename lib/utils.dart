@@ -10,7 +10,11 @@ class Utils {
     lat2 = _toRadians(lat2);
     double a =
         pow(sin(dLat / 2), 2) + pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
-    double c = 2 * asin(sqrt(a));
+    // double c = 2 * asin(sqrt(a));
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    // const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    // const d = R * c
     return R * c;
   }
 

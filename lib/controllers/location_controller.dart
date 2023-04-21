@@ -5,14 +5,17 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/extensions.dart';
+import 'package:todo_list/provider.dart';
+import 'package:todo_list/services/notification_service.dart';
 
 const fetchBackground = "fetchBackground";
 
 class LocationController extends StateNotifier<AsyncValue<LatLng?>> {
   StreamSubscription<LocationData>? _locationStream;
   final location = Location();
+  final Ref _ref;
 
-  LocationController() : super(const AsyncData(null));
+  LocationController(this._ref) : super(const AsyncData(null));
 
   @override
   void dispose() {
@@ -68,6 +71,30 @@ class LocationController extends StateNotifier<AsyncValue<LatLng?>> {
     _locationStream = location.onLocationChanged.listen((currentLocation) {
       log('[position] ${currentLocation.latitude} ${currentLocation.longitude}');
       state = AsyncData(currentLocation.toLatLng());
+
+      final tasksData = _ref.read(taskListControllerProvider);
+      if (!tasksData.hasValue) return;
+
+      final tasks = tasksData.value!;
+      for (var i = 0; i < tasks.length; i++) {
+        final task = tasks.elementAt(i);
+
+        if (task.latitude == null || task.longitude == null) continue;
+
+        if (task.locationNotification != null &&
+            task.locationNotification!.difference(DateTime.now()).inHours < 5) {
+          continue;
+        }
+
+        final distance =
+            currentLocation.haversine(task.latitude!, task.longitude!);
+        log('distance: $distance');
+        if (distance <= 2) {
+          NotificationService.showNotification(
+              title: task.title, body: 'This task location is nearby');
+          tasks[i] = task.copyWith(locationNotification: DateTime.now());
+        }
+      }
     });
   }
 }

@@ -120,4 +120,8 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       state = AsyncError(e, st);
     }
   }
+
+  void setTasks(List<Task> newTasks) {
+    state = AsyncData(newTasks);
+  }
 }

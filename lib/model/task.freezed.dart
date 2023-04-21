@@ -29,6 +29,8 @@ mixin _$Task {
   double? get latitude => throw _privateConstructorUsedError;
   @TimestampSerializer()
   DateTime? get deadline => throw _privateConstructorUsedError;
+  @TimestampSerializer()
+  DateTime? get locationNotification => throw _privateConstructorUsedError;
   Priority get priority => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   @TimestampSerializer()
@@ -56,6 +58,7 @@ abstract class $TaskCopyWith<$Res> {
       double? longitude,
       double? latitude,
       @TimestampSerializer() DateTime? deadline,
+      @TimestampSerializer() DateTime? locationNotification,
       Priority priority,
       @JsonKey(name: 'created_at') @TimestampSerializer() DateTime? createdAt,
       @JsonKey(name: 'created_by') String createdBy,
@@ -82,6 +85,7 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
     Object? longitude = freezed,
     Object? latitude = freezed,
     Object? deadline = freezed,
+    Object? locationNotification = freezed,
     Object? priority = null,
     Object? createdAt = freezed,
     Object? createdBy = null,
@@ -115,6 +119,10 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
       deadline: freezed == deadline
           ? _value.deadline
           : deadline // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      locationNotification: freezed == locationNotification
+          ? _value.locationNotification
+          : locationNotification // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       priority: null == priority
           ? _value.priority
@@ -150,6 +158,7 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       double? longitude,
       double? latitude,
       @TimestampSerializer() DateTime? deadline,
+      @TimestampSerializer() DateTime? locationNotification,
       Priority priority,
       @JsonKey(name: 'created_at') @TimestampSerializer() DateTime? createdAt,
       @JsonKey(name: 'created_by') String createdBy,
@@ -172,6 +181,7 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
     Object? longitude = freezed,
     Object? latitude = freezed,
     Object? deadline = freezed,
+    Object? locationNotification = freezed,
     Object? priority = null,
     Object? createdAt = freezed,
     Object? createdBy = null,
@@ -206,6 +216,10 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
           ? _value.deadline
           : deadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      locationNotification: freezed == locationNotification
+          ? _value.locationNotification
+          : locationNotification // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       priority: null == priority
           ? _value.priority
           : priority // ignore: cast_nullable_to_non_nullable
@@ -237,6 +251,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
       this.longitude,
       this.latitude,
       @TimestampSerializer() this.deadline,
+      @TimestampSerializer() this.locationNotification,
       this.priority = Priority.low,
       @JsonKey(name: 'created_at') @TimestampSerializer() this.createdAt,
       @JsonKey(name: 'created_by') required this.createdBy,
@@ -263,6 +278,9 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
   @TimestampSerializer()
   final DateTime? deadline;
   @override
+  @TimestampSerializer()
+  final DateTime? locationNotification;
+  @override
   @JsonKey()
   final Priority priority;
   @override
@@ -285,7 +303,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Task(id: $id, notificationId: $notificationId, title: $title, groupId: $groupId, longitude: $longitude, latitude: $latitude, deadline: $deadline, priority: $priority, createdAt: $createdAt, createdBy: $createdBy, subtasks: $subtasks)';
+    return 'Task(id: $id, notificationId: $notificationId, title: $title, groupId: $groupId, longitude: $longitude, latitude: $latitude, deadline: $deadline, locationNotification: $locationNotification, priority: $priority, createdAt: $createdAt, createdBy: $createdBy, subtasks: $subtasks)';
   }
 
   @override
@@ -300,6 +318,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('longitude', longitude))
       ..add(DiagnosticsProperty('latitude', latitude))
       ..add(DiagnosticsProperty('deadline', deadline))
+      ..add(DiagnosticsProperty('locationNotification', locationNotification))
       ..add(DiagnosticsProperty('priority', priority))
       ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('createdBy', createdBy))
@@ -322,6 +341,8 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
                 other.latitude == latitude) &&
             (identical(other.deadline, deadline) ||
                 other.deadline == deadline) &&
+            (identical(other.locationNotification, locationNotification) ||
+                other.locationNotification == locationNotification) &&
             (identical(other.priority, priority) ||
                 other.priority == priority) &&
             (identical(other.createdAt, createdAt) ||
@@ -342,6 +363,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
       longitude,
       latitude,
       deadline,
+      locationNotification,
       priority,
       createdAt,
       createdBy,
@@ -372,6 +394,8 @@ abstract class _Task extends Task {
       final double? latitude,
       @TimestampSerializer()
           final DateTime? deadline,
+      @TimestampSerializer()
+          final DateTime? locationNotification,
       final Priority priority,
       @JsonKey(name: 'created_at')
       @TimestampSerializer()
@@ -400,6 +424,9 @@ abstract class _Task extends Task {
   @override
   @TimestampSerializer()
   DateTime? get deadline;
+  @override
+  @TimestampSerializer()
+  DateTime? get locationNotification;
   @override
   Priority get priority;
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:todo_list/globals.dart';
+import 'package:todo_list/utils.dart';
 
 extension ShowSnackBar on GlobalKey<ScaffoldMessengerState> {
   void show({
@@ -49,6 +50,10 @@ extension StringExtension on String {
 extension MapExtension on LocationData {
   LatLng toLatLng() {
     return LatLng(latitude!, longitude!);
+  }
+
+  double haversine(double lat2, double lon2) {
+    return Utils.haversine(latitude!, longitude!, lat2, lon2);
   }
 }
 
