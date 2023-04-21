@@ -161,3 +161,6 @@ final markerControllerProvider =
 final contactControllerProvider =
     r.StateNotifierProvider<ContactController, r.AsyncValue<List<Contact>?>>(
         (_) => ContactController());
+
+// task filter & sort
+final bottomNavigationBarIndex = r.StateProvider<int>((_) => 0);

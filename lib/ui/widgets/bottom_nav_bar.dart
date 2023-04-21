@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todo_list/model/task_sort_enum.dart';
+import 'package:todo_list/provider.dart';
 
-class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({super.key, required this.currentIndex, this.onTap});
-  final int currentIndex;
-  final void Function(int)? onTap;
+class BottomNavBar extends ConsumerWidget {
+  const BottomNavBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentIndex = ref.watch(bottomNavigationBarIndex);
     return BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
         currentIndex: currentIndex,
-        onTap: onTap,
+        onTap: (value) {
+          if (value == 0) {
+            ref.read(priorityFilterProvider.notifier).state = null;
+            ref.read(dateFilterProvider.notifier).state = null;
+            ref.read(searchFilterProvider.notifier).state = '';
+            ref.read(taskSortProvider.notifier).state =
+                TaskSortEnum.closestDeadline;
+          }
+          ref.read(bottomNavigationBarIndex.notifier).state = value;
+        },
         iconSize: 28,
         items: const [
           BottomNavigationBarItem(
