@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:todo_list/globals.dart';
 
 extension ShowSnackBar on GlobalKey<ScaffoldMessengerState> {
@@ -46,9 +46,9 @@ extension StringExtension on String {
   }
 }
 
-extension MapExtension on Position {
+extension MapExtension on LocationData {
   LatLng toLatLng() {
-    return LatLng(latitude, longitude);
+    return LatLng(latitude!, longitude!);
   }
 }
 

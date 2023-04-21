@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/globals.dart';
@@ -19,14 +18,6 @@ void callbackDispatcher() {
     switch (task) {
       case fetchBackground:
         log('masuk callbackaa');
-        LocationPermission permission = await Geolocator.checkPermission();
-        if (permission == LocationPermission.denied ||
-            permission == LocationPermission.deniedForever) {
-          return Future.value(false);
-        }
-        Position userLocation = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
-        log('[LOCATION] ${userLocation.latitude} ${userLocation.longitude}');
         break;
     }
     return Future.value(true);
@@ -41,22 +32,6 @@ Future main() async {
     anonKey: dotenv.env['SUPABASE_SECRET']!,
     authCallbackUrlHostname: 'login-callback',
   );
-
-  // location permission
-  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) {
-    final canOpenSettings = await Geolocator.openLocationSettings();
-    if (!canOpenSettings) {
-      return Future.error('Location services are disabled.');
-    }
-  }
-  LocationPermission permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) {
-      return Future.error('Location permissions are denied');
-    }
-  }
 
   // work manager
   Workmanager().initialize(

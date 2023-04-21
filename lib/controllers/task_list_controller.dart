@@ -66,7 +66,7 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       final taskId =
           await _ref.read(taskRepositoryProvider).addTask(task: task);
 
-      late int? notificationId;
+      int? notificationId;
       if (deadline != null) {
         notificationId =
             await NotificationService.scheduleTaskNotification(task);
