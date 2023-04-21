@@ -72,6 +72,8 @@ class LocationController extends StateNotifier<AsyncValue<LatLng?>> {
       log('[position] ${currentLocation.latitude} ${currentLocation.longitude}');
       state = AsyncData(currentLocation.toLatLng());
 
+      final userData = _ref.read(authControllerProvider);
+      if (userData.value == null) return;
       final tasksData = _ref.read(taskListControllerProvider);
       if (!tasksData.hasValue) return;
 
