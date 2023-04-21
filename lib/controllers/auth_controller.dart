@@ -72,6 +72,7 @@ class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
     setLoading();
     try {
       await _ref.read(authRepositoryProvider).signInUser(email, password);
+      _ref.read(locationControllerProvider.notifier).getStream();
       snackbarKey.show(message: 'Successfully signed in');
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -88,6 +89,7 @@ class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
     try {
       await _ref.read(authRepositoryProvider).signOutUser();
       await NotificationService.cancelAllNotifications();
+      _ref.read(locationControllerProvider.notifier).cancelStream();
       snackbarKey.show(message: 'Signed out');
     } catch (e) {
       snackbarKey.showError(message: e.toString());

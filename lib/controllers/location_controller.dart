@@ -59,8 +59,6 @@ class LocationController extends StateNotifier<AsyncValue<LatLng?>> {
   }
 
   void startLocationTracking() async {
-    _locationStream?.cancel();
-
     location.enableBackgroundMode(enable: true);
     location.changeNotificationOptions(
         title: 'location', subtitle: 'location tracking');
@@ -68,12 +66,18 @@ class LocationController extends StateNotifier<AsyncValue<LatLng?>> {
     final permission = await requestPermission();
     if (permission != PermissionStatus.granted) return;
 
+    final userData = _ref.read(authControllerProvider);
+    if (userData.value == null) return;
+
+    getStream();
+  }
+
+  void getStream() {
+    cancelStream();
     _locationStream = location.onLocationChanged.listen((currentLocation) {
       log('[position] ${currentLocation.latitude} ${currentLocation.longitude}');
       state = AsyncData(currentLocation.toLatLng());
 
-      final userData = _ref.read(authControllerProvider);
-      if (userData.value == null) return;
       final tasksData = _ref.read(taskListControllerProvider);
       if (!tasksData.hasValue) return;
 
@@ -98,5 +102,9 @@ class LocationController extends StateNotifier<AsyncValue<LatLng?>> {
         }
       }
     });
+  }
+
+  void cancelStream() {
+    _locationStream?.cancel();
   }
 }
