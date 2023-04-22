@@ -7,6 +7,7 @@ import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/task.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/extensions.dart';
+import 'package:todo_list/services/notification_service.dart';
 
 import '../model/subtask.dart';
 
@@ -25,6 +26,19 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       final tasks = await _ref
           .read(taskRepositoryProvider)
           .fetchTasks(userId: _userId!, title: title, count: count);
+
+      final pendingNotifications =
+          await NotificationService.pendingNotificationRequests();
+      if (pendingNotifications.isNotEmpty) return;
+
+      for (var i = 0; i < tasks.length; i++) {
+        final task = tasks.elementAt(i);
+        if (task.deadline == null) continue;
+        final notificationId =
+            await NotificationService.scheduleTaskNotification(task);
+        tasks[i] = task.copyWith(notificationId: notificationId);
+      }
+
       if (mounted) state = AsyncData(tasks);
     } catch (e, st) {
       log(e.toString());
@@ -51,7 +65,15 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
           longitude: position?.longitude);
       final taskId =
           await _ref.read(taskRepositoryProvider).addTask(task: task);
-      state = AsyncData(tempTasks!..add(task.copyWith(id: taskId)));
+
+      late int? notificationId;
+      if (deadline != null) {
+        notificationId =
+            await NotificationService.scheduleTaskNotification(task);
+      }
+
+      state = AsyncData(tempTasks!
+        ..add(task.copyWith(id: taskId, notificationId: notificationId)));
     } on Exception catch (e, st) {
       log(e.toString());
       state = AsyncError(e, st);
@@ -67,6 +89,11 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
         for (final task in tempTasks!)
           task.id == updatedTask.id ? updatedTask : task
       ]);
+
+      if (updatedTask.deadline != null) {
+        await NotificationService.scheduleTaskNotification(updatedTask);
+      }
+
       log('[update] $updatedTask');
     } on Exception catch (e, st) {
       log(e.toString());
@@ -74,7 +101,7 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
     }
   }
 
-  Future<void> deleteTask({required String id}) async {
+  Future<void> deleteTask({required String id, int? notificationId}) async {
     snackbarKey.showInfo(message: 'Loading...');
     try {
       final tempTasks = state.value;
@@ -82,6 +109,11 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       await _ref.read(taskRepositoryProvider).deleteTask(id: id);
       state =
           AsyncData(tempTasks!.where((element) => element.id != id).toList());
+
+      if (notificationId != null) {
+        await NotificationService.cancelNotification(notificationId);
+      }
+
       snackbarKey.show(message: 'Task deleted successfully');
     } on Exception catch (e, st) {
       log(e.toString());

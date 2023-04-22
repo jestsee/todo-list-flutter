@@ -21,6 +21,7 @@ Task _$TaskFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Task {
   String? get id => throw _privateConstructorUsedError;
+  int? get notificationId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_id')
   int? get groupId => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $TaskCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
+      int? notificationId,
       String title,
       @JsonKey(name: 'group_id') int? groupId,
       double? longitude,
@@ -74,6 +76,7 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
   @override
   $Res call({
     Object? id = freezed,
+    Object? notificationId = freezed,
     Object? title = null,
     Object? groupId = freezed,
     Object? longitude = freezed,
@@ -89,6 +92,10 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      notificationId: freezed == notificationId
+          ? _value.notificationId
+          : notificationId // ignore: cast_nullable_to_non_nullable
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -137,6 +144,7 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
+      int? notificationId,
       String title,
       @JsonKey(name: 'group_id') int? groupId,
       double? longitude,
@@ -158,6 +166,7 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
   @override
   $Res call({
     Object? id = freezed,
+    Object? notificationId = freezed,
     Object? title = null,
     Object? groupId = freezed,
     Object? longitude = freezed,
@@ -173,6 +182,10 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      notificationId: freezed == notificationId
+          ? _value.notificationId
+          : notificationId // ignore: cast_nullable_to_non_nullable
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -218,6 +231,7 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
 class _$_Task extends _Task with DiagnosticableTreeMixin {
   const _$_Task(
       {this.id,
+      this.notificationId,
       required this.title,
       @JsonKey(name: 'group_id') this.groupId,
       this.longitude,
@@ -234,6 +248,8 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
 
   @override
   final String? id;
+  @override
+  final int? notificationId;
   @override
   final String title;
   @override
@@ -269,7 +285,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Task(id: $id, title: $title, groupId: $groupId, longitude: $longitude, latitude: $latitude, deadline: $deadline, priority: $priority, createdAt: $createdAt, createdBy: $createdBy, subtasks: $subtasks)';
+    return 'Task(id: $id, notificationId: $notificationId, title: $title, groupId: $groupId, longitude: $longitude, latitude: $latitude, deadline: $deadline, priority: $priority, createdAt: $createdAt, createdBy: $createdBy, subtasks: $subtasks)';
   }
 
   @override
@@ -278,6 +294,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
     properties
       ..add(DiagnosticsProperty('type', 'Task'))
       ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('notificationId', notificationId))
       ..add(DiagnosticsProperty('title', title))
       ..add(DiagnosticsProperty('groupId', groupId))
       ..add(DiagnosticsProperty('longitude', longitude))
@@ -295,6 +312,8 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
         (other.runtimeType == runtimeType &&
             other is _$_Task &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.notificationId, notificationId) ||
+                other.notificationId == notificationId) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
             (identical(other.longitude, longitude) ||
@@ -317,6 +336,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      notificationId,
       title,
       groupId,
       longitude,
@@ -344,6 +364,7 @@ class _$_Task extends _Task with DiagnosticableTreeMixin {
 abstract class _Task extends Task {
   const factory _Task(
       {final String? id,
+      final int? notificationId,
       required final String title,
       @JsonKey(name: 'group_id')
           final int? groupId,
@@ -365,6 +386,8 @@ abstract class _Task extends Task {
 
   @override
   String? get id;
+  @override
+  int? get notificationId;
   @override
   String get title;
   @override

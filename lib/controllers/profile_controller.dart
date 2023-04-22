@@ -39,8 +39,8 @@ class ProfileController extends StateNotifier<AsyncValue<Profile>> {
     final imageFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (imageFile == null) return;
-
     setLoading();
+
     try {
       await _ref
           .read(profileRepositoryProvider)

@@ -12,6 +12,7 @@ class Task with _$Task {
   const Task._();
   const factory Task({
     String? id,
+    int? notificationId,
     required String title,
     @JsonKey(name: 'group_id') int? groupId,
     double? longitude,
@@ -27,6 +28,7 @@ class Task with _$Task {
 
   Map<String, dynamic> toCleaned() => toJson()
     ..remove('id')
+    ..remove('notificationId')
     ..remove('created_at');
 
   bool get hasSubtasks => subtasks!.isNotEmpty;

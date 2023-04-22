@@ -8,6 +8,7 @@ part of 'task.dart';
 
 _$_Task _$$_TaskFromJson(Map<String, dynamic> json) => _$_Task(
       id: json['id'] as String?,
+      notificationId: json['notificationId'] as int?,
       title: json['title'] as String,
       groupId: json['group_id'] as int?,
       longitude: (json['longitude'] as num?)?.toDouble(),
@@ -27,6 +28,7 @@ _$_Task _$$_TaskFromJson(Map<String, dynamic> json) => _$_Task(
 
 Map<String, dynamic> _$$_TaskToJson(_$_Task instance) => <String, dynamic>{
       'id': instance.id,
+      'notificationId': instance.notificationId,
       'title': instance.title,
       'group_id': instance.groupId,
       'longitude': instance.longitude,

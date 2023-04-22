@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/repositories/auth/auth_base_repository.dart';
 import 'package:todo_list/repositories/custom_exception.dart';
@@ -79,6 +76,4 @@ class AuthRepository implements AuthBaseRepository {
 
   @override
   User? get getCurrentUser => getCurrentSession?.user;
-  String get name => (getCurrentUser!.userMetadata)!['name'];
-  String get avatarUrl => (getCurrentUser!.userMetadata)!['avatar_url'];
 }

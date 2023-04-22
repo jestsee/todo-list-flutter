@@ -21,41 +21,41 @@ class TaskList extends HookConsumerWidget {
       error: ((error, stackTrace) => const Text('error')),
       loading: (() => const Text('loading')),
       data: (_) {
-        return Expanded(
-          child: MediaQuery.removePadding(
-            context: context,
-            removeTop: true,
-            child: ListView.separated(
-                padding: addPadding
-                    ? const EdgeInsets.symmetric(vertical: 24)
-                    : null,
-                separatorBuilder: ((context, index) => const Divider(
-                      color: Colors.white,
-                    )),
-                itemCount: pick != null && filteredTask.length > 2
-                    ? pick!
-                    : filteredTask.length,
-                itemBuilder: (context, index) {
-                  final item = filteredTask[index];
-                  return Slidable(
-                      key: Key(item.id!),
-                      endActionPane:
-                          ActionPane(motion: const BehindMotion(), children: [
-                        SlidableAction(
-                          onPressed: (BuildContext context) {
-                            taskAction.deleteTask(id: (item.id!));
-                          },
-                          backgroundColor: Colors.redAccent,
-                          foregroundColor: Colors.white,
-                          icon: Icons.delete,
-                          label: 'Delete',
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                        ),
-                      ]),
-                      child: TaskItem(task: item));
-                }),
-          ),
+        return MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: ListView.separated(
+              padding:
+                  addPadding ? const EdgeInsets.symmetric(vertical: 24) : null,
+              separatorBuilder: ((context, index) => const Divider(
+                    color: Colors.white,
+                  )),
+              itemCount: pick != null && filteredTask.length > 2
+                  ? pick!
+                  : filteredTask.length,
+              itemBuilder: (context, index) {
+                final item = filteredTask[index];
+                return Slidable(
+                    key: Key(item.id!),
+                    endActionPane:
+                        ActionPane(motion: const BehindMotion(), children: [
+                      SlidableAction(
+                        onPressed: (BuildContext context) {
+                          taskAction.deleteTask(
+                            id: (item.id!),
+                            notificationId: item.notificationId,
+                          );
+                        },
+                        backgroundColor: Colors.redAccent,
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                        label: 'Delete',
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
+                      ),
+                    ]),
+                    child: TaskItem(task: item));
+              }),
         );
       },
     );
