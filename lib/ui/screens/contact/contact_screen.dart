@@ -12,34 +12,38 @@ class ContactScreen extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.all(32),
         child: ref.watch(contactControllerProvider).when(
-              loading: () => const Text('Loading...'),
+              loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, st) => const Text('Error...'),
               data: (data) {
                 if (data == null) return const Text('No contacts found');
-                return ListView.separated(
-                  separatorBuilder: ((context, index) => const SizedBox(
-                        height: 18,
-                      )),
-                  itemCount: data.length,
-                  itemBuilder: ((context, index) {
-                    final item = data[index];
-                    return ListTile(
-                      title: Text(item.displayName),
-                      subtitle: Text(item.phones[0].number),
-                      tileColor: Colors.white,
-                      style: ListTileStyle.drawer,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.grey.shade300,
-                        child: Text(
-                          item.displayName[0],
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w800),
+                return RefreshIndicator(
+                  onRefresh: () =>
+                      ref.read(contactControllerProvider.notifier).getContact(),
+                  child: ListView.separated(
+                    separatorBuilder: ((context, index) => const SizedBox(
+                          height: 18,
+                        )),
+                    itemCount: data.length,
+                    itemBuilder: ((context, index) {
+                      final item = data[index];
+                      return ListTile(
+                        title: Text(item.displayName),
+                        subtitle: Text(item.phones[0].number),
+                        tileColor: Colors.white,
+                        style: ListTileStyle.drawer,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.grey.shade300,
+                          child: Text(
+                            item.displayName[0],
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w800),
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+                  ),
                 );
               },
             ),

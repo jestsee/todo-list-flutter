@@ -54,7 +54,7 @@ class MapDialog extends ConsumerWidget {
           )
         ],
       ),
-      loading: () => const Text('Loading...'),
+      loading: () => const Center(child: CircularProgressIndicator()),
     ));
   }
 }

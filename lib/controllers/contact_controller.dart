@@ -6,7 +6,7 @@ class ContactController extends StateNotifier<AsyncValue<List<Contact>?>> {
     getContact();
   }
 
-  void getContact() async {
+  Future getContact() async {
     try {
       bool permission = await FlutterContacts.requestPermission();
       if (!permission) return Future.error('Contact permissions are denied');
