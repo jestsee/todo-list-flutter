@@ -15,6 +15,8 @@ _$_Task _$$_TaskFromJson(Map<String, dynamic> json) => _$_Task(
       latitude: (json['latitude'] as num?)?.toDouble(),
       deadline: _$JsonConverterFromJson<String, DateTime>(
           json['deadline'], const TimestampSerializer().fromJson),
+      locationNotification: _$JsonConverterFromJson<String, DateTime>(
+          json['locationNotification'], const TimestampSerializer().fromJson),
       priority: $enumDecodeNullable(_$PriorityEnumMap, json['priority']) ??
           Priority.low,
       createdAt: _$JsonConverterFromJson<String, DateTime>(
@@ -35,6 +37,8 @@ Map<String, dynamic> _$$_TaskToJson(_$_Task instance) => <String, dynamic>{
       'latitude': instance.latitude,
       'deadline': _$JsonConverterToJson<String, DateTime>(
           instance.deadline, const TimestampSerializer().toJson),
+      'locationNotification': _$JsonConverterToJson<String, DateTime>(
+          instance.locationNotification, const TimestampSerializer().toJson),
       'priority': _$PriorityEnumMap[instance.priority]!,
       'created_at': _$JsonConverterToJson<String, DateTime>(
           instance.createdAt, const TimestampSerializer().toJson),

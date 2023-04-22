@@ -5,6 +5,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/routes/routes.dart';
 
+const fetchBackground = "fetchBackground";
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');

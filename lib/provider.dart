@@ -150,7 +150,7 @@ final checkedListControllerProvider = r.StateNotifierProvider<
 // location
 final locationControllerProvider =
     r.StateNotifierProvider<LocationController, r.AsyncValue<LatLng?>>(
-        (_) => LocationController()..determinePosition());
+        (ref) => LocationController(ref)..startLocationTracking());
 
 // marker location
 final markerControllerProvider =
@@ -161,3 +161,6 @@ final markerControllerProvider =
 final contactControllerProvider =
     r.StateNotifierProvider<ContactController, r.AsyncValue<List<Contact>?>>(
         (_) => ContactController());
+
+// task filter & sort
+final bottomNavigationBarIndex = r.StateProvider<int>((_) => 0);

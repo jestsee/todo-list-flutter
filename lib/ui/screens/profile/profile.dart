@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_list/provider.dart';
-import 'package:todo_list/services/notification_service.dart';
 import 'package:todo_list/ui/screens/profile/name_dialog.dart';
 import 'package:todo_list/ui/screens/profile/password_dialog.dart';
 

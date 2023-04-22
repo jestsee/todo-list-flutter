@@ -45,8 +45,9 @@ class Home extends HookConsumerWidget {
                 TextButton(
                   child: const Text('See all',
                       style: TextStyle(decoration: TextDecoration.underline)),
-                  // TODO
-                  onPressed: () {},
+                  onPressed: () {
+                    ref.read(bottomNavigationBarIndex.notifier).state = 3;
+                  },
                 )
               ],
             ),

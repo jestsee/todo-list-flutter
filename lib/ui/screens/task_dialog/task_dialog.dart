@@ -68,10 +68,6 @@ class TaskDialog extends HookWidget {
               ),
               const SubtaskList(),
               const SizedBox(height: 16),
-              // TODO
-              // const Align(
-              //     alignment: Alignment.bottomRight,
-              //     child: Text('Last updated by me at 11.06 PM')),
               Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
                   final currentTasks = ref.watch(taskListControllerProvider);
