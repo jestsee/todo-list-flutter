@@ -76,31 +76,23 @@ class Filter extends HookConsumerWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              PriorityChip(
-                priority: Priority.high,
-                selected: selectedPriority.value == Priority.high,
-                onPressed: () {
-                  selectedPriority.value = Priority.high;
-                },
-              ),
-              PriorityChip(
-                priority: Priority.medium,
-                selected: selectedPriority.value == Priority.medium,
-                onPressed: () {
-                  selectedPriority.value = Priority.medium;
-                },
-              ),
-              PriorityChip(
-                priority: Priority.low,
-                selected: selectedPriority.value == Priority.low,
-                onPressed: () {
-                  selectedPriority.value = Priority.low;
-                },
-              )
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: Priority.values.reversed
+                  .map((priority) => Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        child: PriorityChip(
+                          priority: priority,
+                          selected: selectedPriority.value == priority,
+                          onPressed: () {
+                            selectedPriority.value = priority;
+                          },
+                        ),
+                      ))
+                  .toList(),
+            ),
           ),
           const SizedBox(height: 16),
           Text('Date', style: Theme.of(context).textTheme.displaySmall),

@@ -12,14 +12,14 @@ import 'package:todo_list/ui/widgets/priority_chip.dart';
 import 'package:todo_list/ui/widgets/subtask_list.dart';
 import 'package:todo_list/extensions.dart';
 
-class TaskDialog extends HookConsumerWidget {
+class TaskDialog extends HookWidget {
   final Task? task;
   const TaskDialog({super.key, this.task});
 
   bool get isUpdate => task?.id != null;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final titleController = useTextEditingController(text: task?.title);
     final date = useState<DateTime?>(task?.deadline);
     final time = useState<TimeOfDay?>(task?.deadline != null
@@ -31,18 +31,6 @@ class TaskDialog extends HookConsumerWidget {
         ? LatLng(task!.latitude!, task!.longitude!)
         : null);
 
-    final currentTasks = ref.watch(taskListControllerProvider);
-    final position =
-        ref.watch(markerControllerProvider(location.value))?.position;
-    ref.listen(
-      taskListControllerProvider,
-      (previous, next) {
-        if (next.hasValue) {
-          Navigator.of(context).pop();
-        }
-      },
-    );
-
     void handlePriority() {
       priority.value = priority.value.switchPriority();
     }
@@ -51,32 +39,30 @@ class TaskDialog extends HookConsumerWidget {
         ?.copyWith(hour: time.value?.hour, minute: time.value?.minute);
 
     return Scaffold(
-      body: WillPopScope(
-        onWillPop: () {
-          ref.read(markerControllerProvider(null).notifier).reset();
-          return Future.value(true);
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-          child: ProviderScope(
-            overrides: [
-              currentSubtasksProvider.overrideWithValue(subtasks.value)
-            ],
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InputDecorator(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+        child: ProviderScope(
+          overrides: [
+            currentSubtasksProvider.overrideWithValue(subtasks.value)
+          ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Consumer(builder:
+                  (BuildContext context, WidgetRef ref, Widget? child) {
+                return InputDecorator(
                   decoration: InputDecoration(
-                      border: InputBorder.none,
-                      suffix: IconButton(
-                        icon: const Icon(Icons.clear_rounded, size: 28),
-                        onPressed: () {
-                          ref
-                              .read(markerControllerProvider(null).notifier)
-                              .reset();
-                          Navigator.of(context).pop();
-                        },
-                      )),
+                    border: InputBorder.none,
+                    suffix: IconButton(
+                      icon: const Icon(Icons.clear_rounded, size: 28),
+                      onPressed: () {
+                        ref
+                            .read(markerControllerProvider(null).notifier)
+                            .reset();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
                   child: TextFormField(
                     controller: titleController,
                     maxLines: null,
@@ -85,10 +71,25 @@ class TaskDialog extends HookConsumerWidget {
                     decoration:
                         const InputDecoration.collapsed(hintText: 'Task title'),
                   ),
-                ),
-                const SubtaskList(),
-                const SizedBox(height: 16),
-                CustomButton(
+                );
+              }),
+              const SubtaskList(),
+              const SizedBox(height: 16),
+              Consumer(builder:
+                  (BuildContext context, WidgetRef ref, Widget? child) {
+                final currentTasks = ref.watch(taskListControllerProvider);
+                final position = ref
+                    .watch(markerControllerProvider(location.value))
+                    ?.position;
+                ref.listen(
+                  taskListControllerProvider,
+                  (previous, next) {
+                    if (next.hasValue) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                );
+                return CustomButton(
                   full: true,
                   loading: currentTasks.isLoading,
                   onPressed: () {
@@ -116,59 +117,65 @@ class TaskDialog extends HookConsumerWidget {
                     ref.invalidate(checkedListControllerProvider);
                   },
                   child: Text(isUpdate ? 'Update' : 'Save'),
+                );
+              }),
+              const SizedBox(
+                height: 18,
+              ),
+              Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(width: 0.75, color: Colors.black45),
+                  ), //add it here
                 ),
-                const SizedBox(
-                  height: 18,
-                ),
-                Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      top: BorderSide(width: 0.75, color: Colors.black45),
-                    ), //add it here
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 12),
-                          child: PriorityChip(
-                              priority: priority.value,
-                              onPressed: handlePriority,
-                              selected: true),
-                        ),
-                        GestureDetector(
-                          child: Icon(Icons.calendar_month,
-                              size: 36,
-                              color: date.value != null
-                                  ? Colors.blue
-                                  : Colors.black),
-                          onTap: () async {
-                            date.value = await showDatePicker(
-                              context: context,
-                              initialDate: date.value ?? DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2099),
-                              cancelText: 'Reset',
-                            );
-                          },
-                        ),
-                        GestureDetector(
-                          child: Icon(Icons.access_time,
-                              size: 36,
-                              color: time.value != null
-                                  ? Colors.blue
-                                  : Colors.black),
-                          onTap: () async {
-                            time.value = await showTimePicker(
-                              context: context,
-                              initialTime: time.value ?? TimeOfDay.now(),
-                              cancelText: 'Reset',
-                            );
-                          },
-                        ),
-                        GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 18),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: PriorityChip(
+                            priority: priority.value,
+                            onPressed: handlePriority,
+                            selected: true),
+                      ),
+                      GestureDetector(
+                        child: Icon(Icons.calendar_month,
+                            size: 36,
+                            color: date.value != null
+                                ? Colors.blue
+                                : Colors.black),
+                        onTap: () async {
+                          date.value = await showDatePicker(
+                            context: context,
+                            initialDate: date.value ?? DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2099),
+                            cancelText: 'Reset',
+                          );
+                        },
+                      ),
+                      GestureDetector(
+                        child: Icon(Icons.access_time,
+                            size: 36,
+                            color: time.value != null
+                                ? Colors.blue
+                                : Colors.black),
+                        onTap: () async {
+                          time.value = await showTimePicker(
+                            context: context,
+                            initialTime: time.value ?? TimeOfDay.now(),
+                            cancelText: 'Reset',
+                          );
+                        },
+                      ),
+                      Consumer(builder:
+                          (BuildContext context, WidgetRef ref, Widget? child) {
+                        final position = ref
+                            .watch(markerControllerProvider(location.value))
+                            ?.position;
+                        return GestureDetector(
                           child: Icon(Icons.location_on,
                               size: 36,
                               color: position != null
@@ -179,13 +186,13 @@ class TaskDialog extends HookConsumerWidget {
                                 initialLocation: position,
                                 markerLocation: location.value);
                           },
-                        ),
-                      ],
-                    ),
+                        );
+                      })
+                    ],
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -202,7 +209,15 @@ void showTaskDialog(BuildContext context, {Task? task}) {
             begin: const Offset(0.0, 1.0),
             end: Offset.zero,
           ).animate(a1),
-          child: TaskDialog(task: task));
+          child: Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            return WillPopScope(
+                onWillPop: () {
+                  ref.read(markerControllerProvider(null).notifier).reset();
+                  return Future.value(true);
+                },
+                child: TaskDialog(task: task));
+          }));
     },
     transitionDuration: const Duration(milliseconds: 250),
   );
