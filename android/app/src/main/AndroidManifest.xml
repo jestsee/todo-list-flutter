@@ -10,7 +10,7 @@
   <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
   <application
-    android:label="todo_list"
+    android:label="Todo List"
     android:name="${applicationName}"
     android:icon="@mipmap/ic_launcher">
     <activity

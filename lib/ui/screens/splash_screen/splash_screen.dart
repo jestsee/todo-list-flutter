@@ -23,8 +23,8 @@ class SplashScreen extends HookConsumerWidget {
       return;
     });
 
-    return const Scaffold(
-      body: Center(child: Text('splash screen 3 detik')),
+    return Scaffold(
+      body: Center(child: Image.asset('assets/flutter.png')),
     );
   }
 }

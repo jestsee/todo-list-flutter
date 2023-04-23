@@ -34,20 +34,29 @@ class MapDialog extends ConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: markerAction.reset,
-                    child: const Text('Reset'),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Save'),
-                  ),
+            child: Column(
+              children: [
+                Text(
+                    'initial location: ${initialLocation?.latitude} ${initialLocation?.longitude}'),
+                Text('data location: ${data?.latitude} ${data?.longitude}'),
+                Text(
+                    'marker location: ${marker?.position.latitude} ${marker?.position.longitude}'),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: markerAction.reset,
+                        child: const Text('Reset'),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Save'),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
