@@ -32,6 +32,8 @@ class TaskDialog extends HookConsumerWidget {
         : null);
 
     final currentTasks = ref.watch(taskListControllerProvider);
+    final position =
+        ref.watch(markerControllerProvider(location.value))?.position;
     ref.listen(
       taskListControllerProvider,
       (previous, next) {
@@ -90,10 +92,6 @@ class TaskDialog extends HookConsumerWidget {
                   full: true,
                   loading: currentTasks.isLoading,
                   onPressed: () {
-                    final position = ref
-                        .watch(markerControllerProvider(location.value))
-                        ?.position;
-
                     final subtasks = ref.read(subtaskListProvider);
                     final taskAction =
                         ref.read(taskListControllerProvider.notifier);
@@ -152,6 +150,7 @@ class TaskDialog extends HookConsumerWidget {
                               initialDate: date.value ?? DateTime.now(),
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2099),
+                              cancelText: 'Reset',
                             );
                           },
                         ),
@@ -163,19 +162,21 @@ class TaskDialog extends HookConsumerWidget {
                                   : Colors.black),
                           onTap: () async {
                             time.value = await showTimePicker(
-                                context: context,
-                                initialTime: time.value ?? TimeOfDay.now());
+                              context: context,
+                              initialTime: time.value ?? TimeOfDay.now(),
+                              cancelText: 'Reset',
+                            );
                           },
                         ),
                         GestureDetector(
                           child: Icon(Icons.location_on,
                               size: 36,
-                              color: location.value != null
+                              color: position != null
                                   ? Colors.blue
                                   : Colors.black),
                           onTap: () {
                             showMapDialog(context,
-                                initialLocation: location.value,
+                                initialLocation: position,
                                 markerLocation: location.value);
                           },
                         ),
