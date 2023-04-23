@@ -75,7 +75,8 @@ final filteredTasksProvider = r.Provider<List<Task>>(((ref) {
         List<Task> tempData = data;
         if (searchFilter != null) {
           tempData = tempData
-              .where((item) => item.title.contains(searchFilter))
+              .where((item) =>
+                  item.title.toLowerCase().contains(searchFilter.toLowerCase()))
               .toList();
         }
         if (priorityFilter != null) {

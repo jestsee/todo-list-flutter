@@ -67,6 +67,7 @@ class Profile extends HookConsumerWidget {
                         const SizedBox(height: 32),
                         Text(
                           item.name,
+                          textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.displayLarge,
                         ),
                         const SizedBox(height: 8),
