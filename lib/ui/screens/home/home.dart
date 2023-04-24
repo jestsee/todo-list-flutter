@@ -32,6 +32,8 @@ class Home extends HookConsumerWidget {
                   ),
               style: Theme.of(context).textTheme.displayLarge,
               textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
             const SizedBox(height: gap - 4),
             Text(tasksLength, style: const TextStyle(fontSize: 16)),

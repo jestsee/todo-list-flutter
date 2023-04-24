@@ -38,9 +38,16 @@ class TaskItem extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(task.title,
+                Expanded(
+                  child: Text(
+                    task.title,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 b.Badge(
                   text: 'Priority',
                   variant: priorityMap[task.priority]!,
