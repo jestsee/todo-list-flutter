@@ -7,6 +7,7 @@ class ConnectWith extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authAction = ref.read(authControllerProvider.notifier);
     return Column(
       children: <Widget>[
         const Text('Or connect with:'),
@@ -17,14 +18,13 @@ class ConnectWith extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             IconButton(
-              onPressed: () {},
+              onPressed: () => authAction.signInGoogle(),
               iconSize: 64,
               icon: Image.asset('assets/google.png'),
             ),
             const SizedBox(width: 18),
             IconButton(
-              onPressed: () =>
-                  ref.read(authControllerProvider.notifier).signInGithub(),
+              onPressed: () => authAction.signInGithub(),
               iconSize: 64,
               icon: Image.asset('assets/github.png'),
             ),

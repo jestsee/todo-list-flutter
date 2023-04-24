@@ -81,7 +81,10 @@ class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
 
   void signInGithub() async {
     await _ref.read(authRepositoryProvider).signInOAuth(sb.Provider.github);
-    snackbarKey.show(message: 'Successfully signed in');
+  }
+
+  void signInGoogle() async {
+    await _ref.read(authRepositoryProvider).signInOAuth(sb.Provider.google);
   }
 
   void signOut() async {

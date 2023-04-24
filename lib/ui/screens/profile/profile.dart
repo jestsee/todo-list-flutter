@@ -65,7 +65,7 @@ class Profile extends HookConsumerWidget {
                                   ),
                                 ))
                           ]),
-                          const SizedBox(height: 32),
+                          const SizedBox(height: 20),
                           Text(
                             item.name,
                             textAlign: TextAlign.center,
@@ -81,7 +81,7 @@ class Profile extends HookConsumerWidget {
                                 loading: () => 'Loading...'),
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
-                          const SizedBox(height: 52),
+                          const SizedBox(height: 32),
                           ElevatedButton(
                               onPressed: () => showNameDialog(context),
                               style: buttonTheme,
@@ -98,7 +98,7 @@ class Profile extends HookConsumerWidget {
                                   )
                                 ],
                               )),
-                          const SizedBox(height: 28),
+                          const SizedBox(height: 16),
                           ElevatedButton(
                               onPressed: () => showPasswordDialog(context),
                               style: buttonTheme,
@@ -115,25 +115,44 @@ class Profile extends HookConsumerWidget {
                                   )
                                 ],
                               )),
-                          const SizedBox(height: 28),
+                          const SizedBox(height: 16),
                           ElevatedButton(
-                              onPressed: () => ref
-                                  .read(authControllerProvider.notifier)
-                                  .signOut(),
-                              style: buttonTheme,
-                              child: Row(
-                                children: [
-                                  Icon(Icons.logout_rounded,
-                                      size: 28, color: Colors.grey.shade600),
-                                  const SizedBox(width: 12),
-                                  Text(
-                                    'Sign out',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
-                                  )
-                                ],
-                              )),
+                            onPressed: () => ref
+                                .read(authControllerProvider.notifier)
+                                .signOut(),
+                            style: buttonTheme,
+                            child: Row(
+                              children: [
+                                Icon(Icons.data_object,
+                                    size: 28, color: Colors.grey.shade600),
+                                const SizedBox(width: 12),
+                                Text(
+                                  'Generate dummy tasks',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () => ref
+                                .read(authControllerProvider.notifier)
+                                .signOut(),
+                            style: buttonTheme,
+                            child: Row(
+                              children: [
+                                Icon(Icons.logout_rounded,
+                                    size: 28, color: Colors.grey.shade600),
+                                const SizedBox(width: 12),
+                                Text(
+                                  'Sign out',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                )
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
