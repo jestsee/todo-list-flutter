@@ -7,6 +7,7 @@ import 'package:todo_list/model/priority.dart';
 import 'package:todo_list/model/task.dart';
 import 'package:todo_list/provider.dart';
 import 'package:todo_list/extensions.dart';
+import 'package:todo_list/services/faker_service.dart';
 import 'package:todo_list/services/notification_service.dart';
 
 import '../model/subtask.dart';
@@ -119,6 +120,14 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
       log(e.toString());
       state = AsyncError(e, st);
     }
+  }
+
+  // only in client, won't send to the server
+  // for testing purpose only
+  void generateBulkTasks() {
+    if (_userId == null) return;
+    final tasks = FakerService.generateBulkTasks(_userId!, 50);
+    state = AsyncData(state.value!..addAll(tasks));
   }
 
   void setTasks(List<Task> newTasks) {

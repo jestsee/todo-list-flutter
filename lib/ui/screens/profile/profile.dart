@@ -118,8 +118,8 @@ class Profile extends HookConsumerWidget {
                           const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: () => ref
-                                .read(authControllerProvider.notifier)
-                                .signOut(),
+                                .read(taskListControllerProvider.notifier)
+                                .generateBulkTasks(),
                             style: buttonTheme,
                             child: Row(
                               children: [
@@ -127,7 +127,7 @@ class Profile extends HookConsumerWidget {
                                     size: 28, color: Colors.grey.shade600),
                                 const SizedBox(width: 12),
                                 Text(
-                                  'Generate dummy tasks',
+                                  'Generate bulk tasks',
                                   style:
                                       Theme.of(context).textTheme.headlineSmall,
                                 )
