@@ -87,9 +87,6 @@ class SignUpForm extends HookConsumerWidget {
             ref
                 .read(authControllerProvider.notifier)
                 .signUp(getEmail(), getPassword(), getName());
-            snackbarKey.show(
-                message:
-                    'An email has been sent to $getEmail(), please check your email to complete the registration');
           },
           child: const Text(
             'Sign up',

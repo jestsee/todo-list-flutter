@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/ui/screens/sign_in/sign_in_form.dart';
-import 'package:todo_list/ui/widgets/connect_with.dart';
 
 class SignIn extends StatelessWidget {
   const SignIn({super.key});
@@ -9,7 +8,7 @@ class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign Up')),
+      appBar: AppBar(title: const Text('Sign In')),
       body: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Column(
@@ -38,7 +37,7 @@ class SignIn extends StatelessWidget {
                             () => Navigator.pushNamed(context, '/sign-up'))
                 ])),
             const SizedBox(height: 40),
-            const ConnectWith()
+            // const ConnectWith()
           ],
         ),
       ),

@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/ui/screens/sign_up/sign_up_form.dart';
-import 'package:todo_list/ui/widgets/connect_with.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -40,7 +39,7 @@ class SignUp extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-            const ConnectWith()
+            // const ConnectWith()
           ],
         ),
       ),
