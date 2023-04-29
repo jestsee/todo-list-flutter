@@ -60,9 +60,14 @@ class AuthController extends StateNotifier<AsyncValue<sb.AuthState?>> {
     setLoading();
     try {
       await _ref.read(authRepositoryProvider).signUpUser(email, password, name);
+      state = AsyncData(sb.AuthState(sb.AuthChangeEvent.signedOut, null));
       snackbarKey.show(
-          message:
-              'Your account has been created. Please check your email $email to activate your account.');
+        message:
+            'Your account has been created. Please check your email $email to activate your account.',
+        duration: const Duration(
+          seconds: 5,
+        ),
+      );
     } catch (e, st) {
       state = AsyncError(e, st);
     }

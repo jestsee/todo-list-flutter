@@ -73,7 +73,7 @@ class NotificationService {
       title: task.title,
       body:
           'this task due ${DateFormat('dd MMMM yyyy - hh:mm').format(task.deadline!)}',
-      scheduledDate: task.deadline!.add(const Duration(minutes: 5)),
+      scheduledDate: task.deadline!.subtract(const Duration(minutes: 5)),
     );
 
     return notificationId;
