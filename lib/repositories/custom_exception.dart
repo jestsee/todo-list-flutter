@@ -4,7 +4,7 @@ class CustomException implements Exception {
   const CustomException({this.message = 'Something went wrong!'});
 
   @override
-  String toString() => "Custom exception {message: $message}";
+  String toString() => "$message";
 
   // TODO custom message 400 - unauthenticated
 }
