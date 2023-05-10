@@ -4,11 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_list/globals.dart';
 import 'package:todo_list/routes/routes.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 const fetchBackground = "fetchBackground";
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
   await dotenv.load(fileName: '.env');
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
