@@ -21,10 +21,11 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
   }
 
   Future<void> fetchTasks({String? title, int? count}) async {
+    var tasks = state.asData?.value ?? [];
     try {
       log('fetch tasks called');
       state = const AsyncLoading();
-      final tasks = await _ref
+      tasks = await _ref
           .read(taskRepositoryProvider)
           .fetchTasks(userId: _userId!, title: title, count: count);
 
@@ -39,11 +40,11 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
             await NotificationService.scheduleTaskNotification(task);
         tasks[i] = task.copyWith(notificationId: notificationId);
       }
-
-      if (mounted) state = AsyncData(tasks);
     } catch (e, st) {
       log(e.toString());
       state = AsyncError(e, st);
+    } finally {
+      state = AsyncData(tasks);
     }
   }
 
@@ -127,6 +128,7 @@ class TaskListController extends StateNotifier<AsyncValue<List<Task>>> {
   void generateBulkTasks() {
     if (_userId == null) return;
     final tasks = FakerService.generateBulkTasks(_userId!, 50);
+    if (!state.hasValue) return;
     state = AsyncData(state.value!..addAll(tasks));
   }
 
